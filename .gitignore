@@ -2,4 +2,6 @@
 *.pot
 *.pyc
 *.swp
+*.db
+agagdbak/*
 local_settings.py
