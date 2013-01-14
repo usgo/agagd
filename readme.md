@@ -2,8 +2,12 @@
 # AGAGD
 
 ## Overview
-An app to display users, games, and tournaments on the AGA website.
+An app to display users, games, and tournaments on the AGA website.  
+A port of the old eurogo Games Database to python, for the AGA
 
+ - agagdbak/       -- the old site.
+ - agagd_core/     --
+ - agagd/          -- 
 
 ## Development
 
