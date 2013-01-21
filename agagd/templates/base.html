@@ -1,0 +1,13 @@
+
+{% load staticfiles %} 
+<html> 
+  <head>
+    <title> {% block title %} AGA Games Database{% endblock title %}
+    </title> {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static "agagd.css" %}">
+    {% endblock stylesheets %} </head>
+  <body> <div class="content">
+      {% block content %} <h1>AGAGD Header</h1>
+      {% endblock content %} </div>
+  </body> 
+</html>
