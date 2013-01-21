@@ -164,6 +164,7 @@ class Members(models.Model):
     dues_last_paid = models.DateTimeField(null=True, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
 
+
     def __unicode__(self):
         return u"Player %s: %s %s (%s) " % (self.member_id, self.given_names,
                 self.family_name, self.full_name)
