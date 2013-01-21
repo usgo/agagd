@@ -1,0 +1,4 @@
+Django==1.4.3
+django-admin-tools==0.4.1
+wsgiref==0.1.2
+yolk==0.4.3
