@@ -1,6 +1,8 @@
 
 {% extends "base.html" %} 
 {% load staticfiles %} 
+{% load render_table from django_tables2 %}
+
 {% block title %} Game List for ...  {% endblock %} 
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
 {% block content %} 
@@ -8,11 +10,7 @@
 <h2>Game list</h2> 
 
   {% if game_list %}
-      <ul>
-      {% for game in game_list %}
-          <li>{{ game.tournament_code }} - {{ game.game_date }} : {{ game.pin_player_1 }} vs {{ game.pin_player_2 }}</li>
-      {% endfor %}
-      </ul>
+      {% render_table game_list %}
   {% else %}
       <p>No games are available.</p>
   {% endif %}
