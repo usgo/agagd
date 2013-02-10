@@ -42,6 +42,35 @@ class Changelog(models.Model):
     class Meta:
         db_table = u'changelog'
 
+class Members(models.Model): 
+    class Meta:
+        db_table = u'members'
+        verbose_name = u'member'
+        verbose_name_plural = u'members'
+
+    member_id = models.TextField(primary_key=True, editable=False) # This field type is a guess.
+    legacy_id = models.TextField(blank=True) # This field type is a guess.
+    full_name = models.CharField(max_length=255, blank=True)
+    given_names = models.CharField(max_length=255, blank=True)
+    family_name = models.CharField(max_length=255, blank=True)
+    join_date = models.DateField(null=True, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=255, blank=True)
+    region = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255)
+    chapter = models.CharField(max_length=100, blank=True)
+    chapter_id = models.TextField(blank=True) # This field type is a guess.
+    occupation = models.CharField(max_length=100, blank=True)
+    citizen = models.TextField() # This field type is a guess.
+    password = models.CharField(max_length=255, blank=True)
+    last_changed = models.DateTimeField(null=True, blank=True)
+
+
+    def __unicode__(self):
+        return u"Player %s: %s %s (%s) " % (self.member_id, self.given_names,
+                self.family_name, self.full_name)
+
+
 class Chapter(models.Model):
     chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code') # x.
     chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr') # x.
@@ -89,10 +118,10 @@ class Games(models.Model):
     tournament_code = models.CharField(max_length=20, db_column=u'Tournament_Code') # .
     game_date = models.DateField(db_column=u'Game_Date') # x.
     round = models.TextField(db_column=u'Round') # x. This field type is a guess.
-    pin_player_1 = models.IntegerField(db_column=u'Pin_Player_1') # x. This field type is a guess.
+    pin_player_1 = models.ForeignKey(Members, db_column=u'Pin_Player_1', related_name='games_as_p1')
     color_1 = models.CharField(max_length=1, db_column=u'Color_1') # x.
     rank_1 = models.CharField(max_length=3, db_column=u'Rank_1') # x.
-    pin_player_2 = models.IntegerField(db_column=u'Pin_Player_2') # x. This field type is a guess.
+    pin_player_2 = models.ForeignKey(Members, db_column=u'Pin_Player_2', related_name='games_as_p2') 
     color_2 = models.CharField(max_length=1, db_column=u'Color_2') # x.
     rank_2 = models.CharField(max_length=3, db_column=u'Rank_2') # x.
     handicap = models.IntegerField(db_column=u'Handicap') # x. This field type is a guess.
@@ -114,40 +143,6 @@ class Games(models.Model):
 
     def __str__(self):
         return str(self.__unicode__())
-
-class Members(models.Model): 
-    class Meta:
-        db_table = u'members'
-        verbose_name = u'member'
-        verbose_name_plural = u'members'
-
-    member_id = models.TextField(primary_key=True, editable=False) # This field type is a guess.
-    legacy_updated = models.DateField(null=True, blank=True)
-    legacy_web_updated = models.DateField(null=True, blank=True)
-    legacy_new = models.TextField() # This field type is a guess.
-    legacy_id = models.TextField(blank=True) # This field type is a guess.
-    legacy_citizen_of = models.CharField(max_length=100, blank=True)
-    legacy_source = models.CharField(max_length=5, blank=True)
-    full_name = models.CharField(max_length=255, blank=True)
-    given_names = models.CharField(max_length=255, blank=True)
-    family_name = models.CharField(max_length=255, blank=True)
-    join_date = models.DateField(null=True, blank=True)
-    city = models.CharField(max_length=255, blank=True)
-    state = models.CharField(max_length=255, blank=True)
-    region = models.CharField(max_length=255, blank=True)
-    country = models.CharField(max_length=255)
-    chapter = models.CharField(max_length=100, blank=True)
-    chapter_id = models.TextField(blank=True) # This field type is a guess.
-    occupation = models.CharField(max_length=100, blank=True)
-    citizen = models.TextField() # This field type is a guess.
-    password = models.CharField(max_length=255, blank=True)
-    last_changed = models.DateTimeField(null=True, blank=True)
-
-
-    def __unicode__(self):
-        return u"Player %s: %s %s (%s) " % (self.member_id, self.given_names,
-                self.family_name, self.full_name)
-
 class MembersRegions(models.Model):
     region_id = models.TextField(primary_key=True) # This field type is a guess.
     region = models.CharField(max_length=255, blank=True)
