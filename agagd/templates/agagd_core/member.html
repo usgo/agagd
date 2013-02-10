@@ -9,8 +9,8 @@
 {{ block.super }} 
 <h2>Game list</h2> 
 
-  {% if game_list %}
-      {% render_table game_list %}
+  {% if table %}
+      {% render_table table %}
   {% else %}
       <p>No games are available.</p>
   {% endif %}

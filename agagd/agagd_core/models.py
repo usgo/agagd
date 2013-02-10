@@ -67,9 +67,7 @@ class Members(models.Model):
 
 
     def __unicode__(self):
-        return u"Player %s: %s %s (%s) " % (self.member_id, self.given_names,
-                self.family_name, self.full_name)
-
+        return u" %s (%s) " % (self.full_name, self.member_id, )
 
 class Chapter(models.Model):
     chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code') # x.
