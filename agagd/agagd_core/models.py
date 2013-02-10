@@ -131,62 +131,22 @@ class Members(models.Model):
     full_name = models.CharField(max_length=255, blank=True)
     given_names = models.CharField(max_length=255, blank=True)
     family_name = models.CharField(max_length=255, blank=True)
-    renewal_due = models.DateField(null=True, blank=True)
     join_date = models.DateField(null=True, blank=True)
-    dob = models.DateField(null=True, blank=True)
-    status = models.TextField(blank=True)
-    type = models.CharField(max_length=255, blank=True)
-    tags = models.CharField(max_length=255, blank=True)
-    address1 = models.CharField(max_length=255, blank=True)
-    address2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
-    zip = models.CharField(max_length=255, blank=True)
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
-    phone = models.CharField(max_length=255, blank=True)
-    phone2 = models.CharField(max_length=255, blank=True)
-    cell = models.CharField(max_length=255, blank=True)
-    email = models.CharField(max_length=255, blank=True)
-    email2 = models.CharField(max_length=255, blank=True)
     chapter = models.CharField(max_length=100, blank=True)
     chapter_id = models.TextField(blank=True) # This field type is a guess.
     occupation = models.CharField(max_length=100, blank=True)
     citizen = models.TextField() # This field type is a guess.
-    password_plaintext = models.CharField(max_length=255, blank=True, editable=False)
-    secret_q = models.CharField(max_length=255, blank=True, editable=False)
-    secret_a = models.CharField(max_length=255, blank=True, editable=False)
-    last_login = models.DateTimeField(null=True, blank=True)
-    reset_token = models.CharField(max_length=255, blank=True)
-    reset_token_expires = models.DateTimeField(null=True, blank=True)
     password = models.CharField(max_length=255, blank=True)
-    notes = models.TextField(blank=True)
-    dues_last_paid = models.DateTimeField(null=True, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
 
 
     def __unicode__(self):
         return u"Player %s: %s %s (%s) " % (self.member_id, self.given_names,
                 self.family_name, self.full_name)
-
-class MembersPayments(models.Model):
-    payment_id = models.TextField(primary_key=True) # This field type is a guess.
-    member_id = models.TextField() # This field type is a guess.
-    years = models.TextField(blank=True) # This field type is a guess.
-    amount = models.TextField(blank=True) # This field type is a guess.
-    legacy_payment_type = models.CharField(max_length=30, blank=True)
-    payment_method = models.CharField(max_length=50, blank=True)
-    payment_date = models.DateTimeField(null=True, blank=True)
-    note = models.TextField(blank=True)
-    via = models.CharField(max_length=30, blank=True)
-    processed_by = models.TextField(blank=True) # This field type is a guess.
-    txn_id = models.CharField(max_length=255, blank=True)
-    type = models.CharField(max_length=255, blank=True)
-    promo = models.CharField(max_length=255, blank=True)
-    payment_type = models.CharField(max_length=50, blank=True)
-    legacy_payment_method = models.CharField(max_length=30, blank=True)
-    class Meta:
-        db_table = u'members_payments'
 
 class MembersRegions(models.Model):
     region_id = models.TextField(primary_key=True) # This field type is a guess.

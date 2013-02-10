@@ -24,11 +24,26 @@ $ pip install django django-admin-tools
 $ python manage.py runserver
 ~~~
 
+### development needs
+1. It'd really help if we had a sanitized version of the database we could use,
+with shuffled AGAIDs, random names & chapters, and a few sample tournaments.
+
 ### Roadmap
 
-1. Get a basic set of models & views working with the existing DB.
+1. Get a basic set of models & views working with the existing DB. Check!
 2. Focus on the views around viewing player cards and their game history
 3. Get the tournament/wall list re-creation features up.
-4. ...
+4. Style things up nice-like
 5. Declare victory
+6. extend to put a frontend on the ratings workings of Bresler et al.
+7. Provide online game submissions
+8. Document game submission protocol for use with other servers.
+
+
+### Deployment
+
+This needs some help.  We'll need to diff the schema, figure out staging, 
+and maybe some routing/networking magic with Steve.
+
+
 
