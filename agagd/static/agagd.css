@@ -43,7 +43,7 @@ blockquote, q {
 /* End CSS Reset! */
 
 * {
-    line-height: 140%;
+    line-height: 120%;
 }
 
 #header {
@@ -121,68 +121,4 @@ a:hover {
     text-align: right; 
     font-style: italic;
 }
-
-/************************************************/
-/* .admin_main_menu								*/
-/************************************************/
-.AGAGD_main_menu
-{
-	color: #000000;
-	background-color: none;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: normal;
-	text-decoration: none;
-}
-
-.AGAGD_tabella_tournament
-{
-	color: #ffffff;
-	background-color: #03AB03;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.AGAGD_tabella_player
-{
-	color: #000000;
-	background-color: #579DD9;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.admin_main_menu a:link
-{
-	color: #000000;
-	background-color: none;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: normal;
-	text-decoration: underline;
-}
-
-.admin_main_menu a:visited
-{
-	color: #000000;
-	background-color: none;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: normal;
-	text-decoration: underline;
-}
-
-.admin_main_menu a:hover
-{
-	color: #C93125;
-	background-color: none;
-	font-family: verdana,arial,sans-serif;
-	font-size: 10px;
-	font-weight: normal;
-	text-decoration: underline;
-}
-
 
