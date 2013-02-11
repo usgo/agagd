@@ -7,9 +7,11 @@
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
 {% block content %} 
 {{ block.super }} 
+<p>
+  {% include "agagd_core/fetch_player_form.html" %}
+</p>
 <ul>
-  <li> Find player with ID (add textfield)</li>
-  <li> Or search for player (make searchpage)</li>
+  <li> Or <a href="{%url agagd_core.views.member_search_form %}">search for player</a></li>
   <li> Browse recent tournaments (hmm)</li>
 </ul>
 

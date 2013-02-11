@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 
      (r'^gd/$', 'agagd_core.views.index'),
      (r'^gd/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail'),
+     (r'^gd/member_fetch/$', 'agagd_core.views.member_fetch'),
+     (r'^gd/member_search_form/$', 'agagd_core.views.member_search_form'),
      (r'^gd/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs'),
 
     # Uncomment the admin/doc line below to enable admin documentation:

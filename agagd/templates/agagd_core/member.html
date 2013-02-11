@@ -7,8 +7,10 @@
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
 {% block content %} 
 {{ block.super }} 
-<h2>Game list for {{player.full_name}}</h2> 
+<h2>{{player.full_name}}, ID #{{player.member_id}}, joined {{ player.join_date }}</h2> 
 
+<p> Find matchups of {{player.full_name}} against AGA ID# ________
+<p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
   {% if table %}
       {% render_table table %}
   {% else %}
