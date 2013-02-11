@@ -7,12 +7,15 @@ from agagd_core.tables import GameTable
 from django.http import HttpResponse
 from django.db.models import Q
 from django_tables2   import RequestConfig
+from datetime import datetime, timedelta
 
 
 
 def index(request):
-    game_list = Games.objects.all()
+    game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
+    print game_list.query
     table = GameTable(game_list)
+    RequestConfig(request).configure(table)
     return render(request, "agagd_core/index.html",
             {
                 'table': table,
@@ -22,7 +25,7 @@ def member_detail(request, member_id):
     game_list = Games.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
             ).order_by('-game_date')
-    player = Members.objects.filter(member_id=member_id)[0]
+    player = Members.objects.get(member_id=member_id)
     table = GameTable(game_list)
     RequestConfig(request, paginate={"per_page": 20}).configure(table)
     return render(request, 'agagd_core/member.html',
