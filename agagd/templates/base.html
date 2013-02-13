@@ -9,10 +9,15 @@
     {% endblock stylesheets %} </head>
   <body> 
     <div id="container">
-    <div class="content">
-      {% block content %} <h1><a href="{% url agagd_core.views.index%}">AGAGD</a></h1>
-      {% endblock content %} 
-    </div>
+      <div class="content">
+        <h1><a href="{% url agagd_core.views.index%}">AGAGD</a></h1>
+        {% block content %} 
+        {% endblock content %} 
+      </div>
+      <div id="footer">
+      <p> The AGAGD is (c) 2013 the American Go Association. </p>
+      <p> It is developed and maintained by volunteers.  <a href="http://github.com/usgo/agagd">Find us on github!</a></p>
+      </div> 
     </div>
   </body> 
 </html>

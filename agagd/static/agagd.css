@@ -58,6 +58,17 @@ blockquote, q {
     max-width: 800px;
 }
 
+#footer {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#footer p {
+    line-height: 100%;
+    font-size: 80%;
+    font-style: italic;
+}
+
 h1 {
     font-size: 36px;
     margin-bottom: 0.5em;

@@ -65,3 +65,9 @@ def member_vs(request, member_id, other_id):
                 'table': table,
             }) 
 
+def tournament_detail(request):
+    pass
+
+def tournament_list(request):
+    pass
+
