@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
 
 from agagd_core.models import Games, Members
-from agagd_core.tables import GameTable
+from agagd_core.tables import GameTable, MemberTable
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django_tables2   import RequestConfig
@@ -65,8 +65,17 @@ def member_vs(request, member_id, other_id):
                 'table': table,
             }) 
 
-def tournament_detail(request):
-    pass
+def tournament_detail(request, tourn_code):
+    games = Games.tournaments.with_code(tourn_code)
+    members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
+    game_table = GameTable(games)
+    member_table = MemberTable(members)
+    RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
+    return render_to_response('agagd_core/tourney.html',
+            {
+                'game_table': game_table,
+                'member_table': member_table,
+            }) 
 
 def tournament_list(request):
     pass

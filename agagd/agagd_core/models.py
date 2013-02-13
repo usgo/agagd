@@ -111,6 +111,10 @@ class Country(models.Model):
     class Meta:
         db_table = u'country'
 
+class TournamentManager(models.Manager): 
+    def with_code(self, tourn_code):
+        return super(TournamentManager, self).get_query_set().filter(tournament_code = tourn_code)
+
 class Games(models.Model):
     game_id = models.IntegerField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
     tournament_code = models.CharField(max_length=20, db_column=u'Tournament_Code') # .
@@ -130,6 +134,8 @@ class Games(models.Model):
     exclude = models.TextField(db_column=u'Exclude', blank=True) # x. This field type is a guess.
     rated = models.TextField(db_column=u'Rated', blank=True) # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date') # x.
+    objects = models.Manager()
+    tournaments = TournamentManager()
     class Meta:
         db_table = u'games'
         verbose_name = u'game'
