@@ -172,9 +172,9 @@ class Ratings(models.Model):
     """ 
     pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set')
     tournament = models.ForeignKey(Tournaments, db_column=u'Tournament_Code', related_name='ratings_set')
-    rating = models.FloatField(db_column=u'Komi') # x. This field type is a guess.
-    sigma = models.FloatField(db_column=u'Komi') # x. This field type is a guess.
-    tournament_date = models.DateField(db_column=u'Tournament_Date')
+    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column=u'Elab_Date')
     class Meta:
         db_table = u'ratings'
         managed = False
