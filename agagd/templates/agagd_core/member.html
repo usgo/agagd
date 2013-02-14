@@ -11,6 +11,13 @@
 
 <p> Find matchups of {{player.full_name}} against AGA ID# ________
 <p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
+<dl>
+  <dt> Rating: </dt> <dd> {{ rating.rating }} </dd>
+  <dt> Sigma: </dt> <dd> {{ rating.sigma }} </dd>
+  <dt> Last Rated at: </dt> <dd> {{ rating.elab_date }} </dd>
+  <dt> Last tournament: </dt> <dd> {{ rating.tournament }} </dd>
+  <dt> HighestRating: </dt> <dd> {{ max_rating }} </dd>
+</dl>
   {% if table %}
       {% render_table table %}
   {% else %}

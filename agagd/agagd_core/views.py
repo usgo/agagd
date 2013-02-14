@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
 
-from agagd_core.models import Games, Members, Tournaments
+from agagd_core.models import Games, Members, Tournaments, Ratings
 from agagd_core.tables import GameTable, MemberTable, TournamentTable
 from django.http import HttpResponseRedirect
 from django.db.models import Q
@@ -46,10 +46,15 @@ def member_detail(request, member_id):
     player = Members.objects.get(member_id=member_id)
     table = GameTable(game_list)
     RequestConfig(request, paginate={"per_page": 20}).configure(table)
+    ratings = player.ratings_set.all().order_by('-elab_date')
+    max_rating = max([r.rating for r in ratings])
+    last_rating = ratings[0]
     return render(request, 'agagd_core/member.html',
             {
                 'table': table,
                 'player': player,
+                'rating': last_rating,
+                'max_rating': max_rating,
                 'num_games': len(game_list)
             }) 
 

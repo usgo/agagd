@@ -163,14 +163,7 @@ class Games(models.Model):
         return str(self.__unicode__())
 
 class Ratings(models.Model): 
-    """
-    | Pin_Player      | int(8) unsigned | NO   | PRI | NULL       |       |
-    | Rating          | float(7,5)      | YES  |     | NULL       |       |
-    | Sigma           | float(6,5)      | YES  |     | NULL       |       |
-    | Elab_Date       | date            | NO   | PRI | 0000-00-00 |       |
-    | Tournament_Code | varchar(65)     | YES  |     | NULL       |       |
-    """ 
-    pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set')
+    pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
     tournament = models.ForeignKey(Tournaments, db_column=u'Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
