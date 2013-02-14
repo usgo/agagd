@@ -154,8 +154,24 @@ a:hover {
   display: none;
 }
 
+.x.axis text, .y.axis text {
+    font-size: 70%;
+}
+
 .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
+}
+
+.sigmoid {
+    fill: none;
+    stroke: grey;
+    stroke-width:1px;
+}
+
+.sigmoid-bg {
+    fill: blue;
+    stroke: none;
+    fill-opacity: .1;
 }

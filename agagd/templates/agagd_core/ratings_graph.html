@@ -5,8 +5,8 @@
 <script>
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 660 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%Y-%m-%d").parse;
 
@@ -32,6 +32,19 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.elab_date); })
     .y(function(d) { return y(d.rating); });
 
+var lowband = d3.svg.line()
+    .x(function(d) { return x(d.elab_date); })
+    .y(function(d) { return y(d.rating-d.sigma); });
+
+var hiband = d3.svg.line()
+    .x(function(d) { return x(d.elab_date); })
+    .y(function(d) { return y(d.rating+d.sigma); });
+
+var band = d3.svg.area()
+    .x(function(d) { return x(d.elab_date); })
+    .y0(function(d) { return y(d.rating-d.sigma); })
+    .y1(function(d) { return y(d.rating+d.sigma); });
+
 var svg = d3.select("#ratings_graph").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -45,7 +58,10 @@ d3.json("{%url agagd_core.views.member_ratings player.member_id %}", function(er
   });
 
   x.domain(d3.extent(data, function(d) { return d.elab_date; }));
-  y.domain(d3.extent(data, function(d) { return d.rating; }));
+  y.domain([
+    d3.min(data, function(d) { return d.rating-d.sigma; }),
+    d3.max(data, function(d) { return d.rating+d.sigma; })
+  ]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -66,6 +82,21 @@ d3.json("{%url agagd_core.views.member_ratings player.member_id %}", function(er
       .datum(data)
       .attr("class", "line")
       .attr("d", line);
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "sigmoid")
+      .attr("d", hiband);
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "sigmoid")
+      .attr("d", lowband);
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "sigmoid-bg")
+      .attr("d", band);
 });
 
 </script>
