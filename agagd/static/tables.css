@@ -75,7 +75,6 @@ table.paleblue tr.even {
 }
 
 table.paleblue + ul.pagination {
-    background: white url(../img/pagination-bg.gif) left 180% repeat-x;
     overflow: auto;
     margin: 0;
     padding: 10px;
@@ -83,9 +82,15 @@ table.paleblue + ul.pagination {
     list-style: none;
 }
 
+ul.pagination li {
+    font-size:14px;
+    margin-bottom:0.0em;
+    text-align:justify;
+}
+
 table.paleblue + ul.pagination > li {
     float: left;
-    line-height: 22px;
+    line-height: 18px;
     margin-left: 10px;
 }
 

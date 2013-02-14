@@ -49,13 +49,15 @@ blockquote, q {
 #header {
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-right: 10%;
+    float:right;
 }
 
 #container
 {
     padding-top: 1.5em;
     margin: auto;
-    max-width: 800px;
+    max-width: 80%;
 }
 
 #footer {
@@ -96,7 +98,6 @@ blockquote {
   padding: 0 0 0 2.2em;
   margin: 2em 0;
   font-style: italic;
-  background: url('https://s3-eu-west-1.amazonaws.com/gc-blog/assets/images/blockquote.png') no-repeat;
   background-position-y: 10px;
 }
 
@@ -111,8 +112,14 @@ ul,ol, dl {
     margin-left:1.5em;
 }
 
+
+dt {
+  padding-left: 20px;
+  font-variant: small-caps;
+  font-weight: bold;
+}
 dd {
-    display: inline;
+  padding-left: 40px;   color: #666666;
 }
 
 li {
@@ -141,6 +148,10 @@ a:hover {
 .nav-link {
     text-align: right; 
     font-style: italic;
+}
+
+#ratings_graph {
+    float: right;
 }
 
 .axis path,
