@@ -16,6 +16,9 @@ except KeyError:
     _password = getpass.getpass('Mysql password >')
     os.environ['MYSQL_PASS'] = _password
 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '#-+^ipw3x)1dq0$v*z0_^tzoxzcwz3s8^x8kd^5s9+9tfwuixv'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
