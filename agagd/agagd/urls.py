@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
      (r'^gd/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail'),
      (r'^gd/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs'), 
+     (r'^gd/ratings/(?P<member_id>\d+)/$', 'agagd_core.views.member_ratings'), 
 
      (r'^gd/tournaments/$', 'agagd_core.views.tournament_list'),
      (r'^gd/tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),

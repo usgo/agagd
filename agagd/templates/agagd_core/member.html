@@ -10,7 +10,6 @@
 <h2>{{player.full_name}}, ID #{{player.member_id}}, joined {{ player.join_date }}</h2> 
 
 <p> Find matchups of {{player.full_name}} against AGA ID# ________
-<p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
 <dl>
   <dt> Rating: </dt> <dd> {{ rating.rating }} </dd>
   <dt> Sigma: </dt> <dd> {{ rating.sigma }} </dd>
@@ -18,6 +17,8 @@
   <dt> Last tournament: </dt> <dd> {{ rating.tournament }} </dd>
   <dt> HighestRating: </dt> <dd> {{ max_rating }} </dd>
 </dl>
+{% include "agagd_core/ratings_graph.html" %}
+<p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
   {% if table %}
       {% render_table table %}
   {% else %}

@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 
 from agagd_core.models import Games, Members, Tournaments, Ratings
 from agagd_core.tables import GameTable, MemberTable, TournamentTable
+from agagd_core.json_response import JsonResponse
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django_tables2   import RequestConfig
@@ -37,6 +38,18 @@ def member_fetch(request):
                     reverse('agagd_core.views.member_detail',
                     args=(request.POST['member_id'],))
                     )
+
+def member_ratings(request, member_id):
+    try:
+        player = Members.objects.get(pk=member_id)
+        ratings = player.ratings_set.all().order_by('elab_date')
+        ratings_dict = [{'sigma': r.sigma,
+                'elab_date': r.elab_date,
+                'rating': r.rating} for r in ratings]
+        #return JsonResponse({'data':ratings_dict, 'result':'ok'}) 
+        return JsonResponse(ratings_dict) 
+    except:
+        return JsonResponse({'result':'error'})
 
 
 def member_detail(request, member_id):
