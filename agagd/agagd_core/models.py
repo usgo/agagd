@@ -42,6 +42,8 @@ class Changelog(models.Model):
     class Meta:
         db_table = u'changelog'
 
+
+
 class Members(models.Model): 
     class Meta:
         db_table = u'members'
@@ -64,8 +66,6 @@ class Members(models.Model):
     citizen = models.TextField() # This field type is a guess.
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
-
-
     def __unicode__(self):
         return u" %s (%s) " % (self.full_name, self.member_id, )
 
@@ -111,13 +111,28 @@ class Country(models.Model):
     class Meta:
         db_table = u'country'
 
-class TournamentManager(models.Manager): 
-    def with_code(self, tourn_code):
-        return super(TournamentManager, self).get_query_set().filter(tournament_code = tourn_code)
+class Tournaments(models.Model):
+    tournament_code = models.CharField(max_length=20, primary_key=True, db_column=u'Tournament_Code')
+    #description = models.TextField(db_column='Tournament_Descr')
+    tournament_date = models.DateField(db_column=u'Tournament_Date')
+    elab_date = models.DateField(db_column=u'Elab_Date')
+    city = models.CharField(max_length=30, db_column=u'City')
+    state = models.CharField(max_length=2, db_column=u'State_Code', blank=True)
+    #country = models.ForeignKey(Country, db_column=u'Country_Code', related_name='tourneys_in_country')
+    rounds = models.IntegerField(db_column='Rounds')
+    total_players = models.IntegerField(db_column='Total_Players')
+    wall_list = models.TextField(db_column='Wallist')
+    def __str__(self):
+        return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
+    class Meta: 
+        db_table= u'tournaments'
+        verbose_name = u'tournament'
+        verbose_name_plural = u'tournaments'
+
 
 class Games(models.Model):
     game_id = models.IntegerField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
-    tournament_code = models.CharField(max_length=20, db_column=u'Tournament_Code') # .
+    tournament_code = models.ForeignKey(Tournaments, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
     game_date = models.DateField(db_column=u'Game_Date') # x.
     round = models.TextField(db_column=u'Round') # x. This field type is a guess.
     pin_player_1 = models.ForeignKey(Members, db_column=u'Pin_Player_1', related_name='games_as_p1')
@@ -135,7 +150,6 @@ class Games(models.Model):
     rated = models.TextField(db_column=u'Rated', blank=True) # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date') # x.
     objects = models.Manager()
-    tournaments = TournamentManager()
     class Meta:
         db_table = u'games'
         verbose_name = u'game'
@@ -147,6 +161,24 @@ class Games(models.Model):
 
     def __str__(self):
         return str(self.__unicode__())
+
+class Ratings(models.Model): 
+    """
+    | Pin_Player      | int(8) unsigned | NO   | PRI | NULL       |       |
+    | Rating          | float(7,5)      | YES  |     | NULL       |       |
+    | Sigma           | float(6,5)      | YES  |     | NULL       |       |
+    | Elab_Date       | date            | NO   | PRI | 0000-00-00 |       |
+    | Tournament_Code | varchar(65)     | YES  |     | NULL       |       |
+    """ 
+    pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set')
+    tournament = models.ForeignKey(Tournaments, db_column=u'Tournament_Code', related_name='ratings_set')
+    rating = models.FloatField(db_column=u'Komi') # x. This field type is a guess.
+    sigma = models.FloatField(db_column=u'Komi') # x. This field type is a guess.
+    tournament_date = models.DateField(db_column=u'Tournament_Date')
+    class Meta:
+        db_table = u'ratings'
+        managed = False
+
 class MembersRegions(models.Model):
     region_id = models.TextField(primary_key=True) # This field type is a guess.
     region = models.CharField(max_length=255, blank=True)

@@ -5,8 +5,8 @@ from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
 
-from agagd_core.models import Games, Members
-from agagd_core.tables import GameTable, MemberTable
+from agagd_core.models import Games, Members, Tournaments
+from agagd_core.tables import GameTable, MemberTable, TournamentTable
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django_tables2   import RequestConfig
@@ -14,12 +14,15 @@ from datetime import datetime, timedelta
 
 def index(request):
     game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
-    print game_list.query
     table = GameTable(game_list)
     RequestConfig(request).configure(table)
+    tourneys = Tournaments.objects.all().order_by('-tournament_date')
+    t_table= TournamentTable(tourneys)
+    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
     return render(request, "agagd_core/index.html",
             {
                 'table': table,
+                'tournaments': t_table,
             }) 
 
 #no idea what the right pattern is here; if the request has a member_id param, redirect
@@ -66,15 +69,15 @@ def member_vs(request, member_id, other_id):
             }) 
 
 def tournament_detail(request, tourn_code):
-    games = Games.tournaments.with_code(tourn_code)
-    members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
-    game_table = GameTable(games)
-    member_table = MemberTable(members)
+    tourney = Tournaments.objects.get(pk=tourn_code)
+    #members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
+    game_table = GameTable(tourney.games_in_tourney.all())
+    #member_table = MemberTable(members)
     RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
     return render_to_response('agagd_core/tourney.html',
             {
                 'game_table': game_table,
-                'member_table': member_table,
+                'tournament': tourney,
             }) 
 
 def tournament_list(request):

@@ -1,6 +1,6 @@
 
 import django_tables2 as tables
-from agagd_core.models import Games, Members
+from agagd_core.models import Games, Members, Tournaments
 
 class GameTable(tables.Table):
     pin_player_1 = tables.LinkColumn(
@@ -13,8 +13,8 @@ class GameTable(tables.Table):
         model = Games
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("game_date", "tournament_code", "round", 
-                "pin_player_1", "color_1", "pin_player_2", "color_2", "result")
+        fields = ("game_date", "round", "pin_player_1",
+                "color_1", "pin_player_2", "color_2", "result")
         sequence = fields
 
 class MemberTable(tables.Table):
@@ -26,4 +26,15 @@ class MemberTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("full_name", "state", "chapter", )
+        sequence = fields
+
+class TournamentTable(tables.Table):
+    tournament_code = tables.LinkColumn(
+            'agagd_core.views.tournament_detail',
+            kwargs={'tourn_code':tables.A('tournament_code')})
+    class Meta:
+        model = Tournaments
+        # add class="paleblue" to <table> tag
+        attrs = {"class": "paleblue"}
+        fields = ("tournament_code", "tournament_date", "city", "state", "total_players", "rounds")
         sequence = fields
