@@ -6,12 +6,15 @@ from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
 
 from agagd_core.models import Games, Members, Tournaments, Ratings
-from agagd_core.tables import GameTable, MemberTable, TournamentTable
+from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable
 from agagd_core.json_response import JsonResponse
+
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django_tables2   import RequestConfig
+
 from datetime import datetime, timedelta 
+from collections import Counter
 
 def index(request):
     game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
@@ -51,24 +54,43 @@ def member_ratings(request, member_id):
     except:
         return JsonResponse({'result':'error'})
 
-
 def member_detail(request, member_id):
     game_list = Games.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
             ).order_by('-game_date')
+    table = GameTable(game_list, prefix="games")
+    RequestConfig(request, paginate={"per_page": 20}).configure(table) 
+
     player = Members.objects.get(member_id=member_id)
-    table = GameTable(game_list)
-    RequestConfig(request, paginate={"per_page": 20}).configure(table)
     ratings = player.ratings_set.all().order_by('-elab_date')
     max_rating = max([r.rating for r in ratings])
     last_rating = ratings[0]
+
+    opponent_data = {}
+    for game in game_list:
+        op = game.player_other_than(player)
+        dat = opponent_data.get(op, {}) 
+        dat['opponent'] = op
+        dat['total'] = dat.get('total', 0) + 1
+        if game.won_by(player):
+            dat['won'] = dat.get('won', 0) + 1
+        else:
+            dat['lost'] = dat.get('lost', 0) +1
+        opponent_data[op] = dat
+        
+
+    print opponent_data.items()
+    opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
+    opp_table.this_player = player
+    RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
     return render(request, 'agagd_core/member.html',
             {
                 'table': table,
                 'player': player,
                 'rating': last_rating,
                 'max_rating': max_rating,
-                'num_games': len(game_list)
+                'num_games': len(game_list),
+                'opponents': opp_table
             }) 
 
 def member_search_form(request):

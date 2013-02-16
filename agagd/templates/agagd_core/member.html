@@ -28,4 +28,11 @@
   {% else %}
       <p>No games are available.</p>
   {% endif %}
+
+  {% if opponents %}
+  {% render_table opponents %}
+  {% else %}
+      <p>No opponent breakdown available.</p>
+  {% endif %}
+
 {% endblock %}

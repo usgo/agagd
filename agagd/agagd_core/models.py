@@ -9,40 +9,6 @@
 
 from django.db import models
 
-class Authteam(models.Model):
-    id = models.TextField(primary_key=True) # This field type is a guess.
-    teamname = models.CharField(max_length=25)
-    teamlead = models.CharField(max_length=25)
-    status = models.CharField(max_length=10)
-    class Meta:
-        db_table = u'authteam'
-
-class Authuser(models.Model):
-    id = models.TextField(primary_key=True) # This field type is a guess.
-    uname = models.CharField(max_length=25)
-    passwd = models.CharField(max_length=32)
-    team = models.CharField(max_length=25)
-    level = models.TextField() # This field type is a guess.
-    status = models.CharField(max_length=10)
-    lastlogin = models.DateTimeField(null=True, blank=True)
-    logincount = models.TextField(blank=True) # This field type is a guess.
-    class Meta:
-        db_table = u'authuser'
-
-class Changelog(models.Model):
-    log_id = models.TextField(primary_key=True) # This field type is a guess.
-    log_date = models.DateTimeField()
-    model = models.CharField(max_length=255)
-    record = models.CharField(max_length=255)
-    record_id = models.CharField(max_length=255)
-    user = models.CharField(max_length=255, blank=True)
-    user_id = models.TextField(blank=True) # This field type is a guess.
-    summary = models.CharField(max_length=255, blank=True)
-    changes = models.TextField(blank=True) # This field type is a guess.
-    class Meta:
-        db_table = u'changelog'
-
-
 
 class Members(models.Model): 
     class Meta:
@@ -161,6 +127,20 @@ class Games(models.Model):
 
     def __str__(self):
         return str(self.__unicode__())
+
+    def player_other_than(self, one_player):
+        """ returns the member of the other player. """
+        return self.pin_player_2 if (one_player == self.pin_player_1) else self.pin_player_1
+
+    def winner(self):
+        if self.result == self.color_1:
+            return self.pin_player_1
+        if self.result == self.color_2:
+            return self.pin_player_2
+        raise ValueError
+
+    def won_by(self, p1):
+        return self.winner() == p1
 
 class Ratings(models.Model): 
     pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)

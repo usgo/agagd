@@ -17,6 +17,21 @@ class GameTable(tables.Table):
                 "color_1", "pin_player_2", "color_2", "result")
         sequence = fields
 
+class OpponentTable(tables.Table):
+    def __init__(self, qs, p1, *args, **kwargs):
+        self.this_player = p1
+        tables.Table.__init__(self, qs)
+
+    opponent = tables.LinkColumn(
+        'agagd_core.views.member_vs',
+        kwargs={"member_id": self.this_player.pk, 'other_id': tables.A('opponent.member_id')})
+    total = tables.Column(verbose_name="Games")
+    won = tables.Column(verbose_name="Won")
+    lost = tables.Column(verbose_name="Lost")
+    ratio = tables.Column(verbose_name="Rate")
+    class Meta:
+        attrs = {"class": "paleblue"}
+
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
             'agagd_core.views.member_detail',
