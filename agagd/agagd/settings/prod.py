@@ -5,23 +5,9 @@ from base import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-try:
-    _user = os.environ['AGAGD_USER']
-except KeyError:
-    _user = getpass.getuser('Mysql user >')
-    os.environ['AGAGD_USER'] = _user
-
-try:
-    _password = os.environ['MYSQL_PASS']
-except KeyError:
-    _password = getpass.getpass('Mysql password >')
-    os.environ['MYSQL_PASS'] = _password
-
-try:
-    _key = os.environ['SECRET_KEY']
-except KeyError:
-    _key = getpass.getpass('random django key >')
-    os.environ['SECRET_KEY'] = _key
+_user = os.environ['AGAGD_USER']
+_password = os.environ['MYSQL_PASS']
+_key = os.environ['SECRET_KEY']
 
 SECRET_KEY = _key
 
