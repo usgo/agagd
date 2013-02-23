@@ -28,12 +28,16 @@ def index(request):
                 'tournaments': t_table,
             }) 
 
+def redirect_to_idx(request):
+    return HttpResponseRedirect('/')
+
+
 #no idea what the right pattern is here; if the request has a member_id param, redirect
 #to the member_detail page with that value.  Otherwise, i guess we send them home?
 def member_fetch(request):
     context = RequestContext(request)
     if request.method != 'POST':
-        return HttpResponseRedirect('/gd/')
+        return HttpResponseRedirect('/')
 
     if 'member_id' in request.POST:
         return HttpResponseRedirect(

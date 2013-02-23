@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     #url(r'^gd/', include('agagd_core.urls')),
 
      (r'^$', 'agagd_core.views.index'),
-     (r'.php$', 'agagd_core.views.index'),
+     (r'.php$', 'agagd_core.views.redirect_to_idx'),
      (r'^member_fetch/$', 'agagd_core.views.member_fetch'),
      (r'^member_search_form/$', 'agagd_core.views.member_search_form'),
 
