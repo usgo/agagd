@@ -14,7 +14,6 @@ from django.db.models import Q
 from django_tables2   import RequestConfig
 
 from datetime import datetime, timedelta 
-from collections import Counter
 
 def index(request):
     game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
