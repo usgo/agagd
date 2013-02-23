@@ -27,7 +27,6 @@ def application(environ, start_response):
     for key in ['DJANGO_SETTINGS_MODULE', 'AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
         if key in environ:
             os.environ[key] = environ[key]
-            print "set %s to %s!" % (key, environ[key])
     return _application(environ, start_response)
 
 
