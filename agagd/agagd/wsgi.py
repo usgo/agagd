@@ -24,14 +24,12 @@ import django.core.handlers.wsgi
 _application = django.core.handlers.wsgi.WSGIHandler()
 
 def application(environ, start_response):
-    os.environ['AGAGD_USER'] = environ['AGAGD_USER']
-    os.environ['MYSQL_PASS'] = environ['MYSQL_PASS']
-    os.environ['APP_DB_NAME'] = environ['APP_DB_NAME']
-    os.environ['SECRET_KEY'] = environ['SECRET_KEY']
+    os.environ['DJANGO_SETTINGS_MODULE'] = environ['DJANGO_SETTINGS_MODULE']
+    for key in ['AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY']:
+        if key in environ:
+            os.environ[key] = environ[key]
     return _application(environ, start_response)
 
-#from django.core.wsgi import get_wsgi_application
-#application = get_wsgi_application()
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication

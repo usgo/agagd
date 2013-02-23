@@ -80,9 +80,10 @@ def member_detail(request, member_id):
         
 
     print opponent_data.items()
-    opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
-    opp_table.this_player = player
-    RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
+    #opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
+    #opp_table.this_player = player
+    #RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
+    opp_table = None
     return render(request, 'agagd_core/member.html',
             {
                 'table': table,

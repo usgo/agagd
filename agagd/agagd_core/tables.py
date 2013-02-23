@@ -24,7 +24,7 @@ class OpponentTable(tables.Table):
 
     opponent = tables.LinkColumn(
         'agagd_core.views.member_vs',
-        kwargs={"member_id": self.this_player.pk, 'other_id': tables.A('opponent.member_id')})
+        kwargs={"member_id": tables.A('self.this_player.pk'), 'other_id': tables.A('opponent.member_id')})
     total = tables.Column(verbose_name="Games")
     won = tables.Column(verbose_name="Won")
     lost = tables.Column(verbose_name="Lost")
