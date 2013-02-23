@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 )
 from django.conf import settings
-if settings.DEBUG:
+if settings.ADMIN_ENABLED:
     urlpatterns += patterns(
         url(r'^admin/', include(admin.site.urls)),
         )

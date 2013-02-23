@@ -4,6 +4,7 @@ from base import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+ADMIN_ENABLED = True
 
 INSTALLED_APPS += ('django.contrib.admin',)
 
