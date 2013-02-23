@@ -23,8 +23,8 @@ class OpponentTable(tables.Table):
         tables.Table.__init__(self, qs)
 
     opponent = tables.LinkColumn(
-        'agagd_core.views.member_vs',
-        kwargs={"member_id": tables.A('self.this_player.pk'), 'other_id': tables.A('opponent.member_id')})
+        'agagd_core.views.member_detail',
+        kwargs={"member_id": tables.A('opponent.member_id')})
     total = tables.Column(verbose_name="Games")
     won = tables.Column(verbose_name="Won")
     lost = tables.Column(verbose_name="Lost")

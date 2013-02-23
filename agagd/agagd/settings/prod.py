@@ -9,6 +9,7 @@ _user = os.environ['AGAGD_USER']
 _password = os.environ['MYSQL_PASS']
 _key = os.environ['SECRET_KEY']
 _dbname = os.environ['APP_DB_NAME']
+_templates = os.environ['TEMPLATE_DIR']
 
 SECRET_KEY = _key
 
@@ -22,3 +23,5 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+TEMPLATE_DIRS = (_templates, )

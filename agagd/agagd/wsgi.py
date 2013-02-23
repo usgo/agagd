@@ -25,7 +25,7 @@ _application = django.core.handlers.wsgi.WSGIHandler()
 
 def application(environ, start_response):
     os.environ['DJANGO_SETTINGS_MODULE'] = environ['DJANGO_SETTINGS_MODULE']
-    for key in ['AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY']:
+    for key in ['AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
         if key in environ:
             os.environ[key] = environ[key]
     return _application(environ, start_response)

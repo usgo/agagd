@@ -24,13 +24,15 @@
 <p> Find matchups of {{player.full_name}} against AGA ID# ________
 <p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
   {% if table %}
+  <p>
       {% render_table table %}
+      </p>
   {% else %}
       <p>No games are available.</p>
   {% endif %}
 
   {% if opponents %}
-  {% render_table opponents %}
+  <p> {% render_table opponents %} </p>
   {% else %}
       <p>No opponent breakdown available.</p>
   {% endif %}
