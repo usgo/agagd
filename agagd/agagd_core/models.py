@@ -79,7 +79,7 @@ class Country(models.Model):
 
 class Tournaments(models.Model):
     tournament_code = models.CharField(max_length=20, primary_key=True, db_column=u'Tournament_Code')
-    #description = models.TextField(db_column='Tournament_Descr')
+    description = models.TextField(db_column='Tournament_Descr')
     tournament_date = models.DateField(db_column=u'Tournament_Date')
     elab_date = models.DateField(db_column=u'Elab_Date')
     city = models.CharField(max_length=30, db_column=u'City')

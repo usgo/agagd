@@ -4,6 +4,7 @@ from django.template import loader, RequestContext
 from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
+from django.core import exceptions
 
 from agagd_core.models import Games, Members, Tournaments, Ratings
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable
@@ -17,10 +18,10 @@ from datetime import datetime, timedelta
 
 def index(request):
     game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
-    table = GameTable(game_list)
+    table = GameTable(game_list, prefix='games')
     RequestConfig(request).configure(table)
     tourneys = Tournaments.objects.all().order_by('-tournament_date')
-    t_table= TournamentTable(tourneys)
+    t_table= TournamentTable(tourneys, prefix="tourneys")
     RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
     return render(request, "agagd_core/index.html",
             {
@@ -46,6 +47,7 @@ def member_fetch(request):
                     )
 
 def member_ratings(request, member_id):
+    #returns a members rating data as a json dict for graphing
     try:
         player = Members.objects.get(pk=member_id)
         ratings = player.ratings_set.all().order_by('elab_date')
@@ -71,18 +73,22 @@ def member_detail(request, member_id):
 
     opponent_data = {}
     for game in game_list:
-        op = game.player_other_than(player)
-        dat = opponent_data.get(op, {}) 
-        dat['opponent'] = op
-        dat['total'] = dat.get('total', 0) + 1
-        if game.won_by(player):
-            dat['won'] = dat.get('won', 0) + 1
-        else:
-            dat['lost'] = dat.get('lost', 0) +1
-        opponent_data[op] = dat
-        
+        try:
+            op = game.player_other_than(player)
+            dat = opponent_data.get(op, {}) 
+            dat['opponent'] = op
+            dat['total'] = dat.get('total', 0) + 1
+            dat['won'] = dat.get('won', 0)
+            dat['lost'] = dat.get('lost', 0)
+            if game.won_by(player):
+                dat['won'] += 1
+            else:
+                dat['lost'] += 1
+            opponent_data[op] = dat
+        except exceptions.ObjectDoesNotExist:
+            print "failing game_id: %s" % game.pk 
 
-    print opponent_data.items()
+    print "opponent tables created ok!"
     opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
     opp_table.this_player = player
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 

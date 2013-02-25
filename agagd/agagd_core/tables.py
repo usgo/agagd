@@ -22,15 +22,20 @@ class OpponentTable(tables.Table):
         self.this_player = p1
         tables.Table.__init__(self, qs)
 
+    empty_text = "Opponent information couldn't be calculated"
     opponent = tables.LinkColumn(
         'agagd_core.views.member_detail',
         kwargs={"member_id": tables.A('opponent.member_id')})
     total = tables.Column(verbose_name="Games")
-    won = tables.Column(verbose_name="Won")
+    won = tables.Column(verbose_name="Won", default=0)
     lost = tables.Column(verbose_name="Lost")
-    ratio = tables.Column(verbose_name="Rate")
+    ratio = tables.Column(verbose_name="Rate", default=0, empty_values=(-1,), orderable=False)
+    def render_ratio(self, record):
+        print float(record['won']) / record['total']
+        return "%0.2f" % (float(record['won']) / record['total'])
     class Meta:
         attrs = {"class": "paleblue"}
+        order_by = ('-total', '-won')
 
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -46,10 +51,10 @@ class MemberTable(tables.Table):
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
             'agagd_core.views.tournament_detail',
-            kwargs={'tourn_code':tables.A('tournament_code')})
+            kwargs={'tourn_code':tables.A('tournament_code')},)
     class Meta:
         model = Tournaments
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("tournament_code", "tournament_date", "city", "state", "total_players", "rounds")
+        fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds")
         sequence = fields
