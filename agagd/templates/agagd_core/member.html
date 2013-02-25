@@ -10,7 +10,7 @@
 
 {% block content %} 
 {{ block.super }} 
-<h2> Player card for {{player.full_name}}, ID #{{player.member_id}}.</h2> 
+<h2> Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2> 
 {% include "agagd_core/ratings_graph.html" %}
 <p> AGA member since: {{ player.join_date }} <p>
 <dl>
