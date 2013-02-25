@@ -74,6 +74,10 @@ table.paleblue tr.even {
     background-color: white;
 }
 
+table.paleblue tr:hover {
+    background: #DDE3EE;
+}
+
 table.paleblue + ul.pagination {
     overflow: auto;
     margin: 0;
