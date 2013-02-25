@@ -8,9 +8,10 @@
 {% block content %} 
 {{ block.super }} 
 
-<h2> Tournament Detail for {{ tournament.tournament_code }} </h2> 
   {% if tournament.description %}
-  <p> {{ tournament.description %} </p>
+  <h2> Tournament: {{ tournament.description }} </h2>
+  {% else %}
+  <h2> Tournament: {{ tournament.tournament_code }} </h2> 
   {% endif %}
   <p> Held {{ tournament.tournament_date }}, there were {{ tournament.total_players }} players in {{ tournament.rounds }} rounds </p>
 <h3> Recreated Wall List </h3>
