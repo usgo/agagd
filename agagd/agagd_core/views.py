@@ -106,12 +106,11 @@ def member_detail(request, member_id):
 def member_search(request):
     queryset = Members.objects.all()
     q = request.GET.get('q') 
-    if q is not None:
-        print "filtering for %s" % q
+    if q is not None and q != "" :
+        print "filtering for %r" % q
         queryset = queryset.filter(full_name__icontains=q)
     member_table = MemberTable(queryset)
-    RequestConfig(request, paginate={"per_page": 50}).configure(member_table)
-    print member_table
+    RequestConfig(request, paginate={"per_page": 100}).configure(member_table)
     return render_to_response('agagd_core/search_player.html',
             {
                 'member_table': member_table,
