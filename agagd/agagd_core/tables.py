@@ -47,7 +47,7 @@ class MemberTable(tables.Table):
         model = Members
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("full_name", "state", "chapter", )
+        fields = ("full_name", "state", "chapter", "join_date")
         sequence = fields
 
 class TournamentTable(tables.Table):

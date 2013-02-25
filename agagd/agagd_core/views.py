@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf 
 from django.core import exceptions
+from django.views.generic import ListView
 
 from agagd_core.models import Games, Members, Tournaments, Ratings
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable
@@ -102,8 +103,19 @@ def member_detail(request, member_id):
                 'opponents': opp_table
             }) 
 
-def member_search_form(request):
-    return render_to_response('agagd_core/search_form.html')
+def member_search(request):
+    queryset = Members.objects.all()
+    q = request.GET.get('q') 
+    if q is not None:
+        print "filtering for %s" % q
+        queryset = queryset.filter(full_name__icontains=q)
+    member_table = MemberTable(queryset)
+    RequestConfig(request, paginate={"per_page": 50}).configure(member_table)
+    print member_table
+    return render_to_response('agagd_core/search_player.html',
+            {
+                'member_table': member_table,
+            })
 
 def member_vs(request, member_id, other_id):
     game_list = Games.objects.filter(
@@ -121,7 +133,6 @@ def tournament_detail(request, tourn_code):
     tourney = Tournaments.objects.get(pk=tourn_code)
     #members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
     game_table = GameTable(tourney.games_in_tourney.all())
-    #member_table = MemberTable(members)
     RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
     return render_to_response('agagd_core/tourney.html',
             {
