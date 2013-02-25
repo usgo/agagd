@@ -1,9 +1,12 @@
+{% extends "base.html" %} 
+{% load staticfiles %} 
+{% block title %} Server Error 500 {% endblock %} 
+{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+{% block content %} 
+{{ block.super }} 
 
-<html>
-  <body>
   <h1> Server Error 500 </h1>
 
   <p> Guru meditation </p>
   <a href="http://www.usgo.org/"> Back to the AGA Homepage </a>
-</body>
-</html>
+  {% endblock %} 

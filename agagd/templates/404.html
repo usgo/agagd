@@ -1,9 +1,12 @@
 
-<html>
-  <body>
-  <h1> 404 Resource Not Found</h1>
+{% extends "base.html" %} 
+{% load staticfiles %} 
+{% block title %}  404 Resource Not Found{% endblock %} 
+{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+{% block content %} 
+{{ block.super }} 
+  <h1> 404 Resource Not Found </h1>
 
   <p> Guru meditation </p>
   <a href="http://www.usgo.org/"> Back to the AGA Homepage </a>
-</body>
-</html>
+{% endblock %}
