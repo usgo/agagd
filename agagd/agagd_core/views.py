@@ -69,8 +69,11 @@ def member_detail(request, member_id):
 
     player = Members.objects.get(member_id=member_id)
     ratings = player.ratings_set.all().order_by('-elab_date')
-    max_rating = max([r.rating for r in ratings])
-    last_rating = ratings[0]
+    if len(ratings) > 0:
+        max_rating = max([r.rating for r in ratings])
+        last_rating = ratings[0]
+    else:
+        max_rating = last_rating = None
 
     opponent_data = {}
     for game in game_list:

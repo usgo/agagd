@@ -1,0 +1,8 @@
+
+{% comment %}
+  Usage: {% include "agagd_core/_search_pl_form.html" %} 
+{% endcomment %}
+<form action="{% url agagd_core.views.member_search %}" method="GET"> 
+  Name Matches: <input type="text" name="q" /> 
+  <button type="submit">search</button>
+</form>
