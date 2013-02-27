@@ -54,9 +54,10 @@ class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
             'agagd_core.views.tournament_detail',
             kwargs={'tourn_code':tables.A('tournament_code')},)
+    elab_date = tables.Column(verbose_name="rated on")
     class Meta:
         model = Tournaments
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds")
+        fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields
