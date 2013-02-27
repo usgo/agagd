@@ -63,7 +63,7 @@ def member_ratings(request, member_id):
 def member_detail(request, member_id):
     game_list = Games.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
-            ).order_by('-game_date')
+            ).order_by('-game_date','round')
     table = GameTable(game_list, prefix="games")
     RequestConfig(request, paginate={"per_page": 20}).configure(table) 
 

@@ -2,12 +2,24 @@
 import django_tables2 as tables
 from agagd_core.models import Games, Members, Tournaments
 
+class WinnerColumn(tables.LinkColumn):
+    def __init__(self, color, *args, **kwargs):
+        tables.LinkColumn.__init__(self, *args, **kwargs)
+        self.color = color
+    def render(self, value, record, bound_column):
+        if record.result == self.color:
+            self.attrs['td'] = {'class': 'winner'} 
+        else:
+            self.attrs['td'] = {'class': 'foo'}
+        return tables.LinkColumn.render(self, value, record, bound_column)
+
+
 class GameTable(tables.Table):
-    pin_player_1 = tables.LinkColumn(
-            'agagd_core.views.member_detail',
+    pin_player_1 = WinnerColumn('W',
+            viewname='agagd_core.views.member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
-    pin_player_2 = tables.LinkColumn(
+    pin_player_2 = WinnerColumn('B',
             'agagd_core.views.member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
@@ -16,7 +28,7 @@ class GameTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("game_date", "round", "pin_player_1",
-                "pin_player_2", 'handicap', "result")
+                "pin_player_2", 'handicap',)
         sequence = fields
 
 class OpponentTable(tables.Table):
@@ -61,3 +73,4 @@ class TournamentTable(tables.Table):
         attrs = {"class": "paleblue"}
         fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields
+

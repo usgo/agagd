@@ -118,6 +118,13 @@ table.paleblue > tbody > tr > td > span.false {
     width: 10px;
 }
 
+table.paleblue > tbody > tr.even > td.winner {
+    background-color: #DDF3DE;
+}
+table.paleblue > tbody > tr.odd > td.winner {
+    background-color: #CDF3CE;
+}
+
 table.paleblue > tbody > tr > td > .missing {
     background: transparent url(../img/missing.png) right center no-repeat;
     color: #717171;
