@@ -92,8 +92,8 @@ class Tournaments(models.Model):
         return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
     def __unicode__(self):
         if self.description:
-            if len(self.description) > 20:
-                return u'%s...' % self.description[0:17]
+            if len(self.description) > 40:
+                return u'%s...' % self.description[0:37]
             return u'%s' % self.description
         else:
             return u'%s' % self.pk
