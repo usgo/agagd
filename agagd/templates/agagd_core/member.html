@@ -37,4 +37,10 @@
       <p>No opponent breakdown available.</p>
   {% endif %}
 
+  {% if tourneys %}
+  <p> {% render_table tourneys %} </p>
+  {% else %}
+      <p>No tournament breakdown available.</p>
+  {% endif %}
+
 {% endblock %}

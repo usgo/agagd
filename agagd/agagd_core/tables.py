@@ -74,3 +74,12 @@ class TournamentTable(tables.Table):
         fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields
 
+class TournamentPlayedTable(tables.Table):
+    tournament = tables.LinkColumn(
+            'agagd_core.views.tournament_detail',
+            kwargs={'tourn_code':tables.A('tournament.pk')},)
+    date = tables.Column(default="Unknown")
+    won = tables.Column(verbose_name="Won", default=0)
+    lost = tables.Column(verbose_name="Lost", default=0) 
+    class Meta:
+        attrs = {"class": "paleblue"}

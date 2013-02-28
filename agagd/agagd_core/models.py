@@ -90,6 +90,14 @@ class Tournaments(models.Model):
     wall_list = models.TextField(db_column='Wallist')
     def __str__(self):
         return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
+    def __unicode__(self):
+        if self.description:
+            if len(self.description) > 20:
+                return u'%s...' % self.description[0:17]
+            return u'%s' % self.description
+        else:
+            return u'%s' % self.pk
+
     class Meta: 
         db_table= u'tournaments'
         verbose_name = u'tournament'

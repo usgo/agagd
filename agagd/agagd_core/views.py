@@ -8,7 +8,7 @@ from django.core import exceptions
 from django.views.generic import ListView
 
 from agagd_core.models import Games, Members, Tournaments, Ratings
-from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable
+from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from agagd_core.json_response import JsonResponse
 
 from django.http import HttpResponseRedirect
@@ -75,27 +75,44 @@ def member_detail(request, member_id):
     else:
         max_rating = last_rating = None
 
+    #compute additional tables for opponents & tournament info. here
+    #TODO: refactor this into something nicer.
     opponent_data = {}
+    tourney_data = {}
     for game in game_list:
         try:
+            t_dat = tourney_data.get(game.tournament_code.pk, {})
+            t_dat['tournament'] = game.tournament_code
+            t_dat['won'] = t_dat.get('won', 0)
+            t_dat['lost'] = t_dat.get('lost', 0)
+            t_dat['date'] = t_dat.get('date', game.game_date)
+
             op = game.player_other_than(player)
-            dat = opponent_data.get(op, {}) 
-            dat['opponent'] = op
-            dat['total'] = dat.get('total', 0) + 1
-            dat['won'] = dat.get('won', 0)
-            dat['lost'] = dat.get('lost', 0)
+            opp_dat = opponent_data.get(op, {}) 
+            opp_dat['opponent'] = op
+            opp_dat['total'] = opp_dat.get('total', 0) + 1
+            opp_dat['won'] = opp_dat.get('won', 0)
+            opp_dat['lost'] = opp_dat.get('lost', 0)
             if game.won_by(player):
-                dat['won'] += 1
+                opp_dat['won'] += 1
+                t_dat['won'] += 1
             else:
-                dat['lost'] += 1
-            opponent_data[op] = dat
+                opp_dat['lost'] += 1
+                t_dat['lost'] += 1
+            opponent_data[op] = opp_dat
+            tourney_data[game.tournament_code.pk] = t_dat
         except exceptions.ObjectDoesNotExist:
             print "failing game_id: %s" % game.pk 
 
-    print "opponent tables created ok!"
     opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
     opp_table.this_player = player
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
+
+    t_table = TournamentPlayedTable(
+            sorted(tourney_data.values(), key=lambda d: d['date'], reverse=True), 
+            prefix="ts_played")
+    RequestConfig(request, paginate={"per_page": 10}).configure(t_table) 
+
     return render(request, 'agagd_core/member.html',
             {
                 'table': table,
@@ -103,7 +120,8 @@ def member_detail(request, member_id):
                 'rating': last_rating,
                 'max_rating': max_rating,
                 'num_games': len(game_list),
-                'opponents': opp_table
+                'opponents': opp_table,
+                'tourneys': t_table
             }) 
 
 def member_search(request):
