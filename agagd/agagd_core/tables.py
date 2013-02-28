@@ -23,12 +23,16 @@ class GameTable(tables.Table):
             'agagd_core.views.member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
+    tournament_code = tables.LinkColumn(
+            verbose_name="Tournament",
+            viewname='agagd_core.views.tournament_detail',
+            kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
     class Meta:
         model = Games
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("game_date", "round", "pin_player_1",
-                "pin_player_2", 'handicap',)
+                "pin_player_2", 'handicap', 'tournament_code')
         sequence = fields
 
 class OpponentTable(tables.Table):
