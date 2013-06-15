@@ -16,7 +16,7 @@ class Members(models.Model):
         verbose_name = u'member'
         verbose_name_plural = u'members'
 
-    member_id = models.TextField(primary_key=True, editable=False) # This field type is a guess.
+    member_id = models.CharField(max_length=255, primary_key=True, editable=False) # This field type is a guess.
     legacy_id = models.TextField(blank=True) # This field type is a guess.
     full_name = models.CharField(max_length=255, blank=True)
     given_names = models.CharField(max_length=255, blank=True)
@@ -42,7 +42,7 @@ class Chapter(models.Model):
         db_table = u'chapter'
 
 class Chapters(models.Model):
-    member_id = models.TextField(primary_key=True) # This field type is a guess.
+    member_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
     code = models.CharField(max_length=4, blank=True)
@@ -161,7 +161,7 @@ class Ratings(models.Model):
         managed = False
 
 class MembersRegions(models.Model):
-    region_id = models.TextField(primary_key=True) # This field type is a guess.
+    region_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
     class Meta:

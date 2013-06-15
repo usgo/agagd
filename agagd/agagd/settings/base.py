@@ -1,7 +1,7 @@
-#!/bin/env python
-# Django settings for agagd project.
 import django.conf.global_settings as DEFAULT_SETTINGS
-import os, getpass
+import os
+
+PROJECT_ROOT = os.environ['PROJECT_ROOT']
 
 ADMINS = (
     ('Andrew Jackson', 'operations@usgo.org'),
@@ -53,10 +53,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    '/Users/andrew/work/agagd_project/agagd/static', 
+    os.path.join(PROJECT_ROOT, 'static'), 
 )
 
 # List of finder classes that know how to find static files in
@@ -75,6 +72,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROOT, 'templates'),
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -89,12 +90,6 @@ ROOT_URLCONF = 'agagd.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'agagd.wsgi.application'
-
-TEMPLATE_DIRS = [
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.  
-]
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
