@@ -1,0 +1,12 @@
+from agagd.settings.dev import *
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',         # database name
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',         # blank means localhost
+        'PORT': '',         # blank means default mysql port (3306)
+    }
+}
