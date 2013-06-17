@@ -11,16 +11,28 @@ A port of the old eurogo Games Database to python, for the AGA
 
 ### Getting started
 
-Virtualenv and virtualenvwrapper are recommended.  It should be as easy as:
+The first step is to install `mysql` and create an `agagd` database.
+
+Virtualenv and virtualenvwrapper are recommended.
 
 ~~~
-$ workon agagd # set up the virtualenv
-$ pip install django django-admin-tools
+$ mkvirtualenv agagd
+$ workon agagd 
+$ cd PATH_TO_REPO_ROOT
+$ pip install -r requirements_dev.txt
+$ cd agagd/
+$ cp local_settings.py.sample local_settings.py
+~~~
 
-[ ... monkey about with db settings ... ]
+Edit your `local_settings.py` to match your database settings.
 
+~~~
+$ python manage.py syncdb
+$ # python manage.py loaddata NONEXISTENT_FIXTURE - TODO
 $ python manage.py runserver
 ~~~
+
+After the above, you should be able to see the site up and running at http://localhost:8000
 
 ### development needs
 1. It'd really help if we had a sanitized version of the database we could use,
