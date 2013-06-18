@@ -1,0 +1,134 @@
+[
+    {
+        "pk": "1",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "1",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    },
+    {
+        "pk": "2",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "2",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    },
+    {
+        "pk": "3",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "3",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    },
+    {
+        "pk": "4",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "4",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    },
+    {
+        "pk": "5",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "5",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    },
+    {
+        "pk": "6",
+        "model": "agagd_core.members",
+        "fields": {
+            "member_id": "6",
+            "legacy_id": "",
+            "full_name": "bruce lee",
+            "given_names": "bruce",
+            "family_name": "lee",
+            "join_date": null,
+            "city": "Seattle",
+            "state": "WA",
+            "region": "some region",
+            "country": "some country",
+            "chapter": "some chapter",
+            "chapter_id": "MAYBE_FK",
+            "occupation": "",
+            "citizen": "yes",
+            "password": "hallo!",
+            "last_changed": null
+        }
+    }
+]
