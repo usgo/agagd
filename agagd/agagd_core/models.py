@@ -16,7 +16,7 @@ class Member(models.Model):
         verbose_name = u'member'
         verbose_name_plural = u'members'
 
-    member_id = models.CharField(max_length=255, primary_key=True, editable=False) # This field type is a guess.
+    member_id = models.AutoField(primary_key=True)
     legacy_id = models.TextField(blank=True) # This field type is a guess.
     full_name = models.CharField(max_length=255, blank=True)
     given_names = models.CharField(max_length=255, blank=True)
@@ -85,7 +85,6 @@ class Tournament(models.Model):
     elab_date = models.DateField(db_column=u'Elab_Date')
     city = models.CharField(max_length=30, db_column=u'City')
     state = models.CharField(max_length=2, db_column=u'State_Code', blank=True)
-    #country = models.ForeignKey(Country, db_column=u'Country_Code', related_name='tourneys_in_country')
     rounds = models.IntegerField(db_column='Rounds')
     total_players = models.IntegerField(db_column='Total_Players')
     wall_list = models.TextField(db_column='Wallist')
@@ -106,7 +105,7 @@ class Tournament(models.Model):
 
 
 class Game(models.Model):
-    game_id = models.IntegerField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
+    game_id = models.AutoField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
     tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
     game_date = models.DateField(db_column=u'Game_Date') # x.
     round = models.TextField(db_column=u'Round') # x. This field type is a guess.
