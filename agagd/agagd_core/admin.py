@@ -1,4 +1,3 @@
-
 from agagd_core.models import Chapter, Chapters, CommentsAuthors, Country, Games, Members, MembersRegions, Membership
 from django.contrib import admin
 

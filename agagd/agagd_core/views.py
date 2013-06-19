@@ -1,21 +1,13 @@
-# Create your views here.  
-
-from django.template import loader, RequestContext
-from django.shortcuts import render_to_response, render
-from django.core.urlresolvers import reverse
-from django.core.context_processors import csrf 
-from django.core import exceptions
-from django.views.generic import ListView
-
-from agagd_core.models import Games, Members, Tournaments, Ratings
-from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from agagd_core.json_response import JsonResponse
-
-from django.http import HttpResponseRedirect
-from django.db.models import Q
-from django_tables2   import RequestConfig
-
+from agagd_core.models import Games, Members, Tournaments
+from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from datetime import datetime, timedelta 
+from django.core import exceptions
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, render
+from django_tables2 import RequestConfig
 
 def index(request):
     game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
@@ -33,11 +25,9 @@ def index(request):
 def redirect_to_idx(request):
     return HttpResponseRedirect('/')
 
-
 #no idea what the right pattern is here; if the request has a member_id param, redirect
 #to the member_detail page with that value.  Otherwise, i guess we send them home?
 def member_fetch(request):
-    context = RequestContext(request)
     if request.method != 'POST':
         return HttpResponseRedirect('/')
 
@@ -162,4 +152,3 @@ def tournament_detail(request, tourn_code):
 
 def tournament_list(request):
     pass
-

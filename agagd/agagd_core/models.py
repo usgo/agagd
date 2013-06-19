@@ -42,6 +42,7 @@ class Chapter(models.Model):
         db_table = u'chapter'
 
 class Chapters(models.Model):
+    # TODO this is not member_id? seems more like a normal pk for ChapterInfo
     member_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
