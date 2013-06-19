@@ -29,7 +29,7 @@ $ cp local_settings.py.sample local_settings.py
 Edit your `local_settings.py` to match your database settings.  If you are using sqlite3, you don't need to change anything.
 
 ~~~
-$ python manage.py syncdb
+$ python manage.py syncdb --noinput
 $ # python manage.py loaddata NONEXISTENT_FIXTURE - TODO
 $ python manage.py runserver
 ~~~
