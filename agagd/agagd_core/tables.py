@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from agagd_core.models import Games, Members, Tournaments
+from agagd_core.models import Game, Member, Tournament
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
@@ -28,7 +28,7 @@ class GameTable(tables.Table):
             kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
 
     class Meta:
-        model = Games
+        model = Game
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("game_date", "round", "pin_player_1",
@@ -63,7 +63,7 @@ class MemberTable(tables.Table):
             kwargs={"member_id":tables.A('member_id')})
 
     class Meta:
-        model = Members
+        model = Member
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("full_name", "state", "chapter", "join_date")
@@ -76,7 +76,7 @@ class TournamentTable(tables.Table):
     elab_date = tables.Column(verbose_name="rated on")
 
     class Meta:
-        model = Tournaments
+        model = Tournament
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')

@@ -1,5 +1,5 @@
 from agagd_core.json_response import JsonResponse
-from agagd_core.models import Games, Members, Tournaments
+from agagd_core.models import Game, Member, Tournament
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from datetime import datetime, timedelta 
 from django.core import exceptions
@@ -10,10 +10,10 @@ from django.shortcuts import render_to_response, render
 from django_tables2 import RequestConfig
 
 def index(request):
-    game_list = Games.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
+    game_list = Game.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
     table = GameTable(game_list, prefix='games')
     RequestConfig(request).configure(table)
-    tourneys = Tournaments.objects.all().order_by('-tournament_date')
+    tourneys = Tournament.objects.all().order_by('-tournament_date')
     t_table= TournamentTable(tourneys, prefix="tourneys")
     RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
     return render(request, "agagd_core/index.html",
@@ -40,7 +40,7 @@ def member_fetch(request):
 def member_ratings(request, member_id):
     #returns a members rating data as a json dict for graphing
     try:
-        player = Members.objects.get(pk=member_id)
+        player = Member.objects.get(pk=member_id)
         ratings = player.ratings_set.all().order_by('elab_date')
         ratings_dict = [{'sigma': r.sigma,
                 'elab_date': r.elab_date,
@@ -51,13 +51,13 @@ def member_ratings(request, member_id):
         return JsonResponse({'result':'error'})
 
 def member_detail(request, member_id):
-    game_list = Games.objects.filter(
+    game_list = Game.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
             ).order_by('-game_date','round')
     table = GameTable(game_list, prefix="games")
     RequestConfig(request, paginate={"per_page": 20}).configure(table) 
 
-    player = Members.objects.get(member_id=member_id)
+    player = Member.objects.get(member_id=member_id)
     ratings = player.ratings_set.all().order_by('-elab_date')
     if len(ratings) > 0:
         max_rating = max([r.rating for r in ratings])
@@ -115,7 +115,7 @@ def member_detail(request, member_id):
             }) 
 
 def member_search(request):
-    queryset = Members.objects.all()
+    queryset = Member.objects.all()
     q = request.GET.get('q') 
     if q is not None and q != "" :
         print "filtering for %r" % q
@@ -128,7 +128,7 @@ def member_search(request):
             })
 
 def member_vs(request, member_id, other_id):
-    game_list = Games.objects.filter(
+    game_list = Game.objects.filter(
             Q(pin_player_1__exact=member_id, pin_player_2__exact=other_id) |
             Q(pin_player_1__exact=other_id, pin_player_2__exact=member_id),
             ).order_by('-game_date')
@@ -140,7 +140,7 @@ def member_vs(request, member_id, other_id):
             }) 
 
 def tournament_detail(request, tourn_code):
-    tourney = Tournaments.objects.get(pk=tourn_code)
+    tourney = Tournament.objects.get(pk=tourn_code)
     #members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
     game_table = GameTable(tourney.games_in_tourney.all())
     RequestConfig(request, paginate={"per_page": 20}).configure(game_table)

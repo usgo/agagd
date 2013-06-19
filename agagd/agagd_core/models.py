@@ -10,7 +10,7 @@
 from django.db import models
 
 
-class Members(models.Model): 
+class Member(models.Model): 
     class Meta:
         db_table = u'members'
         verbose_name = u'member'
@@ -78,7 +78,7 @@ class Country(models.Model):
     class Meta:
         db_table = u'country'
 
-class Tournaments(models.Model):
+class Tournament(models.Model):
     tournament_code = models.CharField(max_length=20, primary_key=True, db_column=u'Tournament_Code')
     description = models.TextField(db_column='Tournament_Descr')
     tournament_date = models.DateField(db_column=u'Tournament_Date')
@@ -105,15 +105,15 @@ class Tournaments(models.Model):
         verbose_name_plural = u'tournaments'
 
 
-class Games(models.Model):
+class Game(models.Model):
     game_id = models.IntegerField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
-    tournament_code = models.ForeignKey(Tournaments, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
+    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
     game_date = models.DateField(db_column=u'Game_Date') # x.
     round = models.TextField(db_column=u'Round') # x. This field type is a guess.
-    pin_player_1 = models.ForeignKey(Members, db_column=u'Pin_Player_1', related_name='games_as_p1')
+    pin_player_1 = models.ForeignKey(Member, db_column=u'Pin_Player_1', related_name='games_as_p1')
     color_1 = models.CharField(max_length=1, db_column=u'Color_1') # x.
     rank_1 = models.CharField(max_length=3, db_column=u'Rank_1') # x.
-    pin_player_2 = models.ForeignKey(Members, db_column=u'Pin_Player_2', related_name='games_as_p2') 
+    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2') 
     color_2 = models.CharField(max_length=1, db_column=u'Color_2') # x.
     rank_2 = models.CharField(max_length=3, db_column=u'Rank_2') # x.
     handicap = models.IntegerField(db_column=u'Handicap') # x. This field type is a guess.
@@ -151,9 +151,9 @@ class Games(models.Model):
     def won_by(self, p1):
         return self.winner() == p1
 
-class Ratings(models.Model): 
-    pin_player = models.ForeignKey(Members, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
-    tournament = models.ForeignKey(Tournaments, db_column=u'Tournament_Code', related_name='ratings_set')
+class Rating(models.Model): 
+    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
+    tournament = models.ForeignKey(Tournament, db_column=u'Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date')
