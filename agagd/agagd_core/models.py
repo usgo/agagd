@@ -106,13 +106,10 @@ class Tournament(models.Model):
 
 class Game(models.Model):
     game_id = models.AutoField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
-    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
     game_date = models.DateField(db_column=u'Game_Date') # x.
     round = models.TextField(db_column=u'Round') # x. This field type is a guess.
-    pin_player_1 = models.ForeignKey(Member, db_column=u'Pin_Player_1', related_name='games_as_p1')
     color_1 = models.CharField(max_length=1, db_column=u'Color_1') # x.
     rank_1 = models.CharField(max_length=3, db_column=u'Rank_1') # x.
-    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2') 
     color_2 = models.CharField(max_length=1, db_column=u'Color_2') # x.
     rank_2 = models.CharField(max_length=3, db_column=u'Rank_2') # x.
     handicap = models.IntegerField(db_column=u'Handicap') # x. This field type is a guess.
@@ -123,7 +120,11 @@ class Game(models.Model):
     exclude = models.TextField(db_column=u'Exclude', blank=True) # x. This field type is a guess.
     rated = models.TextField(db_column=u'Rated', blank=True) # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date') # x.
-    objects = models.Manager()
+
+    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
+    pin_player_1 = models.ForeignKey(Member, db_column=u'Pin_Player_1', related_name='games_as_p1')
+    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2') 
+
     class Meta:
         db_table = u'games'
         verbose_name = u'game'
