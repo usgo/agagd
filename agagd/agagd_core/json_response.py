@@ -1,6 +1,3 @@
-
-#!/bin/env python
-
 # taken from http://djangosnippets.org/snippets/154/
 # used with permission (http://djangosnippets.org/about/tos/)
 
