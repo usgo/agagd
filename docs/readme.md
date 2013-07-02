@@ -30,7 +30,7 @@ Edit your `local_settings.py` to match your database settings.  If you are using
 
 ~~~
 $ python manage.py syncdb --noinput
-$ # python manage.py loaddata NONEXISTENT_FIXTURE - TODO
+$ # python manage.py loaddata fake_data
 $ python manage.py runserver
 ~~~
 

@@ -159,7 +159,6 @@ class Rating(models.Model):
     elab_date = models.DateField(db_column=u'Elab_Date')
     class Meta:
         db_table = u'ratings'
-        managed = False
 
 class MembersRegions(models.Model):
     region_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
