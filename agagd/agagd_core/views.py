@@ -6,7 +6,7 @@ from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django_tables2 import RequestConfig
 
 def index(request):
@@ -122,7 +122,7 @@ def member_search(request):
         queryset = queryset.filter(full_name__icontains=q)
     member_table = MemberTable(queryset)
     RequestConfig(request, paginate={"per_page": 100}).configure(member_table)
-    return render_to_response('agagd_core/search_player.html',
+    return render(request, 'agagd_core/search_player.html',
             {
                 'member_table': member_table,
             })
@@ -134,7 +134,7 @@ def member_vs(request, member_id, other_id):
             ).order_by('-game_date')
     table = GameTable(game_list)
     RequestConfig(request, paginate={"per_page": 20}).configure(table)
-    return render_to_response('agagd_core/member.html',
+    return render(request, 'agagd_core/member.html',
             {
                 'table': table,
             }) 
@@ -144,7 +144,7 @@ def tournament_detail(request, tourn_code):
     #members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
     game_table = GameTable(tourney.games_in_tourney.all())
     RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
-    return render_to_response('agagd_core/tourney.html',
+    return render(request, 'agagd_core/tourney.html',
             {
                 'game_table': game_table,
                 'tournament': tourney,
