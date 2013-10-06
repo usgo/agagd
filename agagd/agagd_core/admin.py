@@ -1,5 +1,4 @@
-
-from agagd_core.models import Chapter, Chapters, CommentsAuthors, Country, Games, Members, MembersRegions, Membership
+from agagd_core.models import Chapter, Chapters, CommentsAuthors, Country, Game, Member, MembersRegions, Membership
 from django.contrib import admin
 
 class MemberAdmin(admin.ModelAdmin): 
@@ -9,7 +8,7 @@ admin.site.register(Chapter)
 admin.site.register(Chapters)
 admin.site.register(CommentsAuthors)
 admin.site.register(Country)
-admin.site.register(Games)
-admin.site.register(Members, MemberAdmin)
+admin.site.register(Game)
+admin.site.register(Member, MemberAdmin)
 admin.site.register(Membership)
 admin.site.register(MembersRegions)

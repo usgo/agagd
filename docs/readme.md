@@ -11,7 +11,9 @@ A port of the old eurogo Games Database to python, for the AGA
 
 ### Getting started
 
-The first step is to install `mysql` and create an `agagd` database.
+The first optional step is to install `mysql` and create an `agagd` database.
+
+The other option is to use sqlite3.  This option doesn't require you to do anything extra.
 
 Virtualenv and virtualenvwrapper are recommended.
 
@@ -24,11 +26,11 @@ $ cd agagd/
 $ cp local_settings.py.sample local_settings.py
 ~~~
 
-Edit your `local_settings.py` to match your database settings.
+Edit your `local_settings.py` to match your database settings.  If you are using sqlite3, you don't need to change anything.
 
 ~~~
-$ python manage.py syncdb
-$ # python manage.py loaddata NONEXISTENT_FIXTURE - TODO
+$ python manage.py syncdb --noinput
+$ # python manage.py loaddata fake_data
 $ python manage.py runserver
 ~~~
 
