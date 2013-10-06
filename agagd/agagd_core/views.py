@@ -1,7 +1,7 @@
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
-from datetime import datetime, timedelta 
+from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -98,10 +98,11 @@ def member_detail(request, member_id):
     opp_table.this_player = player
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
 
+    print tourney_data.values()
     t_table = TournamentPlayedTable(
-            sorted(tourney_data.values(), key=lambda d: d.get('date', datetime.today()), reverse=True), 
+            sorted(tourney_data.values(), key=lambda d: d.get('date', date.today()) or date.today(), reverse=True),
             prefix="ts_played")
-    RequestConfig(request, paginate={"per_page": 10}).configure(t_table) 
+    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
 
     return render(request, 'agagd_core/member.html',
             {
