@@ -98,7 +98,6 @@ def member_detail(request, member_id):
     opp_table.this_player = player
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
 
-    print tourney_data.values()
     t_table = TournamentPlayedTable(
             sorted(tourney_data.values(), key=lambda d: d.get('date', date.today()) or date.today(), reverse=True),
             prefix="ts_played")
