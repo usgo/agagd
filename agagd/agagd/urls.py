@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
-import agagd_core.views
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import RedirectView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin 
@@ -7,18 +8,17 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    (r'^$', 'agagd_core.views.index'),
-    (r'.php$', 'agagd_core.views.redirect_to_idx'),
-    (r'^member_fetch/$', 'agagd_core.views.member_fetch'),
-    (r'^player/$', 'agagd_core.views.member_search'), 
+    url(r'^$', 'agagd_core.views.index', name='index'),
+    url(r'.php$', RedirectView.as_view(url=reverse_lazy('index'))),
 
-    (r'^player/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail'),
-    (r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs'), 
+    url(r'^search/$', 'agagd_core.views.search', name='search'),
+    url(r'^player/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail'),
+    url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs'), 
 
-    (r'^ratings/(?P<member_id>\d+)/$', 'agagd_core.views.member_ratings'), 
+    url(r'^ratings/(?P<member_id>\d+)/$', 'agagd_core.views.member_ratings'), 
 
-    (r'^tournaments/$', 'agagd_core.views.tournament_list'),
-    (r'^tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),
+    url(r'^tournaments/$', 'agagd_core.views.tournament_list'),
+    url(r'^tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
