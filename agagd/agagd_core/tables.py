@@ -50,7 +50,6 @@ class OpponentTable(tables.Table):
     ratio = tables.Column(verbose_name="Rate", default=0, empty_values=(-1,), orderable=False)
 
     def render_ratio(self, record):
-        print float(record['won']) / record['total']
         return "%0.2f" % (float(record['won']) / record['total'])
 
     class Meta:

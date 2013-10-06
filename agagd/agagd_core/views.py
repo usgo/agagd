@@ -54,6 +54,8 @@ def member_ratings(request, member_id):
                 'elab_date': r.elab_date,
                 'rating': r.rating} for r in ratings]
         #return JsonResponse({'data':ratings_dict, 'result':'ok'}) 
+        if len(ratings_dict) <= 1: 
+            return JsonResponse({'result': 'error'})
         return JsonResponse(ratings_dict) 
     except:
         return JsonResponse({'result':'error'})
@@ -106,7 +108,6 @@ def member_detail(request, member_id):
     opp_table.this_player = player
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
 
-    print tourney_data.values()
     t_table = TournamentPlayedTable(
             sorted(tourney_data.values(), key=lambda d: d.get('date', date.today()) or date.today(), reverse=True),
             prefix="ts_played")
