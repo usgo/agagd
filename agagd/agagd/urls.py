@@ -12,8 +12,9 @@ urlpatterns = patterns('',
     url(r'.php$', RedirectView.as_view(url=reverse_lazy('index'))),
 
     url(r'^search/$', 'agagd_core.views.search', name='search'),
-    url(r'^player/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail'),
-    url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs'), 
+    url(r'^player/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail', name='member_detail'),
+    url(r'^player/(?P<member_id>\d+)/vs/$', 'agagd_core.views.find_member_vs', name='find_member_vs'), 
+    url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs', name='member_vs'), 
 
     url(r'^ratings/(?P<member_id>\d+)/$', 'agagd_core.views.member_ratings'), 
 

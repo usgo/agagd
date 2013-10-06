@@ -6,7 +6,8 @@ from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 from django_tables2 import RequestConfig
 
 def index(request):
@@ -122,16 +123,28 @@ def member_detail(request, member_id):
                 'tourneys': t_table
             })
 
+@require_POST
+def find_member_vs(request, member_id):
+    opponent = get_object_or_404(Member, member_id=request.POST.get('opponent_id', ''))
+    return HttpResponseRedirect(
+        reverse('member_vs', args=(member_id, opponent.member_id))
+    )
+    
+
 def member_vs(request, member_id, other_id):
+    player_1 = get_object_or_404(Member, member_id=member_id)
+    player_2 = get_object_or_404(Member, member_id=other_id)
     game_list = Game.objects.filter(
-            Q(pin_player_1__exact=member_id, pin_player_2__exact=other_id) |
-            Q(pin_player_1__exact=other_id, pin_player_2__exact=member_id),
+            Q(pin_player_1=player_1, pin_player_2=player_2) |
+            Q(pin_player_1=player_2, pin_player_2=player_1),
             ).order_by('-game_date')
     table = GameTable(game_list)
     RequestConfig(request, paginate={"per_page": 20}).configure(table)
-    return render(request, 'agagd_core/member.html',
+    return render(request, 'agagd_core/member_vs.html',
             {
                 'table': table,
+                'player_1': player_1,
+                'player_2': player_2,
             }) 
 
 def tournament_detail(request, tourn_code):
