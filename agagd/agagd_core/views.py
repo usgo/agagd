@@ -22,20 +22,27 @@ def index(request):
                 'tournaments': t_table,
             }) 
 
-def redirect_to_idx(request):
-    return HttpResponseRedirect('/')
-
-#no idea what the right pattern is here; if the request has a member_id param, redirect
-#to the member_detail page with that value.  Otherwise, i guess we send them home?
-def member_fetch(request):
-    if request.method != 'POST':
+def search(request):
+    query = request.GET.get('q','')
+    if query:
+        try:
+            member_id = int(query)
+            return HttpResponseRedirect(
+                reverse('agagd_core.views.member_detail', args=(member_id,))
+            )
+        except ValueError:
+            member_table = MemberTable(
+                Member.objects.filter(full_name__icontains=query).order_by('family_name')
+            )
+            RequestConfig(request, paginate={"per_page": 100}).configure(member_table)
+            return render(request, 'agagd_core/search_player.html',
+                {
+                    'member_table': member_table,
+                    'query': query,
+                }
+            )
+    else:
         return HttpResponseRedirect('/')
-
-    if 'member_id' in request.POST:
-        return HttpResponseRedirect(
-                    reverse('agagd_core.views.member_detail',
-                    args=(request.POST['member_id'],))
-                    )
 
 def member_ratings(request, member_id):
     #returns a members rating data as a json dict for graphing
@@ -112,19 +119,6 @@ def member_detail(request, member_id):
                 'num_games': len(game_list),
                 'opponents': opp_table,
                 'tourneys': t_table
-            }) 
-
-def member_search(request):
-    queryset = Member.objects.all()
-    q = request.GET.get('q') 
-    if q is not None and q != "" :
-        print "filtering for %r" % q
-        queryset = queryset.filter(full_name__icontains=q)
-    member_table = MemberTable(queryset)
-    RequestConfig(request, paginate={"per_page": 100}).configure(member_table)
-    return render(request, 'agagd_core/search_player.html',
-            {
-                'member_table': member_table,
             })
 
 def member_vs(request, member_id, other_id):
