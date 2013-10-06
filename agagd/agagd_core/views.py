@@ -53,6 +53,8 @@ def member_ratings(request, member_id):
                 'elab_date': r.elab_date,
                 'rating': r.rating} for r in ratings]
         #return JsonResponse({'data':ratings_dict, 'result':'ok'}) 
+        if len(ratings_dict) <= 1: 
+            return JsonResponse({'result': 'error'})
         return JsonResponse(ratings_dict) 
     except:
         return JsonResponse({'result':'error'})
