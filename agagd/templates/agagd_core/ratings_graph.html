@@ -51,7 +51,7 @@ var svg = d3.select("#ratings_graph").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("{%url agagd_core.views.member_ratings player.member_id %}", function(error, data) {
+d3.json("{% url "agagd_core.views.member_ratings player.member_id" %}", function(error, data) {
   data.forEach(function(d) {
     d.elab_date = parseDate(d.elab_date);
     d.rating = d.rating;

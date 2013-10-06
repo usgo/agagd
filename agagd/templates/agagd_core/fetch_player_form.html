@@ -1,5 +1,5 @@
 
-<form display="inline" action="{% url agagd_core.views.member_fetch%}" method="post">
+<form display="inline" action="{% url "agagd_core.views.member_fetch" %}" method="post">
   {% csrf_token %}
   Find games for player ID #<input type="textarea" name="member_id">
   <input type="submit" value="Find">
