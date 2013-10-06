@@ -32,7 +32,7 @@ class GameTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("game_date", "round", "pin_player_1",
-                "pin_player_2", 'handicap', 'tournament_code')
+                "pin_player_2", 'handicap', 'komi', 'tournament_code')
         sequence = fields
 
 class OpponentTable(tables.Table):
