@@ -99,7 +99,7 @@ def member_detail(request, member_id):
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
 
     t_table = TournamentPlayedTable(
-            sorted(tourney_data.values(), key=lambda d: d['date'], reverse=True), 
+            sorted(tourney_data.values(), key=lambda d: d.get('date', datetime.date.today()), reverse=True), 
             prefix="ts_played")
     RequestConfig(request, paginate={"per_page": 10}).configure(t_table) 
 
