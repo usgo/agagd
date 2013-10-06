@@ -5,6 +5,8 @@ USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [nu
 GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
 
+import datetime as dt
+
 if len(sys.argv) != 4:
     print USAGE
     quit()
@@ -65,6 +67,7 @@ games = []
 for game_id in range(game_count):
     p1 = random.choice(members)['pk']
     p2 = random.choice(filter(lambda m: m['pk'] != p1, members))['pk']
+    date = dt.date.today() - dt.timedelta(days = random.randint(2,20))
     games.append({
         'pk': game_id,
         'model': 'agagd_core.game',
@@ -72,7 +75,7 @@ for game_id in range(game_count):
             'pin_player_2': p2,
             'tournament_code': random.choice(tournaments)['pk'],
             'rated': '',
-            'elab_date': '2013-07-01',
+            'elab_date': date.strftime("%Y-%m-%d"),
             'handicap': random.randint(0, 2),
             'online': '',
             'color_2': '',
@@ -82,7 +85,7 @@ for game_id in range(game_count):
             'rank_1': '',
             'result': '',
             'rank_2': '',
-            'game_date': '2013-07-01',
+            'game_date': date.strftime("%Y-%m-%d"),
             'exclude': '',
             'round': '',
             'color_1': ''
