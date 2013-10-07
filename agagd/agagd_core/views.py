@@ -53,7 +53,6 @@ def member_ratings(request, member_id):
         ratings_dict = [{'sigma': r.sigma,
                 'elab_date': r.elab_date,
                 'rating': r.rating} for r in ratings]
-        #return JsonResponse({'data':ratings_dict, 'result':'ok'}) 
         if len(ratings_dict) <= 1: 
             return JsonResponse({'result': 'error'})
         return JsonResponse(ratings_dict) 
@@ -130,7 +129,6 @@ def find_member_vs(request, member_id):
     return HttpResponseRedirect(
         reverse('member_vs', args=(member_id, opponent.member_id))
     )
-    
 
 def member_vs(request, member_id, other_id):
     player_1 = get_object_or_404(Member, member_id=member_id)
@@ -150,7 +148,6 @@ def member_vs(request, member_id, other_id):
 
 def tournament_detail(request, tourn_code):
     tourney = Tournament.objects.get(pk=tourn_code)
-    #members = set([game.pin_player_1 for game in games] + [game.pin_player_2 for game in games])
     game_table = GameTable(tourney.games_in_tourney.all())
     RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
     return render(request, 'agagd_core/tourney.html',

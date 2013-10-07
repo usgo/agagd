@@ -20,9 +20,6 @@ urlpatterns = patterns('',
 
     url(r'^tournaments/$', 'agagd_core.views.tournament_list'),
     url(r'^tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 )
 
 from django.conf import settings
