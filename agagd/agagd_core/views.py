@@ -4,7 +4,7 @@ from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentT
 from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.urlresolvers import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django_tables2 import RequestConfig
@@ -148,3 +148,10 @@ def tournament_detail(request, tourn_code):
 
 def tournament_list(request):
     pass
+
+def game_stats(request):
+    games_by_date = [{'date': obj['game_date'],
+            'count': obj['game_date__count']} 
+            for obj in 
+            Game.objects.values('game_date').annotate(Count('game_date'))]
+    return JsonResponse(games_by_date) 
