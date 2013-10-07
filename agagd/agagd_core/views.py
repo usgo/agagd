@@ -165,4 +165,5 @@ def game_stats(request):
             for obj in 
             Game.objects.values('game_date').annotate(Count('game_date')) 
             if obj['game_date'] != None]
+    games_by_date = sorted(games_by_date, key=lambda d: d['date'])
     return JsonResponse(games_by_date) 
