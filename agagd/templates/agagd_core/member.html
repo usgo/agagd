@@ -4,7 +4,7 @@
 {% load render_table from django_tables2 %}
 
 {% block title %} Player card for {{player.full_name}} {% endblock %} 
-{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+{% block stylesheets %} {{ block.super }} {% endblock %}
 {% block header %} 
 {% endblock %}
 
@@ -16,12 +16,15 @@
 <dl>
   <dt> Rating: </dt> <dd> {{ rating.rating }} </dd>
   <dt> Sigma: </dt> <dd> {{ rating.sigma }} </dd>
-  <dt> Last Rated at: </dt> <dd> {{ rating.elab_date }} </dd>
-  <dt> Last tournament: </dt> <dd> {{ rating.tournament }} </dd>
-  <dt> HighestRating: </dt> <dd> {{ max_rating }} </dd>
+  <dt> Last Rated At: </dt> <dd> {{ rating.elab_date }} </dd>
+  <dt> Last Tournament: </dt> <dd> {{ rating.tournament }} </dd>
+  <dt> Highest Rating: </dt> <dd> {{ max_rating }} </dd>
 </dl>
 <div style="clear: both;"></div>
-<p> Find matchups of {{player.full_name}} against AGA ID# ________
+<form method="post" action="{% url "find_member_vs" player.member_id %}">
+    {% csrf_token %}
+    <p> Find matchups of {{player.full_name}} against AGA ID# <input name="opponent_id" type="text"/>
+</form>
 <p> {{ player.full_name }} has {{num_games}} games in the AGAGD:</p> 
   {% if table %}
   <p>
