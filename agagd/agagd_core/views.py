@@ -163,5 +163,6 @@ def game_stats(request):
     games_by_date = [{'date': obj['game_date'],
             'count': obj['game_date__count']} 
             for obj in 
-            Game.objects.values('game_date').annotate(Count('game_date'))]
+            Game.objects.values('game_date').annotate(Count('game_date')) 
+            if obj['game_date'] != None]
     return JsonResponse(games_by_date) 
