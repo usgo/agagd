@@ -9,9 +9,9 @@
 {{ block.super }} 
 
   {% if chapter.name %}
-  <h2> Chapter: {{ chapter.name }} - {{ chapter.tournament_code }} </h2>
+  <h2> Chapter: {{ chapter.name }} - {{ chapter.code }} </h2>
   {% else %}
-  <h2> Chapter: {{ chapter.tournament_code }} </h2> 
+  <h2> Chapter: {{ chapter.code }} </h2> 
   {% endif %}
 <dl>
   <dt> City: </dt> <dd> {{ chapter.meeting_city }} </dd>
@@ -25,15 +25,10 @@
   {% if chapter.meeting_text %}
   <dt> Meets at: </dt> <dd> {{ chapter.meeting_text  }} </dd>
   {% endif %}
-  <dt> Highest Rating: </dt> <dd> {{ max_rating }} </dd>
   {% if chapter.url %}
   <dt> Website: </dt> <dd> <a href="{{chapter.url}}">{{ chapter.url }}</a> </dd>
   {% endif %}
 </dl>
-
-  <p> Held {{ chapter.tournament_date }}, there were {{ chapter.total_players }} players in {{ chapter.rounds }} rounds </p>
-<h3> Recreated Wall List </h3>
-  <pre> {{ chapter.wall_list }} </pre>
 
 <h3> Members </h3> 
   {% render_table member_table %}
