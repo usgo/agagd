@@ -60,12 +60,15 @@ class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
             'agagd_core.views.member_detail',
             kwargs={"member_id":tables.A('member_id')})
+    chapter  = tables.LinkColumn(
+        'agagd_core.views.chapter_detail',
+        kwargs={"chapter_code": tables.A('chapter')})
 
     class Meta:
         model = Member
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("full_name", "state", "chapter", "join_date")
+        fields = ("full_name", "state", "join_date")
         sequence = fields
 
 class TournamentTable(tables.Table):

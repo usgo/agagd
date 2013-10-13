@@ -156,6 +156,16 @@ def tournament_detail(request, tourn_code):
                 'tournament': tourney,
             }) 
 
+def chapter_detail(request, chapter_code):
+    chapter = Chapters.objects.get(code=chapter_id)
+    member_table = MemberTable(Member.objects.filter(chapter=chapter_code).order_by('family_name') )
+    return render(request, 'agagd_core/chapter.html',
+            {
+                'member_table': member_table,
+                'chapter': chapter,
+            }) 
+
+    
 def tournament_list(request):
     pass
 

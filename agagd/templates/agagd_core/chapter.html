@@ -1,0 +1,41 @@
+
+{% extends "base.html" %} 
+{% load staticfiles %} 
+{% load render_table from django_tables2 %}
+
+{% block title %} Chapter Detail for ...  {% endblock %} 
+{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+{% block content %} 
+{{ block.super }} 
+
+  {% if chapter.name %}
+  <h2> Chapter: {{ chapter.name }} - {{ chapter.tournament_code }} </h2>
+  {% else %}
+  <h2> Chapter: {{ chapter.tournament_code }} </h2> 
+  {% endif %}
+<dl>
+  <dt> City: </dt> <dd> {{ chapter.meeting_city }} </dd>
+  {% if chapter.contact_text %}
+  <dt> Contact Info: </dt> <dd> {{ chapter.contact_text }} </dd>
+  {% else if chapter.contact %}
+  <dt> Contact Info: </dt> <dd> {{ chapter.contact}} </dd>
+  {% else %}
+  <dt> Contact Info: </dt> <dd> (No contact information) </dd>
+  {% endif %}
+  {% if chapter.meeting_text %}
+  <dt> Meets at: </dt> <dd> {{ chapter.meeting_text  }} </dd>
+  {% endif %}
+  <dt> Highest Rating: </dt> <dd> {{ max_rating }} </dd>
+  {% if chapter.url %}
+  <dt> Website: </dt> <dd> <a href="{{chapter.url}}">{{ chapter.url }}</a> </dd>
+  {% endif %}
+</dl>
+
+  <p> Held {{ chapter.tournament_date }}, there were {{ chapter.total_players }} players in {{ chapter.rounds }} rounds </p>
+<h3> Recreated Wall List </h3>
+  <pre> {{ chapter.wall_list }} </pre>
+
+<h3> Members </h3> 
+  {% render_table member_table %}
+
+{% endblock %}
