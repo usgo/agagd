@@ -166,10 +166,11 @@ def tournament_list(request):
 
     if details:
         for search_token in details.split():
+            query = search_token.lower()
             tourneys = tourneys.filter(
-                Q(description__icontains=search_token) |
-                Q(city__icontains=search_token) |
-                Q(state__icontains=search_token)
+                Q(description__icontains=query) |
+                Q(city__icontains=query) |
+                Q(state__icontains=query)
             )
 
     if from_date:
