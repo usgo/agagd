@@ -5,3 +5,4 @@
 *.db
 agagd/agagdbak/*
 local_settings.py
+.DS_Store
