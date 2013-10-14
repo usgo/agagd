@@ -37,7 +37,7 @@ for member_id in range(member_count):
             'city': 'Seattle',
             'state': 'WA',
             'region': 'some region',
-            'country': 'some country',
+            'country': random.choice(['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN']),
             'chapter': random.choice(CHAPTER_CODES),
             'chapter_id': 'MAYBE_FK',
             'occupation': '',

@@ -67,8 +67,8 @@ class MemberTable(tables.Table):
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
-        fields = ("full_name", "state", "join_date")
-        sequence = fields
+        fields = ('full_name', 'state', 'join_date', 'country')
+        sequence = ('full_name', 'chapter', 'country', 'state', 'join_date', 'member_id')
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
