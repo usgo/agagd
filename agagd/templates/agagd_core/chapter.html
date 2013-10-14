@@ -15,18 +15,21 @@
   {% endif %}
 <dl>
   <dt> City: </dt> <dd> {{ chapter.meeting_city }} </dd>
+
   {% if chapter.contact_text %}
-  <dt> Contact Info: </dt> <dd> {{ chapter.contact_text }} </dd>
-  {% else if chapter.contact %}
-  <dt> Contact Info: </dt> <dd> {{ chapter.contact}} </dd>
+      <dt> Contact Info: </dt> <dd> {{ chapter.contact_text }} </dd>
+  {% elif chapter.contact %}
+      <dt> Contact Info: </dt> <dd> {{ chapter.contact}} </dd>
   {% else %}
-  <dt> Contact Info: </dt> <dd> (No contact information) </dd>
+      <dt> Contact Info: </dt> <dd> (No contact information) </dd>
   {% endif %}
+
   {% if chapter.meeting_text %}
-  <dt> Meets at: </dt> <dd> {{ chapter.meeting_text  }} </dd>
+      <dt> Meets at: </dt> <dd> {{ chapter.meeting_text  }} </dd>
   {% endif %}
+
   {% if chapter.url %}
-  <dt> Website: </dt> <dd> <a href="{{chapter.url}}">{{ chapter.url }}</a> </dd>
+      <dt> Website: </dt> <dd> <a href="{{chapter.url}}">{{ chapter.url }}</a> </dd>
   {% endif %}
 </dl>
 

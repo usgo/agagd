@@ -4,6 +4,7 @@ import sys, random, json
 USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [num_of_tournaments]'
 GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
+CHAPTER_CODES = ['FFLY', 'NBAG', 'DEAD', 'BEEF']
 
 import datetime as dt
 
@@ -37,7 +38,7 @@ for member_id in range(member_count):
             'state': 'WA',
             'region': 'some region',
             'country': 'some country',
-            'chapter': 'some chapter',
+            'chapter': random.choice(CHAPTER_CODES),
             'chapter_id': 'MAYBE_FK',
             'occupation': '',
             'citizen': 'yes',
@@ -92,4 +93,20 @@ for game_id in range(game_count):
         }
     })
 
-print json.dumps(members + tournaments + games, indent=4)
+chapters = [] 
+for i, chap_code in enumerate(CHAPTER_CODES):
+    chapters.append({
+        'pk': i,
+        'model': 'agagd_core.chapters',
+        'fields': {
+            'member_id': i,
+            'code': chap_code,
+            'name': random.choice(['Firefly Go Club', 'NBA Go Club', 'some other club']),
+            'contact_text': random.choice(['Some contact info would go here.', '']),
+            'contact': 'Some guy',
+            'meeting_city': 'Seattle',
+            'url': 'www.localhost-is-best-host.com',
+        }
+    }) 
+
+print json.dumps(members + tournaments + games + chapters, indent=4)

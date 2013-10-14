@@ -1,5 +1,5 @@
 from agagd_core.json_response import JsonResponse
-from agagd_core.models import Game, Member, Tournament
+from agagd_core.models import Game, Member, Tournament, Chapters
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from datetime import datetime, timedelta, date
 from django.core import exceptions
@@ -157,14 +157,13 @@ def tournament_detail(request, tourn_code):
             }) 
 
 def chapter_detail(request, chapter_code):
-    chapter = Chapters.objects.get(code=chapter_id)
+    chapter = Chapters.objects.get(code=chapter_code)
     member_table = MemberTable(Member.objects.filter(chapter=chapter_code).order_by('family_name') )
     return render(request, 'agagd_core/chapter.html',
             {
                 'member_table': member_table,
                 'chapter': chapter,
-            }) 
-
+            })
     
 def tournament_list(request):
     pass
