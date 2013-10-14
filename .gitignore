@@ -7,3 +7,4 @@ agagd/agagdbak/*
 local_settings.py
 schema.sql
 agagd_core/fixtures/fake_data.json
+.DS_Store

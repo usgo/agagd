@@ -186,3 +186,7 @@ a:hover {
     stroke: none;
     fill-opacity: .1;
 }
+
+div.ui-datepicker{
+ font-size:10px;
+}

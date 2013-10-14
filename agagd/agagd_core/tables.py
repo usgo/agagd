@@ -66,7 +66,6 @@ class MemberTable(tables.Table):
 
     class Meta:
         model = Member
-        # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("full_name", "state", "join_date")
         sequence = fields
@@ -79,7 +78,6 @@ class TournamentTable(tables.Table):
 
     class Meta:
         model = Tournament
-        # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
         fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
 def index(request):
@@ -15,14 +15,15 @@ def index(request):
     table = GameTable(game_list, prefix='games')
     RequestConfig(request).configure(table)
     tourneys = Tournament.objects.all().order_by('-tournament_date')
-    t_table= TournamentTable(tourneys, prefix="tourneys")
-    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
-    return render(request, "agagd_core/index.html",
+    t_table= TournamentTable(tourneys, prefix='tourneys')
+    RequestConfig(request, paginate={'per_page': 10}).configure(t_table)
+    return render(request, 'agagd_core/index.html',
             {
                 'table': table,
                 'tournaments': t_table,
             }) 
 
+@require_GET
 def search(request):
     query = request.GET.get('q','')
     if query:
@@ -35,7 +36,7 @@ def search(request):
             member_table = MemberTable(
                 Member.objects.filter(full_name__icontains=query).order_by('family_name')
             )
-            RequestConfig(request, paginate={"per_page": 100}).configure(member_table)
+            RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
             return render(request, 'agagd_core/search_player.html',
                 {
                     'member_table': member_table,
@@ -63,8 +64,8 @@ def member_detail(request, member_id):
     game_list = Game.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
             ).order_by('-game_date','round')
-    table = GameTable(game_list, prefix="games")
-    RequestConfig(request, paginate={"per_page": 20}).configure(table) 
+    table = GameTable(game_list, prefix='games')
+    RequestConfig(request, paginate={'per_page': 20}).configure(table) 
 
     player = Member.objects.get(member_id=member_id)
     ratings = player.ratings_set.all().order_by('-elab_date')
@@ -101,16 +102,16 @@ def member_detail(request, member_id):
             opponent_data[op] = opp_dat
             tourney_data[game.tournament_code.pk] = t_dat
         except exceptions.ObjectDoesNotExist:
-            print "failing game_id: %s" % game.pk 
+            print 'failing game_id: %s' % game.pk 
 
-    opp_table = OpponentTable(opponent_data.values(), player, prefix="opp")
+    opp_table = OpponentTable(opponent_data.values(), player, prefix='opp')
     opp_table.this_player = player
-    RequestConfig(request, paginate={"per_page": 10}).configure(opp_table) 
+    RequestConfig(request, paginate={'per_page': 10}).configure(opp_table) 
 
     t_table = TournamentPlayedTable(
             sorted(tourney_data.values(), key=lambda d: d.get('date', date.today()) or date.today(), reverse=True),
-            prefix="ts_played")
-    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
+            prefix='ts_played')
+    RequestConfig(request, paginate={'per_page': 10}).configure(t_table)
 
     return render(request, 'agagd_core/member.html',
             {
@@ -138,7 +139,7 @@ def member_vs(request, member_id, other_id):
             Q(pin_player_1=player_2, pin_player_2=player_1),
             ).order_by('-game_date')
     table = GameTable(game_list)
-    RequestConfig(request, paginate={"per_page": 20}).configure(table)
+    RequestConfig(request, paginate={'per_page': 20}).configure(table)
     return render(request, 'agagd_core/member_vs.html',
             {
                 'table': table,
@@ -149,7 +150,7 @@ def member_vs(request, member_id, other_id):
 def tournament_detail(request, tourn_code):
     tourney = Tournament.objects.get(pk=tourn_code)
     game_table = GameTable(tourney.games_in_tourney.all())
-    RequestConfig(request, paginate={"per_page": 20}).configure(game_table)
+    RequestConfig(request, paginate={'per_page': 20}).configure(game_table)
     return render(request, 'agagd_core/tourney.html',
             {
                 'game_table': game_table,
@@ -165,8 +166,37 @@ def chapter_detail(request, chapter_code):
                 'chapter': chapter,
             })
     
+@require_GET
 def tournament_list(request):
-    pass
+    tourneys = Tournament.objects.order_by('-tournament_date')
+    details = request.GET.get('details', '')
+    from_date = request.GET.get('from_date', '')
+    to_date = request.GET.get('to_date', '')
+
+    if details:
+        for search_token in details.split():
+            query = search_token.lower()
+            tourneys = tourneys.filter(
+                Q(description__icontains=query) |
+                Q(city__icontains=query) |
+                Q(state__icontains=query)
+            )
+
+    if from_date:
+        tourneys = tourneys.filter(tournament_date__gte=datetime.strptime(from_date, '%m/%d/%Y'))
+
+    if to_date:
+        tourneys = tourneys.filter(tournament_date__lte=datetime.strptime(to_date, '%m/%d/%Y'))
+
+    tournament_table = TournamentTable(tourneys)
+    RequestConfig(request, paginate={'per_page': 50}).configure(tournament_table)
+
+    return render(request, 'agagd_core/tournament_list.html', {
+        'details': details,
+        'from_date': from_date,
+        'to_date': to_date,
+        'tournament_table': tournament_table,
+    })
 
 def game_stats(request):
     games_by_date = [{'date': obj['game_date'],

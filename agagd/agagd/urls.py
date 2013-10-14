@@ -1,13 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin 
-admin.autodiscover()
-
 urlpatterns = patterns('',
-
     url(r'^$', 'agagd_core.views.index', name='index'),
     url(r'.php$', RedirectView.as_view(url=reverse_lazy('index'))),
 
@@ -20,13 +15,6 @@ urlpatterns = patterns('',
     url(r'^ratings/(?P<member_id>\d+)/$', 'agagd_core.views.member_ratings'), 
     url(r'^gamestats/$', 'agagd_core.views.game_stats'), 
 
-    url(r'^tournaments/$', 'agagd_core.views.tournament_list'),
+    url(r'^tournaments/$', 'agagd_core.views.tournament_list', name='tourney_list'),
     url(r'^tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),
 )
-
-from django.conf import settings
-if settings.ADMIN_ENABLED:
-    urlpatterns += patterns(
-        url(r'^admin/', include(admin.site.urls)),
-        )
-

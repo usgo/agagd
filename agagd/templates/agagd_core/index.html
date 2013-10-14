@@ -10,9 +10,12 @@
 <p>
   {% include "agagd_core/fetch_player_form.html" %}
 </p>
+<p>
+  <a href="{% url "tourney_list" %}">Search tournaments</a>
+</p>
 <h2> Games Recorded Per Day </h2>
 {% include "agagd_core/game_count_graph.html" %}
-<h2> Recent Tournaments </h2>
+<h2> <a href="{% url "tourney_list" %}">Tournaments</a> </h2>
 {% if tournaments %}
   {% render_table tournaments %}
 {% else %}
