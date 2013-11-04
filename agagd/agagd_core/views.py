@@ -172,12 +172,12 @@ def chapter_detail(request, chapter_code):
                 'chapter': chapter,
             })
 
-def country_detail(request, country_code):
-    country = Country.objects.get(country_code=country_code)
+def country_detail(request, country_name):
+    country = Country.objects.get(country_descr=country_name)
     if not country:
         return HttpResponseRedirect('/')
 
-    member_table = MemberTable(Member.objects.filter(country=country_code).order_by('family_name') )
+    member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
     return render(request, 'agagd_core/country.html',
             {
                 'member_table': member_table,

@@ -5,7 +5,8 @@ USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [nu
 GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
 CHAPTER_CODES = ['FFLY', 'NBAG', 'DEAD', 'BEEF']
-COUNTRY_CODES = ['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN']
+COUNTRY_CODES = ['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN'] #these, oddly, are not the FK in the member table.
+COUNTRY_NAMES = ['An awesome country', 'A cool country', 'America\'s finest hat', 'Canada\'s Indignity']
 import datetime as dt
 
 if len(sys.argv) != 4:
@@ -37,7 +38,7 @@ for member_id in range(member_count):
             'city': 'Seattle',
             'state': 'WA',
             'region': 'some region',
-            'country': random.choice(COUNTRY_CODES),
+            'country': random.choice(COUNTRY_NAMES),
             'chapter': random.choice(CHAPTER_CODES),
             'chapter_id': 'MAYBE_FK',
             'occupation': '',
@@ -110,12 +111,12 @@ for i, chap_code in enumerate(CHAPTER_CODES):
     }) 
 
 countries = []
-for i, count_code in enumerate(COUNTRY_CODES): 
+for i, count_code in enumerate(COUNTRY_NAMES): 
     countries.append({
         'pk': i,
         'model': 'agagd_core.country',
         'fields': {
-            'country_code': count_code,
+            'country_code': random.choice(COUNTRY_CODES),
             'country_descr': random.choice(['An awesome country', 'A cool country', 'America\'s finest hat', 'Canada\'s Indignity']),
         }
     }) 
