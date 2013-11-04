@@ -61,6 +61,12 @@ def member_ratings(request, member_id):
         return JsonResponse({'result':'error'})
 
 def member_detail(request, member_id):
+    """
+    The member detail page.
+    Fetches the most recent games played and puts them in a Games Table.
+    Fetches the list of ratings and puts them in a format for graphing.
+    Computes the tournament data and opponent data for respective tables.
+    """
     game_list = Game.objects.filter(
             Q(pin_player_1__exact=member_id) | Q(pin_player_2__exact=member_id)
             ).order_by('-game_date','round')
