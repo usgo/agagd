@@ -1,5 +1,5 @@
 from agagd_core.json_response import JsonResponse
-from agagd_core.models import Game, Member, Tournament, Chapters
+from agagd_core.models import Game, Member, Tournament, Chapters, Country
 from agagd_core.tables import GameTable, MemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from datetime import datetime, timedelta, date
 from django.core import exceptions
@@ -170,6 +170,18 @@ def chapter_detail(request, chapter_code):
             {
                 'member_table': member_table,
                 'chapter': chapter,
+            })
+
+def country_detail(request, country_code):
+    country = Country.objects.get(country_code=country_code)
+    if not country:
+        return HttpResponseRedirect('/')
+
+    member_table = MemberTable(Member.objects.filter(country=country_code).order_by('family_name') )
+    return render(request, 'agagd_core/country.html',
+            {
+                'member_table': member_table,
+                'country': country,
             })
     
 @require_GET

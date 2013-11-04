@@ -5,7 +5,7 @@ USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [nu
 GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
 CHAPTER_CODES = ['FFLY', 'NBAG', 'DEAD', 'BEEF']
-
+COUNTRY_CODES = ['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN']
 import datetime as dt
 
 if len(sys.argv) != 4:
@@ -37,7 +37,7 @@ for member_id in range(member_count):
             'city': 'Seattle',
             'state': 'WA',
             'region': 'some region',
-            'country': random.choice(['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN']),
+            'country': random.choice(COUNTRY_CODES),
             'chapter': random.choice(CHAPTER_CODES),
             'chapter_id': 'MAYBE_FK',
             'occupation': '',
@@ -109,4 +109,15 @@ for i, chap_code in enumerate(CHAPTER_CODES):
         }
     }) 
 
-print json.dumps(members + tournaments + games + chapters, indent=4)
+countries = []
+for i, count_code in enumerate(COUNTRY_CODES): 
+    countries.append({
+        'pk': i,
+        'model': 'agagd_core.country',
+        'fields': {
+            'country_code': count_code,
+            'country_descr': random.choice(['An awesome country', 'A cool country', 'America\'s finest hat', 'Canada\'s Indignity']),
+        }
+    }) 
+
+print json.dumps(members + tournaments + games + chapters + countries, indent=4)
