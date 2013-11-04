@@ -6,7 +6,7 @@ GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
 CHAPTER_CODES = ['FFLY', 'NBAG', 'DEAD', 'BEEF']
 COUNTRY_CODES = ['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN'] #these, oddly, are not the FK in the member table.
-COUNTRY_NAMES = ['An awesome country', 'A cool country', 'America\'s finest hat', 'Canada\'s Indignity']
+COUNTRY_NAMES = ['An awesome country', 'A cool country', 'Canada', 'United States of Awesome', 'Donnybrookistan']
 import datetime as dt
 
 if len(sys.argv) != 4:
@@ -111,13 +111,13 @@ for i, chap_code in enumerate(CHAPTER_CODES):
     }) 
 
 countries = []
-for i, count_code in enumerate(COUNTRY_NAMES): 
+for i, count_name in enumerate(COUNTRY_NAMES): 
     countries.append({
         'pk': i,
         'model': 'agagd_core.country',
         'fields': {
             'country_code': random.choice(COUNTRY_CODES),
-            'country_descr': random.choice(['An awesome country', 'A cool country', 'America\'s finest hat', 'Canada\'s Indignity']),
+            'country_descr': count_name,
         }
     }) 
 

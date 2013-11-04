@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^search/$', 'agagd_core.views.search', name='search'),
     url(r'^player/(?P<member_id>\d+)/$', 'agagd_core.views.member_detail', name='member_detail'),
     url(r'^chapter/(?P<chapter_code>\w+)/$', 'agagd_core.views.chapter_detail', name='chapter_detail'),
-    url(r'^country/(?P<country_name>\w+)/$', 'agagd_core.views.country_detail', name='country_detail'),
+    url(r'^country/(?P<country_name>[\w ]+)/$', 'agagd_core.views.country_detail', name='country_detail'),
     url(r'^player/(?P<member_id>\d+)/vs/$', 'agagd_core.views.find_member_vs', name='find_member_vs'), 
     url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', 'agagd_core.views.member_vs', name='member_vs'), 
 
