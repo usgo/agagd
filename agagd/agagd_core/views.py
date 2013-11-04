@@ -175,10 +175,7 @@ def chapter_detail(request, chapter_code):
 def country_detail(request, country_name):
     member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
     return render(request, 'agagd_core/country.html',
-            {
-                'member_table': member_table,
-                'country': country,
-            })
+            { 'member_table': member_table, })
     
 @require_GET
 def tournament_list(request):
