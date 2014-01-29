@@ -5,13 +5,13 @@
     <title> {% block title %} AGA Games Database {% endblock title %}
     </title>
     {% block stylesheets %}
-        <link rel="stylesheet" type="text/css" href="{% static "jquery/css/redmond/jquery-ui-1.10.3.custom.min.css" %}">
-        <link rel="stylesheet" type="text/css" href="{% static "agagd.css" %}">
-        <link rel="stylesheet" type="text/css" href="{% static "tables.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "lib/jquery-ui/css/redmond/jquery-ui-1.10.3.custom.min.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/agagd.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/tables.css" %}">
     {% endblock stylesheets %}
     {% block js_includes %}
-        <script src={% static "jquery/js/jquery-2.0.3.min.js" %}></script>
-        <script src={% static "jquery/js/jquery-ui-1.10.3.custom.min.js" %}></script>
+        <script src={% static "lib/jquery-2.1.0.min.js" %}></script>
+        <script src={% static "lib/jquery-ui/js/jquery-ui-1.10.3.custom.min.js" %}></script>
     {% endblock %}
     </head>
   <body> 
