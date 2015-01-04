@@ -118,10 +118,7 @@ table.paleblue > tbody > tr > td > span.false {
     width: 10px;
 }
 
-table.paleblue > tbody > tr.even > td.winner {
-    background-color: #DDF3DE;
-}
-table.paleblue > tbody > tr.odd > td.winner {
+table.paleblue > tbody > tr > td.winner {
     background-color: #CDF3CE;
 }
 
