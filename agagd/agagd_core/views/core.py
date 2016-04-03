@@ -10,6 +10,10 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
+import logging
+
+logger = logging.getLogger('agagd.core.views')
+
 def index(request):
     game_list = Game.objects.filter(game_date__gte=datetime.now() - timedelta(days=180)).order_by('-game_date')
     table = GameTable(game_list, prefix='games')
@@ -51,13 +55,17 @@ def member_ratings(request, member_id):
     try:
         player = Member.objects.get(pk=member_id)
         ratings = player.ratings_set.all().order_by('elab_date')
-        ratings_dict = [{'sigma': r.sigma,
-                'elab_date': r.elab_date,
-                'rating': r.rating} for r in ratings]
+        ratings_dict = [
+            {'sigma': r.sigma,
+             'elab_date': r.elab_date,
+             'rating': r.rating} for r in ratings
+            if r.elab_date != None]
         if len(ratings_dict) <= 1: 
+            logger.error('Ratings error: only one rating')
             return JsonResponse({'result': 'error'})
         return JsonResponse(ratings_dict) 
     except:
+        logger.error('Ratings error', exc_info=1)
         return JsonResponse({'result':'error'})
 
 def member_detail(request, member_id):
