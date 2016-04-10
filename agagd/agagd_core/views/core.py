@@ -61,11 +61,11 @@ def member_ratings(request, member_id):
              'rating': r.rating} for r in ratings
             if r.elab_date != None]
         if len(ratings_dict) <= 1: 
-            logger.error('Ratings error: only one rating')
+            logger.debug('Ratings error: only one rating')
             return JsonResponse({'result': 'error'})
         return JsonResponse(ratings_dict) 
     except:
-        logger.error('Ratings error', exc_info=1)
+        logger.debug('Ratings error', exc_info=1)
         return JsonResponse({'result':'error'})
 
 def member_detail(request, member_id):
