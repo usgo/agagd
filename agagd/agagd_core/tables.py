@@ -66,9 +66,9 @@ class MemberTable(tables.Table):
     country = tables.LinkColumn(
         'agagd_core.views.country_detail',
         kwargs={"country_name": tables.A('country')})
-	full_name = tables.LinkColumn(
-		'agagd_core.views.member_detail', 
-		kwargs={"full_name":tables.A('full_name')})
+    full_name = tables.LinkColumn(
+        'agagd_core.views.member_detail',
+        kwargs={"full_name":tables.A('full_name')})
 
     class Meta:
         model = Member
