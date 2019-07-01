@@ -13,6 +13,7 @@ class WinnerColumn(tables.LinkColumn):
             self.attrs['td'] = {'class': 'foo'}
         return tables.LinkColumn.render(self, value, record, bound_column)
 
+#Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
     pin_player_1 = WinnerColumn('W',
             viewname='agagd_core.views.member_detail',
@@ -34,6 +35,31 @@ class GameTable(tables.Table):
         fields = ("game_date", "round", "pin_player_1",
                 "pin_player_2", 'handicap', 'komi', 'tournament_code')
         sequence = fields
+
+#Modified gaeTable to remove duplicate tournament listing displayed on the page, GitHubIssue#20
+class GameTable2(tables.Table):
+    pin_player_1 = WinnerColumn('W',
+            viewname='agagd_core.views.member_detail',
+            verbose_name="white player",
+            kwargs={"member_id":tables.A('pin_player_1.member_id')})
+    pin_player_2 = WinnerColumn('B',
+            'agagd_core.views.member_detail', 
+            verbose_name="black player",
+            kwargs={"member_id":tables.A('pin_player_2.member_id')})
+    tournament_code = tables.LinkColumn(
+            verbose_name="Tournament",
+            viewname='agagd_core.views.tournament_detail',
+            kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
+
+    class Meta:
+        model = Game
+        # add class="paleblue" to <table> tag
+        attrs = {"class": "paleblue"}
+        fields = ("game_date", "round", "pin_player_1",
+                "pin_player_2", 'handicap', 'komi')
+        sequence = fields
+
+
 
 class OpponentTable(tables.Table):
     def __init__(self, qs, p1, *args, **kwargs):
