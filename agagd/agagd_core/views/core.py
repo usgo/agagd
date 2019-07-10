@@ -38,7 +38,7 @@ def search(request):
             )
         except ValueError:
             member_table = MemberTable(
-                Member.objects.filter(full_name__icontains=query).order_by('family_name')
+                Member.objects.filter(family_name__iexact=query).order_by('family_name')
             )
             RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
             return render(request, 'agagd_core/search_player.html',
