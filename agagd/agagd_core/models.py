@@ -18,9 +18,9 @@ class Member(models.Model):
 
     member_id = models.AutoField(primary_key=True)
     legacy_id = models.TextField(blank=True) # This field type is a guess.
-    full_name = models.CharField(max_length=255, blank=True)
+    full_name = models.CharField(max_length=255, blank=True, db_index=True)
     given_names = models.CharField(max_length=255, blank=True)
-    family_name = models.CharField(max_length=255, blank=True)
+    family_name = models.CharField(max_length=255, blank=True, db_index=True)
     join_date = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
