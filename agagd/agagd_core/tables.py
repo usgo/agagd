@@ -59,7 +59,7 @@ class OpponentTable(tables.Table):
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
         'agagd_core.views.member_detail',
-        kwargs={"member_id":tables.A('member_id')})
+        kwargs={"member_id": tables.A('member_id')})
     chapter  = tables.LinkColumn(
         'agagd_core.views.chapter_detail',
         kwargs={"chapter_code": tables.A('chapter')})
@@ -67,8 +67,8 @@ class MemberTable(tables.Table):
         'agagd_core.views.country_detail',
         kwargs={"country_name": tables.A('country')})
     full_name = tables.LinkColumn(
-        'agagd_core.views.member_detail',
-        kwargs={"full_name":tables.A('full_name')})
+       'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('member_id')})
 
     class Meta:
         model = Member
