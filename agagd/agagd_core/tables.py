@@ -46,11 +46,6 @@ class GameTable2(tables.Table):
             'agagd_core.views.member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
-    tournament_code = tables.LinkColumn(
-            verbose_name="Tournament",
-            viewname='agagd_core.views.tournament_detail',
-            kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
-
     class Meta:
         model = Game
         # add class="paleblue" to <table> tag
