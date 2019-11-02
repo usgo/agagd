@@ -1,4 +1,4 @@
-Django==1.5.4
+Django==1.11.23
 MySQL-python==1.2.4
 django-admin-tools==0.4.1
 django-tables2==0.14.0
