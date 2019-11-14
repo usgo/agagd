@@ -28,4 +28,14 @@
   {% else %}
       <p>No games are available.</p>
   {% endif %}
+
+  rTopActive = 'https://www.usgo.org/ratings_files/topActive.html'
+  html_file = open(rTopActive, 'r')
+  source_code = html_file.read()
+
+  rTopDanKyu = 'https://www.usgo.org/ratings_files/topDanKyu.html'
+  html_file = open(rTopDanKyu, 'r')
+  source_code = html_file.read()
+
+
 {% endblock %}
