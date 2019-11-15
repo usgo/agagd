@@ -225,3 +225,10 @@ def game_stats(request):
             if obj['game_date'] != None]
     games_by_date = sorted(games_by_date, key=lambda d: d['date'])
     return JsonResponse(games_by_date) 
+
+# AGAGD Static Pages
+def information(request):
+    return render(request, 'static_pages/information.html')
+
+def qualifications(request):
+    return render(request, 'static_pages/qualifications.html')

@@ -190,3 +190,7 @@ a:hover {
 div.ui-datepicker{
  font-size:10px;
 }
+
+.clearboth {
+     clear: both
+}
