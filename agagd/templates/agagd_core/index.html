@@ -29,13 +29,7 @@
       <p>No games are available.</p>
   {% endif %}
 
-  rTopActive = 'https://www.usgo.org/ratings_files/topActive.html'
-  html_file = open(rTopActive, 'r')
-  source_code = html_file.read()
+  {{ ratings_top_active | safe }}
 
-  rTopDanKyu = 'https://www.usgo.org/ratings_files/topDanKyu.html'
-  html_file = open(rTopDanKyu, 'r')
-  source_code = html_file.read()
-
-
+  {{ ratings_top_dan_kyu | safe }}
 {% endblock %}
