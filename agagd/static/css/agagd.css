@@ -1,7 +1,7 @@
 /* Eric Meyer CSS Reset */
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, p, ps, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -103,6 +103,13 @@ blockquote {
 
 p {
     font-size:20px;
+    margin-bottom:0.7em;
+    text-align:justify;
+    line-height:1.5em;
+}
+
+ps {
+    font-size:15px;
     margin-bottom:0.7em;
     text-align:justify;
     line-height:1.5em;

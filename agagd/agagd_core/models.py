@@ -32,6 +32,7 @@ class Member(models.Model):
     citizen = models.TextField() # This field type is a guess.
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
+    renewal_due = models.CharField(max_length=255, blank=True)
     def __unicode__(self):
         return u" %s (%s) " % (self.full_name, self.member_id, )
 
