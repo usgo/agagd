@@ -28,4 +28,8 @@
   {% else %}
       <p>No games are available.</p>
   {% endif %}
+
+  {{ ratings_top_active | safe }}
+
+  {{ ratings_top_dan_kyu | safe }}
 {% endblock %}

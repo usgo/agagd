@@ -18,4 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^tournaments/$', 'agagd_core.views.tournament_list', name='tourney_list'),
     url(r'^tournaments/(?P<tourn_code>\w{1,20})/$', 'agagd_core.views.tournament_detail'),
+
+    # Static Pages
+    url(r'^information/$', 'agagd_core.views.information', name='information'),
+    url(r'^qualifications/$', 'agagd_core.views.qualifications', name='qualifications')
 )
