@@ -116,8 +116,12 @@ ps {
     display: block;
 }
 
-ul,ol, dl {
+ul, dl {
     margin-left:1.5em;
+}
+
+ol {
+    margin-left:1em;
 }
 
 
