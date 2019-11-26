@@ -1,7 +1,7 @@
 /* Eric Meyer CSS Reset */
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, p, ps, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -11,7 +11,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
-    outline: 0; 
+    outline: 0;
     font-weight: inherit;
     font-style: inherit;
     font-size: 100%;
@@ -23,7 +23,7 @@ body {
     line-height: 1;
     color: black;
     }
-    
+
 /*ul, li {
     list-style:none;
 }*/
@@ -108,8 +108,20 @@ p {
     line-height:1.5em;
 }
 
-ul,ol, dl {
+ps {
+    font-size:15px;
+    margin-bottom:0.7em;
+    text-align:justify;
+    line-height:1.5em;
+    display: block;
+}
+
+ul, dl {
     margin-left:1.5em;
+}
+
+ol {
+    margin-left:1em;
 }
 
 
@@ -143,10 +155,10 @@ a:hover {
     color: #000;
     text-decoration: none;
     border-bottom: 1px dotted #ccc;
-} 
+}
 
 .nav-link {
-    text-align: right; 
+    text-align: right;
     font-style: italic;
 }
 
