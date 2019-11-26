@@ -10,7 +10,7 @@
 from django.db import models
 
 
-class Member(models.Model): 
+class Member(models.Model):
     class Meta:
         db_table = u'members'
         verbose_name = u'member'
@@ -33,6 +33,7 @@ class Member(models.Model):
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
     renewal_due = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=255, blank=True
     def __unicode__(self):
         return u" %s (%s) " % (self.full_name, self.member_id, )
 
@@ -99,7 +100,7 @@ class Tournament(models.Model):
         else:
             return u'%s' % self.pk
 
-    class Meta: 
+    class Meta:
         db_table= u'tournaments'
         verbose_name = u'tournament'
         verbose_name_plural = u'tournaments'
@@ -124,7 +125,7 @@ class Game(models.Model):
 
     tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
     pin_player_1 = models.ForeignKey(Member, db_column=u'Pin_Player_1', related_name='games_as_p1')
-    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2') 
+    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2')
 
     class Meta:
         db_table = u'games'
@@ -152,7 +153,7 @@ class Game(models.Model):
     def won_by(self, p1):
         return self.winner() == p1
 
-class Rating(models.Model): 
+class Rating(models.Model):
     pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
     tournament = models.ForeignKey(Tournament, db_column=u'Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
@@ -173,4 +174,3 @@ class Membership(models.Model):
     membership_type = models.CharField(max_length=35, db_column=u'Membership_Type') # x.
     class Meta:
         db_table = u'membership'
-

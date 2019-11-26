@@ -11,7 +11,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
-    outline: 0; 
+    outline: 0;
     font-weight: inherit;
     font-style: inherit;
     font-size: 100%;
@@ -23,7 +23,7 @@ body {
     line-height: 1;
     color: black;
     }
-    
+
 /*ul, li {
     list-style:none;
 }*/
@@ -113,6 +113,7 @@ ps {
     margin-bottom:0.7em;
     text-align:justify;
     line-height:1.5em;
+    display: block;
 }
 
 ul,ol, dl {
@@ -150,10 +151,10 @@ a:hover {
     color: #000;
     text-decoration: none;
     border-bottom: 1px dotted #ccc;
-} 
+}
 
 .nav-link {
-    text-align: right; 
+    text-align: right;
     font-style: italic;
 }
 
