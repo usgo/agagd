@@ -203,6 +203,16 @@ div.ui-datepicker{
  font-size:10px;
 }
 
+
+.flex-row {
+    display: flex
+}
+
+.flex-column {
+    margin: 1em;
+    flex: 50%;
+}
+
 .clearboth {
      clear: both
 }
