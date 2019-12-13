@@ -29,7 +29,37 @@
       <p>No games are available.</p>
   {% endif %}
 
-  {{ ratings_top_active | safe }}
+  <div class="top-kyu-dan-container flex-row">
+      
+      {% if top_dan_table %}
+          <div class="flex-column">
+              <h2> Top Dan Players </h2>
+              {% render_table top_dan_table %}
+          </div>
+      {% endif %}
 
-  {{ ratings_top_dan_kyu | safe }}
+      {% if top_kyu_table %}
+          <div class="flex-column">
+              <h2> Top Kyu Players </h2>
+              {% render_table top_kyu_table %}
+          </div>
+      {% endif %}
+  </div>
+  <div class="top-active-dan-kyu-container flex-row">
+
+      {% if most_rated_games_table %}
+          <div class="flex-column">
+              <h2> Most Rated Games (Past 12 Months) </h2>
+              {% render_table most_rated_games_table %}
+          </div>
+      {% endif %}
+
+      {% if most_tournaments_table %}
+          <div class="flex-column">
+              <h2> Most Tournaments (Past 12 Months) </h2>
+              {% render_table most_tournaments_table %}
+          </div>
+      {% endif %}
+  </div>
+
 {% endblock %}

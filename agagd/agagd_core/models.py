@@ -9,7 +9,6 @@
 
 from django.db import models
 
-
 class Member(models.Model):
     class Meta:
         db_table = u'members'
@@ -99,12 +98,55 @@ class Tournament(models.Model):
             return u'%s' % self.description
         else:
             return u'%s' % self.pk
-
+    
     class Meta:
         db_table= u'tournaments'
         verbose_name = u'tournament'
         verbose_name_plural = u'tournaments'
 
+class TopDan(models.Model):
+    member_id = models.IntegerField(primary_key=True, db_column=u'member_id')
+    full_name = models.CharField(max_length=255, db_column=u'full_name')
+    rating = models.CharField(max_length=42, db_column=u'rating')
+
+    class Meta:
+        managed = False
+        db_table = u'top_dan_view'
+        verbose_name = u'top_dan_view'
+        verbose_name_plural = u'top_dan_view'
+
+class TopKyu(models.Model):
+    member_id = models.IntegerField(primary_key=True, db_column=u'member_id')
+    full_name = models.CharField(max_length=255, db_column=u'full_name')
+    rating = models.CharField(max_length=42, db_column=u'rating')
+
+    class Meta:
+        managed = False
+        db_table = u'top_kyu_view'
+        verbose_name = u'top_kyu_view'
+        verbose_name_plural = u'top_kyu_view'
+
+class MostRatedGamesPastYear(models.Model):
+    pin = models.IntegerField(primary_key=True, db_column=u'pin')
+    name = models.CharField(max_length=65, db_column=u'Name')
+    total = models.BigIntegerField(max_length=25, db_column=u'Game_Count')
+
+    class Meta:
+        managed = False
+        db_table = u'most_rated_games_view'
+        verbose_name = u'most_rated_games_view'
+        verbose_name_plural = u'most_rated_games_view'
+
+class MostTournamentsPastYear(models.Model):
+    pin = models.IntegerField(primary_key=True, db_column=u'pin')
+    name = models.CharField(max_length=65, db_column=u'Name')
+    total = models.BigIntegerField(max_length=25, db_column=u'Tournament_Count')
+
+    class Meta:
+        managed = False
+        db_table = u'most_tournaments_view'
+        verbose_name = u'most_tournaments_view'
+        verbose_name_plural = u'most_tournaments_view'
 
 class Game(models.Model):
     game_id = models.AutoField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.

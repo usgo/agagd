@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from agagd_core.models import Game, Member, Tournament
+from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
@@ -96,6 +96,59 @@ class MemberTable(tables.Table):
         attrs = {"class": "paleblue"}
         fields = ('full_name', 'state', 'join_date', 'country')
         sequence = ('full_name', 'chapter', 'country', 'state', 'join_date', 'member_id')
+
+class TopDanTable(tables.Table):
+    member_id = tables.LinkColumn(
+        'agagd_core.views.member_detail',
+        kwargs={"member_id": tables.A('member_id')})
+    full_name = tables.LinkColumn(
+       'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('member_id')})
+    class Meta:
+        model = TopDan
+        attrs = {"class": "paleblue"}
+        fields = ('member_id', 'full_name', 'rating')
+        sequence = fields
+
+class TopKyuTable(tables.Table):
+    member_id = tables.LinkColumn(
+        'agagd_core.views.member_detail',
+        kwargs={"member_id": tables.A('member_id')})
+    full_name = tables.LinkColumn(
+       'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('member_id')})
+    class Meta:
+        model = TopKyu
+        attrs = {"class": "paleblue"}
+        fields = ('member_id', 'full_name', 'rating')
+        sequence = fields
+
+class MostRatedGamesPastYearTable(tables.Table):
+    pin = tables.LinkColumn(
+        'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('pin')})
+    name = tables.LinkColumn(
+       'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('pin')})
+    class Meta:
+        model = MostRatedGamesPastYear
+        attrs = {"class": "paleblue"}
+        fields = ('pin', 'name', 'total')
+        sequence = fields
+
+class MostTournamentsPastYearTable(tables.Table):
+    pin = tables.LinkColumn(
+        'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('pin')})
+    name = tables.LinkColumn(
+       'agagd_core.views.member_detail',
+        kwargs={'member_id': tables.A('pin')})
+    class Meta:
+        model = MostTournamentsPastYear
+        attrs = {"class": "paleblue"}
+        fields = ('pin', 'name', 'total')
+        sequence = fields
+
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
