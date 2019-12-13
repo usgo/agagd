@@ -45,6 +45,21 @@
           </div>
       {% endif %}
   </div>
-  {{ ratings_top_active | safe }} 
-  
+  <div class="top-active-dan-kyu-container flex-row">
+
+      {% if most_rated_games_table %}
+          <div class="flex-column">
+              <h2> Most Rated Games (Past 12 Months) </h2>
+              {% render_table most_rated_games_table %}
+          </div>
+      {% endif %}
+
+      {% if most_tournaments_table %}
+          <div class="flex-column">
+              <h2> Most Tournaments (Past 12 Months) </h2>
+              {% render_table most_tournaments_table %}
+          </div>
+      {% endif %}
+  </div>
+
 {% endblock %}
