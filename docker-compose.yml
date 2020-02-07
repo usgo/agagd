@@ -15,7 +15,7 @@ services:
     build: ./
     restart: always
     ports:
-      - "3031:3031"
+      - "8000:3031"
     env_file:
       config-docker.env
     environment:
