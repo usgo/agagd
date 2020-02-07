@@ -1,0 +1,48 @@
+# docker-compose setup for a development environment.
+# To use this file, populate config-docker.env with the following:
+#
+# MYSQL_PASSWORD - a password for the mysql user
+# MYSQL_ROOT_PASSWORD - a password for the mysql *root* user
+#
+# Then you can run:
+#   - docker-compose build
+#   - docker-compose up
+
+version: '3.5'
+
+services:
+  app:
+    build: ./
+    restart: always
+    ports:
+      - "3031:3031"
+    env_file:
+      config-docker.env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      APP_DB_NAME: agagd
+      AGAGD_USER: agagd
+      SECRET_KEY: insecure-key-for-testing
+      DEBUG: "true"
+      SETUP_DB: "true"
+      SETUP_DEV_DB: "true"
+
+  db:
+    build:
+      context: ./
+      dockerfile: Dockerfile.mysql
+    restart: always
+    volumes:
+      - database:/var/lib/mysql
+    env_file:
+      config-docker.env
+    environment:
+      # this is safer than it looks, since without a 'ports' section, docker-compose
+      # isolates this app to a network local to this compose file.
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_USER: agagd
+      MYSQL_DATABASE: agagd
+
+volumes:
+  database:
