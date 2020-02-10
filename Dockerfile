@@ -26,10 +26,12 @@ RUN pip install --no-cache-dir -U pip &&\
     pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir uwsgi # docker-specific requirement
 
+ENV DJANGO_SETTINGS_MODULE=agagd.settings.prod
 ENV PROJECT_ROOT=/srv
 ENV TEMPLATE_DIR=/srv/templates
 
 COPY scripts/entrypoint.sh /srv/
 COPY agagd/ /srv/
+RUN python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]

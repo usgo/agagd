@@ -25,8 +25,7 @@ services:
       AGAGD_USER: agagd
       SECRET_KEY: insecure-key-for-testing
       DEBUG: "true"
-      SETUP_DB: "true"
-      SETUP_DEV_DB: "true"
+      LOAD_FIXTURES: "true"
 
   db:
     build:

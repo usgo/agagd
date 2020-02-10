@@ -10,13 +10,13 @@ else:
 TEMPLATE_DEBUG = DEBUG
 ADMIN_ENABLED = False
 
-_user = os.environ['AGAGD_USER']
-_password = os.environ['MYSQL_PASS']
-_key = os.environ['SECRET_KEY']
-_dbname = os.environ['APP_DB_NAME']
+_user = os.getenv('AGAGD_USER', '')
+_password = os.getenv('MYSQL_PASS', '')
+_key = os.getenv('SECRET_KEY', 'insecure-key-for-dev-use-only')
+_dbname = os.getenv('APP_DB_NAME', '')
 _dbhost = os.getenv('DB_HOST', '')
 _dbport = os.getenv('DB_PORT', '')
-#_templates = os.environ['TEMPLATE_DIR']
+_templates = os.environ['TEMPLATE_DIR']
 
 SECRET_KEY = _key
 
@@ -31,4 +31,4 @@ DATABASES = {
     }
 }
 
-#TEMPLATE_DIRS = (_templates, )
+TEMPLATE_DIRS = (_templates, )

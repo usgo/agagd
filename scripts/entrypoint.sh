@@ -3,7 +3,6 @@
 # This is sugar to allow our docker-config to use the same variable name for the app
 # and for the mysql server itself.
 export MYSQL_PASS=$MYSQL_PASSWORD
-export DJANGO_SETTINGS_MODULE=agagd.settings.prod
 
 MYSQL_COMMAND="mysql --host=$DB_HOST --port=$DB_PORT --user=$AGAGD_USER --password=$MYSQL_PASSWORD"
 
@@ -27,8 +26,9 @@ function wait_for_db() {
 }
 
 wait_for_db
-python manage.py loaddata fake_data
 
-python manage.py collectstatic --noinput
+if $LOAD_FIXTURES == "true"; then
+    python manage.py loaddata fake_data
+fi
 
 uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi --static-map /static=/tmp/static/
