@@ -2,7 +2,6 @@ Django==1.6.11
 django-admin-tools==0.4.1
 django-tables2==0.14.0
 mysqlclient==1.4.6
-pysqlite==2.6.3
 requests==2.22.0
 six==1.4.1
 wsgiref==0.1.2
