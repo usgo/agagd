@@ -7,31 +7,47 @@
 # * AGAGD_USER - database username
 # * MYSQL_PASSWORD - database password (the docker entrypoint sets MYSQL_PASS to this value for app compatibility)
 
-FROM alpine
+### Build stage, to avoid leaving dev dependencies in the final image
+FROM alpine AS build
 
-WORKDIR /srv
+WORKDIR /build
 
 RUN apk add --no-cache \
-    mysql-client \
-    bash \
     py-pip \
     build-base \
     sqlite-dev \
     python-dev \
     mariadb-dev \
     linux-headers
+RUN pip install --no-cache-dir -U pip
 
-COPY requirements.txt /srv/
-RUN pip install --no-cache-dir -U pip &&\
-    pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir uwsgi # docker-specific requirement
+COPY requirements.txt /build/
+RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --user --no-cache-dir uwsgi # docker-specific requirement
 
+### Final image
+FROM alpine
+
+WORKDIR /srv
+RUN addgroup -S django && adduser -S django -G django
+
+COPY --from=build --chown=django:django /root/.local /home/django/.local
+
+RUN apk add --no-cache \
+    python \
+    mysql-client \
+    mariadb-connector-c \
+    bash
+
+USER django
+
+ENV PATH=/home/django/.local/bin:$PATH
 ENV DJANGO_SETTINGS_MODULE=agagd.settings.prod
 ENV PROJECT_ROOT=/srv
 ENV TEMPLATE_DIR=/srv/templates
 
-COPY scripts/entrypoint.sh /srv/
-COPY agagd/ /srv/
+COPY --chown=django:django scripts/entrypoint.sh /srv/
+COPY --chown=django:django agagd/ /srv/
 RUN python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]
