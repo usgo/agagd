@@ -1,4 +1,4 @@
-Django==1.6.11
+Django==1.11.28
 django-admin-tools==0.4.1
 django-tables2==0.14.0
 mysqlclient==1.4.6
