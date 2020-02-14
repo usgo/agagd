@@ -22,8 +22,7 @@ RUN apk add --no-cache \
 RUN pip install --no-cache-dir -U pip
 
 COPY requirements.txt /build/
-RUN pip install --user --no-cache-dir -r requirements.txt
-RUN pip install --user --no-cache-dir uwsgi # docker-specific requirement
+RUN pip install --user --no-cache-dir -r requirements.txt && pip install --user --no-cache-dir uwsgi
 
 ### Final image
 FROM alpine
@@ -46,8 +45,7 @@ ENV DJANGO_SETTINGS_MODULE=agagd.settings.prod
 ENV PROJECT_ROOT=/srv
 ENV TEMPLATE_DIR=/srv/templates
 
-COPY --chown=django:django scripts/entrypoint.sh /srv/
-COPY --chown=django:django agagd/ /srv/
+COPY --chown=django:django scripts/entrypoint.sh agagd/ /srv/
 RUN SECRET_KEY=stub-for-build python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]
