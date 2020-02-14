@@ -10,13 +10,17 @@ else:
 TEMPLATE_DEBUG = DEBUG
 ADMIN_ENABLED = False
 
+# For SECRET_KEY, we want to be absolutely certain a value is provided
+# explicitly by configuration to ensure secure production environment.
+# Without this value we should abort.
+_key = os.environ['SECRET_KEY']
+
 _user = os.getenv('AGAGD_USER', '')
 _password = os.getenv('MYSQL_PASS', '')
-_key = os.getenv('SECRET_KEY', 'insecure-key-for-dev-use-only')
 _dbname = os.getenv('APP_DB_NAME', '')
 _dbhost = os.getenv('DB_HOST', '')
 _dbport = os.getenv('DB_PORT', '')
-_templates = os.environ['TEMPLATE_DIR']
+_templates = os.getenv('TEMPLATE_DIR', os.path.join(PROJECT_ROOT, 'templates'))
 
 SECRET_KEY = _key
 

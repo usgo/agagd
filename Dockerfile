@@ -48,6 +48,6 @@ ENV TEMPLATE_DIR=/srv/templates
 
 COPY --chown=django:django scripts/entrypoint.sh /srv/
 COPY --chown=django:django agagd/ /srv/
-RUN python manage.py collectstatic --noinput
+RUN SECRET_KEY=stub-for-build python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]
