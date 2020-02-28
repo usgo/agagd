@@ -1,6 +1,6 @@
 Django==1.11.28
 django-admin-tools==0.4.1
-django-tables2==0.14.0
+django-tables2==1.15.0
 mysqlclient==1.4.6
 requests==2.22.0
 six==1.4.1
