@@ -45,7 +45,7 @@ var svg = d3.select("#game_count_graph").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("{% url "agagd_core.views.game_stats" %}", function(error, data) {
+d3.json("{% url "game_stats" %}", function(error, data) {
   var acc = 0;
   data.forEach(function(d) {
     d.date = parseDate(d.date);
