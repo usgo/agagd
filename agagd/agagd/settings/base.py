@@ -89,7 +89,6 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(PROJECT_ROOT, 'templates'),
         ],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 # Standard context_processors
@@ -101,7 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 # Custom context_processors
-                'django.core.context_processors.request',
+                'django.template.context_processors.request',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
