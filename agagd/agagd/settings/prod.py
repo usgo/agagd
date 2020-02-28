@@ -3,7 +3,6 @@
 from base import *
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 ADMIN_ENABLED = False
 
 _user = os.environ['AGAGD_USER']
