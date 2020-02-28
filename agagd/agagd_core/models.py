@@ -129,7 +129,7 @@ class TopKyu(models.Model):
 class MostRatedGamesPastYear(models.Model):
     pin = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(max_length=25, db_column=u'Game_Count')
+    total = models.BigIntegerField(db_column=u'Game_Count')
 
     class Meta:
         managed = False
@@ -140,7 +140,7 @@ class MostRatedGamesPastYear(models.Model):
 class MostTournamentsPastYear(models.Model):
     pin = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(max_length=25, db_column=u'Tournament_Count')
+    total = models.BigIntegerField(db_column=u'Tournament_Count')
 
     class Meta:
         managed = False
