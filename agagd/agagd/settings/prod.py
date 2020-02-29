@@ -7,7 +7,6 @@ if os.getenv('DEBUG') == 'true':
 else:
   DEBUG = False
 
-TEMPLATE_DEBUG = DEBUG
 ADMIN_ENABLED = False
 
 # For SECRET_KEY, we want to be absolutely certain a value is provided
