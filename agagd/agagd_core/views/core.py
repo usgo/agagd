@@ -49,7 +49,7 @@ def search(request):
         try:
             member_id = int(query)
             return HttpResponseRedirect(
-                reverse('agagd_core.views.member_detail', args=(member_id,))
+                reverse('member_detail', args=(member_id,))
             )
         except ValueError:
             member_table = MemberTable(
