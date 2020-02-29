@@ -34,4 +34,4 @@ DATABASES = {
     }
 }
 
-TEMPLATE_DIRS = (_templates, )
+TEMPLATES[0]['DIRS'] = [ _templates ]
