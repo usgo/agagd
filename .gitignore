@@ -3,8 +3,10 @@
 *.pyc
 *.swp
 *.db
+.DS_Store
 agagd/agagdbak/*
+agagd_core/fixtures/fake_data.json
+config-docker.env
+docker-compose.override.yml
 local_settings.py
 schema.sql
-agagd_core/fixtures/fake_data.json
-.DS_Store

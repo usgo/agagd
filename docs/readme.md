@@ -15,6 +15,9 @@ A port of the old eurogo Games Database to python, for the AGA
 
 **Important: running the agagd locally now requires access to a database schema not provided by this repository.**
 
+*A new docker-based development approach is also available, see [docker.md](docker.md) for details.*
+
+
 The first step is to install `mysql` and create an `agagd` database. Then load the current database schema snapshot, as well
 as the SQL files in `sql/`, into the `agagd` database, e.g.:
 
