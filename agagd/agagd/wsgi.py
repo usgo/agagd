@@ -20,16 +20,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agagd.settings.prod")
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-import django.core.handlers.wsgi
-_application = django.core.handlers.wsgi.WSGIHandler()
+from django.core.wsgi import get_wsgi_application
 
-def application(environ, start_response):
+def bootstrap_env(environ, start_response):
     for key in ['DJANGO_SETTINGS_MODULE', 'AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
         if key in environ:
             os.environ[key] = environ[key]
+    _application = get_wsgi_application()
     return _application(environ, start_response)
 
-
-# Apply WSGI middleware here.
-# from helloworld.wsgi import HelloWorldApplication
-# application = HelloWorldApplication(application)
+application = bootstrap_env
