@@ -1,5 +1,7 @@
 import django_tables2 as tables
-from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
+from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
@@ -81,9 +83,9 @@ class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
         'member_detail',
         kwargs={"member_id": tables.A('member_id')})
-    chapter  = tables.LinkColumn(
-        'chapter_detail',
-        kwargs={"chapter_code": tables.A('chapter')})
+    chapter_id  = tables.Column(
+        verbose_name="Chapters"
+    )
     country = tables.LinkColumn(
         'country_detail',
         kwargs={"country_name": tables.A('country')})
@@ -91,11 +93,22 @@ class MemberTable(tables.Table):
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
 
+    def render_chapter_id(self, value):
+        try:
+            members_chapter = Chapters.objects.get(member_id=value)
+            chapter_url = reverse(
+                viewname='agagd_core.views.chapter_detail',
+                kwargs={'chapter_code': members_chapter.code})
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+        except:
+            chapter_html = u"\u2014"
+        return chapter_html
+
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
         fields = ('full_name', 'state', 'join_date', 'country')
-        sequence = ('full_name', 'chapter', 'country', 'state', 'join_date', 'member_id')
+        sequence = ('full_name', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
