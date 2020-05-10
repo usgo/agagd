@@ -18,16 +18,16 @@ class WinnerColumn(tables.LinkColumn):
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
     pin_player_1 = WinnerColumn('W',
-            viewname='agagd_core.views.member_detail',
+            viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
     pin_player_2 = WinnerColumn('B',
-            'agagd_core.views.member_detail', 
+            viewname='member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     tournament_code = tables.LinkColumn(
             verbose_name="Tournament",
-            viewname='agagd_core.views.tournament_detail',
+            viewname='tournament_detail',
             kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
 
     class Meta:
@@ -41,11 +41,11 @@ class GameTable(tables.Table):
 #Modified gaeTable to remove duplicate tournament listing displayed on the page, GitHubIssue#20
 class GameTable2(tables.Table):
     pin_player_1 = WinnerColumn('W',
-            viewname='agagd_core.views.member_detail',
+            viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
     pin_player_2 = WinnerColumn('B',
-            'agagd_core.views.member_detail', 
+            'member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     class Meta:
@@ -65,7 +65,7 @@ class OpponentTable(tables.Table):
 
     empty_text = "Opponent information couldn't be calculated"
     opponent = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('opponent.member_id')})
     total = tables.Column(verbose_name="Games")
     won = tables.Column(verbose_name="Won", default=0)
@@ -81,16 +81,16 @@ class OpponentTable(tables.Table):
 
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     chapter_id  = tables.Column(
         verbose_name="Chapters"
     )
     country = tables.LinkColumn(
-        'agagd_core.views.country_detail',
+        'country_detail',
         kwargs={"country_name": tables.A('country')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
 
     def render_chapter_id(self, value):
@@ -112,10 +112,10 @@ class MemberTable(tables.Table):
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopDan
@@ -125,10 +125,10 @@ class TopDanTable(tables.Table):
 
 class TopKyuTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopKyu
@@ -138,10 +138,10 @@ class TopKyuTable(tables.Table):
 
 class MostRatedGamesPastYearTable(tables.Table):
     pin = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={'member_id': tables.A('pin')})
     name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('pin')})
     class Meta:
         model = MostRatedGamesPastYear
@@ -151,10 +151,10 @@ class MostRatedGamesPastYearTable(tables.Table):
 
 class MostTournamentsPastYearTable(tables.Table):
     pin = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={'member_id': tables.A('pin')})
     name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('pin')})
     class Meta:
         model = MostTournamentsPastYear
@@ -165,7 +165,7 @@ class MostTournamentsPastYearTable(tables.Table):
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
-            'agagd_core.views.tournament_detail',
+            'tournament_detail',
             kwargs={'tourn_code':tables.A('tournament_code')},)
     elab_date = tables.Column(verbose_name="rated on")
 
@@ -177,7 +177,7 @@ class TournamentTable(tables.Table):
 
 class TournamentPlayedTable(tables.Table):
     tournament = tables.LinkColumn(
-            'agagd_core.views.tournament_detail',
+            'tournament_detail',
             kwargs={'tourn_code':tables.A('tournament.pk')},)
     date = tables.Column(default="Unknown")
     won = tables.Column(verbose_name="Won", default=0)
