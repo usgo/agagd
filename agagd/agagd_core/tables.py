@@ -97,7 +97,7 @@ class MemberTable(tables.Table):
         try:
             members_chapter = Chapters.objects.get(member_id=value)
             chapter_url = reverse(
-                viewname='agagd_core.views.chapter_detail',
+                'chapter_detail',
                 kwargs={'chapter_code': members_chapter.code})
             chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
         except:
