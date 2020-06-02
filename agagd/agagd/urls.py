@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^country/(?P<country_name>[\w ]+)/$', agagd_views.country_detail, name='country_detail'),
     url(r'^player/(?P<member_id>\d+)/vs/$', agagd_views.find_member_vs, name='find_member_vs'),
     url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', agagd_views.member_vs, name='member_vs'),
+    url(r'^all_player_ratings/$', agagd_views.all_player_ratings, name='all_player_ratings'),
 
     url(r'^ratings/(?P<member_id>\d+)/$', agagd_views.member_ratings, name='member_ratings'),
     url(r'^gamestats/$', agagd_views.game_stats, name='game_stats'),
