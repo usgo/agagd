@@ -1,5 +1,6 @@
 import django_tables2 as tables
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
 from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
@@ -96,11 +97,15 @@ class MemberTable(tables.Table):
     def render_chapter_id(self, value):
         try:
             members_chapter = Chapters.objects.get(member_id=value)
-            chapter_url = reverse(
-                'chapter_detail',
-                kwargs={'chapter_code': members_chapter.code})
-            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
-        except:
+
+            if members_chapter.code is not None:
+                chapter_url = reverse(
+                    viewname='chapter_detail',
+                    kwargs={'chapter_code': members_chapter.code})
+                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+            else:
+                chapter_html = u"\u2014"
+        except ObjectDoesNotExist:
             chapter_html = u"\u2014"
         return chapter_html
 
@@ -162,6 +167,58 @@ class MostTournamentsPastYearTable(tables.Table):
         fields = ('pin', 'name', 'total')
         sequence = fields
 
+class AllPlayerRatingsTable(tables.Table):
+    full_name = tables.LinkColumn(
+        'member_detail',
+        kwargs={
+            "member_id": tables.A('member_id')
+        }
+    )
+    member_id = tables.LinkColumn(
+        'member_detail',
+        kwargs={
+            "member_id": tables.A('member_id')
+        }
+    )
+    type = tables.Column()
+    rating__rating = tables.Column()
+    renewal_due = tables.Column()
+    chapter_id = tables.Column(
+        verbose_name="Chapter"
+    )
+    state = tables.Column()
+    rating__sigma = tables.Column()
+    rating__elab_date = tables.Column(verbose_name="Renewal Due")
+
+    def render_chapter_id(self, value):
+        try:
+            members_chapter = Chapters.objects.get(member_id=value)
+
+            if members_chapter.code is not None:
+                chapter_url = reverse(
+                    viewname='chapter_detail',
+                    kwargs={'chapter_code': members_chapter.code})
+                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+            else:
+                chapter_html = u"\u2014"
+        except ObjectDoesNotExist:
+            chapter_html = u"\u2014"
+        return chapter_html
+
+    class Meta:
+        attrs = {"class": "paleblue"}
+        fields = (
+                  'full_name',
+                  'member_id',
+                  'rating__rating',
+                  'rating__sigma',
+                  'rating__elab_date',
+                  'type',
+                  'renewal_due',
+                  'chapter_id',
+                  'state',
+                 )
+        sequence = fields
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
