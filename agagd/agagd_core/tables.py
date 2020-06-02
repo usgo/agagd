@@ -98,14 +98,11 @@ class MemberTable(tables.Table):
         try:
             members_chapter = Chapters.objects.get(member_id=value)
 
-            if members_chapter.code is not None:
-                chapter_url = reverse(
-                    viewname='chapter_detail',
-                    kwargs={'chapter_code': members_chapter.code})
-                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
-            else:
-                chapter_html = u"\u2014"
-        except ObjectDoesNotExist:
+            chapter_url = reverse(
+                viewname='chapter_detail',
+                kwargs={'chapter_code': members_chapter.code})
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+        except:
             chapter_html = u"\u2014"
         return chapter_html
 
