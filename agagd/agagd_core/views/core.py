@@ -224,7 +224,7 @@ def all_player_ratings(request):
         "type",
         "rating__rating",
         "renewal_due",
-        "chapters__name",
+        "chapter_id",
         "state",
         "rating__sigma",
         "rating__elab_date"
