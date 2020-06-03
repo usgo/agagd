@@ -223,7 +223,6 @@ def all_player_ratings(request):
         "member_id",
         "type",
         "players__rating",
-        "renewal_due",
         "chapter_id",
         "state",
         "players__sigma",

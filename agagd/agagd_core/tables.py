@@ -179,7 +179,6 @@ class AllPlayerRatingsTable(tables.Table):
     )
     type = tables.Column()
     players__rating = tables.Column()
-    renewal_due = tables.Column()
     chapter_id = tables.Column(
         verbose_name="Chapter"
     )
@@ -215,7 +214,6 @@ class AllPlayerRatingsTable(tables.Table):
                   'players__sigma',
                   'players__elab_date',
                   'type',
-                  'renewal_due',
                   'chapter_id',
                   'state',
                  )
