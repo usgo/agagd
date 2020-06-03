@@ -206,6 +206,16 @@ class Game(models.Model):
     def won_by(self, p1):
         return self.winner() == p1
 
+# Updated Rating Information Table for Players.
+class Players(models.Model):
+    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', primary_key=True)
+    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column=u'Elab_Date')
+    class Meta:
+        managed = False
+        db_table = u'players'
+
 class Rating(models.Model):
     # ForeignKey for the Members
     member_id = models.ForeignKey(Member, db_column=u'Pin_Player')

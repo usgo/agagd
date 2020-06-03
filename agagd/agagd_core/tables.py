@@ -178,14 +178,18 @@ class AllPlayerRatingsTable(tables.Table):
         }
     )
     type = tables.Column()
-    rating__rating = tables.Column()
+    players__rating = tables.Column()
     renewal_due = tables.Column()
     chapter_id = tables.Column(
         verbose_name="Chapter"
     )
     state = tables.Column()
-    rating__sigma = tables.Column()
-    rating__elab_date = tables.Column(verbose_name="Renewal Due")
+    players__sigma = tables.Column(
+        verbose_name="Sigma"
+    )
+    players__elab_date = tables.Column(
+        verbose_name="Renewal Due"
+    )
 
     def render_chapter_id(self, value):
         try:
@@ -195,7 +199,7 @@ class AllPlayerRatingsTable(tables.Table):
                 chapter_url = reverse(
                     viewname='chapter_detail',
                     kwargs={'chapter_code': members_chapter.code})
-                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.name))
             else:
                 chapter_html = u"\u2014"
         except ObjectDoesNotExist:
@@ -207,9 +211,9 @@ class AllPlayerRatingsTable(tables.Table):
         fields = (
                   'full_name',
                   'member_id',
-                  'rating__rating',
-                  'rating__sigma',
-                  'rating__elab_date',
+                  'players__rating',
+                  'players__sigma',
+                  'players__elab_date',
                   'type',
                   'renewal_due',
                   'chapter_id',
