@@ -202,7 +202,7 @@ class AllPlayerRatingsTable(tables.Table):
                 chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.name))
             else:
                 chapter_html = u"\u2014"
-        except ObjectDoesNotExist:
+        except:
             chapter_html = u"\u2014"
         return chapter_html
 
