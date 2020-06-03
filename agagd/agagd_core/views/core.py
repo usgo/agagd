@@ -226,7 +226,6 @@ def all_player_ratings(request):
         "chapter_id",
         "state",
         "players__sigma",
-        "players__elab_date"
     ).order_by('-players__rating')
 
     all_player_ratings_table = AllPlayerRatingsTable(all_player_ratings_query)

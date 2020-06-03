@@ -186,9 +186,6 @@ class AllPlayerRatingsTable(tables.Table):
     players__sigma = tables.Column(
         verbose_name="Sigma"
     )
-    players__elab_date = tables.Column(
-        verbose_name="Renewal Due"
-    )
 
     def render_chapter_id(self, value):
         try:
@@ -212,7 +209,6 @@ class AllPlayerRatingsTable(tables.Table):
                   'member_id',
                   'players__rating',
                   'players__sigma',
-                  'players__elab_date',
                   'type',
                   'chapter_id',
                   'state',
