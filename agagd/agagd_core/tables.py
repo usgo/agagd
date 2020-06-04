@@ -85,7 +85,7 @@ class MemberTable(tables.Table):
         'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     chapter_id  = tables.Column(
-        verbose_name="Chapters"
+        verbose_name="Chapter"
     )
     country = tables.LinkColumn(
         'country_detail',
@@ -109,8 +109,8 @@ class MemberTable(tables.Table):
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
-        fields = ('full_name', 'state', 'join_date', 'country')
-        sequence = ('full_name', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
+        fields = ('full_name', 'state', 'rating', 'join_date', 'country')
+        sequence = ('full_name', 'rating', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
