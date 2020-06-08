@@ -113,10 +113,9 @@ ps {
     margin-bottom:0.7em;
     text-align:justify;
     line-height:1.5em;
-    display: block;
 }
 
-ul, dl {
+ul {
     margin-left:1.5em;
 }
 
@@ -126,12 +125,13 @@ ol {
 
 
 dt {
-  padding-left: 20px;
+  /* padding-left: 20px; */
   font-variant: small-caps;
   font-weight: bold;
 }
 dd {
-  padding-left: 40px;   color: #666666;
+  padding-left: 40px;   
+  color: #666666;
 }
 
 li {
