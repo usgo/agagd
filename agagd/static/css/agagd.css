@@ -84,12 +84,6 @@ h2 {
     line-height:1.25em;
 }
 
-h3 {
-    font-size: 25px;
-    margin-bottom: 0.5em;
-    font-weight: bold;
-}
-
 body {
     font-family: Book Antiqua, Palatino Linotype, Palatino, Serif;
 }
@@ -119,7 +113,6 @@ ps {
     margin-bottom:0.7em;
     text-align:justify;
     line-height:1.5em;
-    display: block;
 }
 
 ul, dl {
