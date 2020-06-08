@@ -12,9 +12,9 @@
 {{ block.super }} 
 <h2> Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2>
 {% include "agagd_core/ratings_graph.html" %}
-<ps> AGA member since: {{ player.join_date }} </ps>
-<ps>Expiration Date: {{ player.renewal_due }} </ps>
-<ps>Membership type: {{ player.type }} </ps>
+<ps> AGA member since: {{ player.join_date }} </ps><br>
+<ps>Expiration Date: {{ player.renewal_due }} </ps><br>
+<ps>Membership type: {{ player.type }} </ps><br>
 <dl>
   <dt style="font-size: 24px"> Rating: </dt> <dd style="font-size: 24px"> {{ rating.rating }} </dd> 
   <dt> Sigma: </dt> <dd> {{ rating.sigma }} </dd>
