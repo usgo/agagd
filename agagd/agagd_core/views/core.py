@@ -52,10 +52,25 @@ def search(request):
                 reverse('member_detail', args=(member_id,))
             )
         except ValueError:
-            member_table = MemberTable(
-                Member.objects.filter(full_name__icontains=query).order_by('family_name')
-            )
+            members_query = Member.objects.filter(
+                Q(member_id=F('players__pin_player'))
+            ).filter(
+                full_name__icontains=query
+            ).values(
+                "member_id",
+                "chapter_id",
+                "join_date",
+                "state",
+                "players__rating",
+                "country",
+                "full_name",
+                "family_name"
+            ).order_by('family_name')
+
+            member_table = MemberTable(members_query)
+
             RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+
             return render(request, 'agagd_core/search_player.html',
                 {
                     'member_table': member_table,
