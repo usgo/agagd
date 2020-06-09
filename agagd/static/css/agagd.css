@@ -162,9 +162,9 @@ a:hover {
     font-style: italic;
 }
 
-#ratings_graph {
+/*#ratings_graph {
     float: right;
-}
+}*/
 
 .axis path,
 .axis line {
@@ -203,6 +203,9 @@ div.ui-datepicker{
  font-size:10px;
 }
 
+.left-column {
+    float: left;
+}
 
 .flex-row {
     display: flex
