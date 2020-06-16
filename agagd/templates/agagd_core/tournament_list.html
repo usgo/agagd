@@ -1,18 +1,15 @@
 {% extends "base.html" %} 
+{% load staticfiles %}
 {% load render_table from django_tables2 %}
+{% block title %} AGAGD - Tournaments {% endblock %}
+{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
 {% block content %} 
-    <p>
-        <form method="get" action="{% url "tourney_list" %}">
-            <input type="text" name="details" placeholder="Description or location" value="{{ details }}"/>
-            <input class="tournament_date" type="text" name="from_date" placeholder="From date" value="{{ from_date }}"/>
-            <input class="tournament_date" type="text" name="to_date" placeholder="To date" value="{{ to_date }}"/>
-            <input type="submit" value="Search"/>
-        </form>
-    </p>
-    <script>
-    $(function(){
-        $(".tournament_date").datepicker();
-    });
-    </script>
+    {{ block.super }}
+    <h2>Tournaments</h2>
+
+    {% include "agagd_core/_search_tournaments.html" %}
+
+    <hr class="clearboth">
+
     {% render_table tournament_table %}
 {% endblock %}
