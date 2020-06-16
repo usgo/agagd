@@ -9,6 +9,11 @@
 
 {% load render_table from django_tables2 %}
 {% block content %}
-<div style="clear: both;"></div>
+    <h2>All Player's Ratings</h2>
+
+    <hr class="clearboth" />
+
+    <div style="clear: both;"></div>
+
     {% render_table all_player_ratings_table %}
 {% endblock %}
