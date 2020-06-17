@@ -212,8 +212,13 @@ def chapter_detail(request, chapter_code):
 
 def country_detail(request, country_name):
     member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
+
+    RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+
     return render(request, 'agagd_core/country.html',
-            { 'member_table': member_table, })
+            {   
+                'country_name': country_name,
+                'member_table': member_table, })
 
 def all_player_ratings(request):
     all_player_ratings_query = Member.objects.filter(
