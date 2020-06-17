@@ -49,15 +49,18 @@ blockquote, q {
 #header {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-right: 10%;
-    float:right;
+}
+
+.frontpage-search form {
+    padding-top: .25em;
+    margin-top: .25em;
 }
 
 #container
 {
     padding-top: 1.5em;
     margin: auto;
-    max-width: 80%;
+    width: 80%;
 }
 
 #footer {
@@ -203,8 +206,106 @@ div.ui-datepicker{
  font-size:10px;
 }
 
+/*
+ * Forms
+ */
+
+.search-tournaments {
+    display: grid;
+}
+
+.player-search {
+    display: grid;
+}
+
+.player-search-title h1,h2,h3,h4,h5,h6 {
+    margin-bottom: .125em;
+}
+
+.player-search-item {
+    padding: .25em 0;
+    margin: .125em auto;
+}
+
+.player-search-item h1,h2,h3,h4,h5,h6 {
+    padding: .125em 0;
+}
+
+.frontpage-search-item {
+    padding: .5em 0;
+}
+
+/*
+ * Layout
+ */
+.header-col {
+    float: none;
+    width: 100%;
+    padding: .25em;
+}
+
+.header-title h2 {
+    margin-top: 0;
+}
+
+.responsive-row {
+    margin-top: 0;
+}
+
+.responsive-row:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.right-menu {
+    margin 0;
+    padding: 0;
+    display: block;    
+}
+
+.right-menu ul {
+    list-style: none;
+}
+
+.right-menu ul li {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    display: list-item;
+}
+
+
+@media all and (min-width: 768px) {
+    .header-col {
+        float: left;
+        width: 49%;
+    }
+ 
+    .right-menu {
+        margin 0;
+        padding: 0;
+        display: block;    
+    }
+    
+    .right-menu ul li {
+        margin: 0;
+        padding: 0;
+        text-align: right;
+        display: list-item;
+    }
+   
+}
+
+/* 
+ * Columns
+ */
 .left-column {
     float: left;
+}
+
+.right-column {
+    float: right;
 }
 
 .flex-row {
@@ -219,3 +320,4 @@ div.ui-datepicker{
 .clearboth {
      clear: both
 }
+
