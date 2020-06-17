@@ -210,29 +210,28 @@ div.ui-datepicker{
  * Forms
  */
 
-.search-tournaments {
-    display: grid;
-}
-
 .player-search {
     display: grid;
 }
 
-.player-search-title h1,h2,h3,h4,h5,h6 {
-    margin-bottom: .125em;
+.player-search input,button {
+    margin: .25em 0;
 }
 
-.player-search-item {
-    padding: .25em 0;
-    margin: .125em auto;
+.tournament-search {
+    display: grid;
 }
 
-.player-search-item h1,h2,h3,h4,h5,h6 {
-    padding: .125em 0;
+.tournament-search input,button {
+    margin: .25em 0;
 }
 
 .frontpage-search-item {
     padding: .5em 0;
+}
+
+.frontpage-search-item h1,h2,h3,h4,h5,h6 {
+    margin-bottom: .125em;
 }
 
 /*
