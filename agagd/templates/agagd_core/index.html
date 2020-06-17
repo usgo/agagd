@@ -1,65 +1,90 @@
-
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% load staticfiles %} 
 {% load render_table from django_tables2 %}
-
 {% block title %} AGAGD - The AGA Games Database  {% endblock %} 
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+
+{% block header_title %}
+    <div class="header-col header-title">
+        <h2>
+            <a href="{% url "index" %}">AGAGD</a>
+        </h2>
+
+        <h3>The AGA Game Database</h3>
+    </div>
+{% endblock header_title %}
+
+{% block header %}
+    <div class="frontpage-search responsive-row">
+        <div class="frontpage-search-title">
+            <h2>Search</h2>
+        </div>
+
+        <div class="frontpage-search-item left-col">
+            <h3>Tournaments</h3>
+            {% include "agagd_core/_search_tournaments.html" %}
+        </div>
+
+        <div class="frontpage-search-item left-col">
+            <h3>Players</h3>
+            {% include "agagd_core/fetch_player_form.html" %}
+        </div>
+    </div>
+{% endblock header %}
+
 {% block content %} 
-{{ block.super }} 
-<p>
-  {% include "agagd_core/fetch_player_form.html" %}
-</p>
-<p>
-  <a href="{% url "tourney_list" %}">Search tournaments</a>
-</p>
-<h2> Games Recorded Per Day </h2>
-{% include "agagd_core/game_count_graph.html" %}
-<h2> <a href="{% url "tourney_list" %}">Tournaments</a> </h2>
-{% if tournaments %}
-  {% render_table tournaments %}
-{% else %}
-  <p> No Tournaments are available. </p>
-{% endif %}
+    {{ block.super }}
 
-  <h2> Games played in the last 180 days</h2>
-  {% if table %}
-      {% render_table table %}
-  {% else %}
-      <p>No games are available.</p>
-  {% endif %}
+    <div class="clearboth"></div>
 
-  <div class="top-kyu-dan-container flex-row">
-      
-      {% if top_dan_table %}
-          <div class="flex-column">
-              <h2> Top Dan Players </h2>
-              {% render_table top_dan_table %}
-          </div>
-      {% endif %}
+    <h2> Games Recorded Per Day </h2>
 
-      {% if top_kyu_table %}
-          <div class="flex-column">
-              <h2> Top Kyu Players </h2>
-              {% render_table top_kyu_table %}
-          </div>
-      {% endif %}
-  </div>
-  <div class="top-active-dan-kyu-container flex-row">
+    {% include "agagd_core/game_count_graph.html" %}
 
-      {% if most_rated_games_table %}
-          <div class="flex-column">
-              <h2> Most Rated Games (Past 12 Months) </h2>
-              {% render_table most_rated_games_table %}
-          </div>
-      {% endif %}
+    <h2> <a href="{% url "tourney_list" %}">Tournaments</a> </h2>
 
-      {% if most_tournaments_table %}
-          <div class="flex-column">
-              <h2> Most Tournaments (Past 12 Months) </h2>
-              {% render_table most_tournaments_table %}
-          </div>
-      {% endif %}
-  </div>
+    {% if tournaments %}
+      {% render_table tournaments %}
+    {% else %}
+      <p> No Tournaments are available. </p>
+    {% endif %}
 
+    <h2> Games played in the last 180 days</h2>
+    {% if table %}
+        {% render_table table %}
+    {% else %}
+        <p>No games are available.</p>
+    {% endif %}
+
+    <div class="top-kyu-dan-container flex-row">
+        {% if top_dan_table %}
+            <div class="flex-column">
+                <h2> Top Dan Players </h2>
+                {% render_table top_dan_table %}
+            </div>
+        {% endif %}
+
+        {% if top_kyu_table %}
+            <div class="flex-column">
+                <h2> Top Kyu Players </h2>
+                {% render_table top_kyu_table %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="top-active-dan-kyu-container flex-row">
+        {% if most_rated_games_table %}
+            <div class="flex-column">
+                <h2> Most Rated Games (Past 12 Months) </h2>
+                {% render_table most_rated_games_table %}
+            </div>
+        {% endif %}
+
+        {% if most_tournaments_table %}
+            <div class="flex-column">
+                <h2> Most Tournaments (Past 12 Months) </h2>
+                {% render_table most_tournaments_table %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

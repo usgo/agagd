@@ -5,12 +5,22 @@
 
 {% block title %} Player card for {{player.full_name}} {% endblock %}
 {% block stylesheets %} {{ block.super }} {% endblock %}
+
+{% block header_title %}
+    <div class="header-col header-title">
+        <h2>
+            <a href="{% url "index" %}">AGAGD</a>
+        </h2>
+
+        <h2>Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2>
+    </div>
+{% endblock header_title %}
+
 {% block header %}
 {% endblock %}
 
 {% block content %}
 {{ block.super }} 
-<h2> Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2>
 
 <div class="clearboth"></div>
 
