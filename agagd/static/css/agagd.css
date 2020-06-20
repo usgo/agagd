@@ -224,6 +224,7 @@ div.ui-datepicker{
 
 .tournament-search input,button {
     margin: .25em 0;
+    margin-right: .25em;
 }
 
 .frontpage-search-item {
@@ -232,6 +233,23 @@ div.ui-datepicker{
 
 .frontpage-search-item h1,h2,h3,h4,h5,h6 {
     margin-bottom: .125em;
+}
+
+@media all and (min-width: 576px) {
+    .player-search {
+        display: inline;
+    }
+    
+    .tournament-search {
+        display: grid;
+        width: 60%;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .tournament-search {
+        display: inline-flex;
+    }
 }
 
 /*

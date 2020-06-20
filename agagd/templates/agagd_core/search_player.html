@@ -7,16 +7,25 @@
 
 {% block header_title %}
     <div class="header-col header-title">
-        <h2>
-            <a href="{% url "index" %}">AGAGD</a>
-        </h2>
+        <div class="header-title">
+            <h2>
+                <a href="{% url "index" %}">AGAGD</a>
+            </h2>
+        </div>
 
-        <h2>Search Results for {{ query }}</h2>
+        <div class="header-title">
+            <h2>Search Results for {{ query }}</h2>
+        </div>
     </div>
 {% endblock header_title %}
 
 {% block header %}
-    {% include "agagd_core/fetch_player_form.html" %}
+    <div class="responsive-row">
+        <div class="header-col">
+   
+            {% include "agagd_core/fetch_player_form.html" %}
+        </div>
+    </div>
 
     <hr class="clearboth" />
 {% endblock header %}
