@@ -15,21 +15,11 @@
 {% endblock header_title %}
 
 {% block header %}
-    <div class="frontpage-search responsive-row">
-        <div class="frontpage-search-title">
-            <h2>Search</h2>
+        <div class="frontpage-search responsive-row">
+            <div class="frontpage-search-item header-col">
+                {% include "agagd_core/fetch_player_form.html" %}
+            </div>
         </div>
-
-        <div class="frontpage-search-item left-col">
-            <h3>Tournaments</h3>
-            {% include "agagd_core/_search_tournaments.html" %}
-        </div>
-
-        <div class="frontpage-search-item left-col">
-            <h3>Players</h3>
-            {% include "agagd_core/fetch_player_form.html" %}
-        </div>
-    </div>
 {% endblock header %}
 
 {% block content %} 
