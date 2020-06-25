@@ -398,6 +398,10 @@ div.ui-datepicker{
     flex: 50%;
 }
 
+.flex-column:not(:first-child) {
+    margin-left: .5em;
+}
+
 .clearboth {
      clear: both
 }
