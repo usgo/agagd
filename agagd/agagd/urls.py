@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 from agagd_core import views as agagd_views
@@ -24,4 +26,4 @@ urlpatterns = [
     # Static Pages
     url(r'^information/$', agagd_views.information),
     url(r'^qualifications/$', agagd_views.qualifications)
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
