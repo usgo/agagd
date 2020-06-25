@@ -355,7 +355,7 @@ div.ui-datepicker{
 }
 
 .footer-row {
-    margin-top: 1em;
+    margin-top: 1.5em;
 }
 
 @media all and (min-width: 768px) {
@@ -395,7 +395,6 @@ div.ui-datepicker{
 }
 
 .flex-column {
-    margin: 1em;
     flex: 50%;
 }
 
