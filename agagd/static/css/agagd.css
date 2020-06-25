@@ -253,6 +253,68 @@ div.ui-datepicker{
 }
 
 /*
+ * Logos
+ */
+.footer-aga-logo {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-indent: -9999em;
+    background-image: url("/media/aga-logo-48x48.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 48px;
+}
+
+.footer-aga-logo-container {
+    margin: .25em auto;
+    display: block;
+    float: none;
+    width: 100%;
+}
+
+.aga-copyright {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-align: center;
+}
+
+.aga-copyright-container {
+    margin: .25em auto;
+    display: block;
+    float: none;
+    width: 100%;
+}
+
+@media all and (min-width: 768px) {
+    .footer-aga-logo {
+        margin: 0 0 0 1em;
+        display: block;
+        background-position: left center;
+    }
+
+    .footer-aga-logo-container {
+        float: left;
+        width: 49%;
+    }
+
+    .aga-copyright {
+        display: table-cell;
+        text-align: right;
+        height: 48px;
+        vertical-align: bottom;
+    }
+
+    .aga-copyright-container {
+        display: table;
+        float: left;
+        width: 49%;
+    }
+}
+
+/*
  * Layout
  */
 .header-col {
@@ -292,6 +354,9 @@ div.ui-datepicker{
     display: list-item;
 }
 
+.footer-row {
+    margin-top: 1em;
+}
 
 @media all and (min-width: 768px) {
     .header-col {
