@@ -3,9 +3,9 @@ import os
 
 PROJECT_ROOT = os.environ['PROJECT_ROOT']
 
-ADMINS = (
-    ('Andrew Jackson', 'operations@usgo.org'),
-)
+ADMINS = [
+    ('Admins', 'webmaster@usgo.org'),
+]
 
 MANAGERS = ADMINS
 
