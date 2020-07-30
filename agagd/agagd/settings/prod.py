@@ -7,6 +7,8 @@ if os.getenv('DEBUG') == 'true':
 else:
   DEBUG = False
 
+GOOGLE_ANALYTICS_TRACKING_ID = os.getenv('GOOGLE_ANALYTICS_TRACKING_ID', '')
+
 ADMIN_ENABLED = False
 
 # For SECRET_KEY, we want to be absolutely certain a value is provided
