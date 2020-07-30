@@ -22,18 +22,16 @@ COPY requirements.txt /build/
 RUN pip install --user --no-cache-dir -r requirements.txt && pip install --user --no-cache-dir uwsgi
 
 ### Final image
-FROM alpine
+FROM python:2-slim
 
 WORKDIR /srv
-RUN addgroup -S django && adduser -S django -G django
+RUN useradd django
 
 COPY --from=build --chown=django:django /root/.local /home/django/.local
 
-RUN apk add --no-cache \
-    python2 \
-    mysql-client \
-    mariadb-connector-c \
-    bash
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    libmariadb3
 
 USER django
 
