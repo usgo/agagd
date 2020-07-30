@@ -5,24 +5,54 @@
 
 {% block title %} Player card for {{player.full_name}} {% endblock %}
 {% block stylesheets %} {{ block.super }} {% endblock %}
+
+{% block header_title %}
+    <div class="header-col header-title">
+        <h2>
+            <a href="{% url "index" %}">AGAGD</a>
+        </h2>
+
+        <h2>Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2>
+    </div>
+{% endblock header_title %}
+
 {% block header %}
 {% endblock %}
 
 {% block content %}
 {{ block.super }} 
-<h2> Player card for <b>{{player.full_name}}</b>, ID #{{player.member_id}}.</h2>
-{% include "agagd_core/ratings_graph.html" %}
-<p> AGA member since: {{ player.join_date }} <p>
-<ps>Expiration Date: {{ player.renewal_due }} </ps>
-<ps>Membership type: {{ player.type }} </ps>
-<dl>
-  <dt> Rating: </dt> <dd> {{ rating.rating }} </dd>
-  <dt> Sigma: </dt> <dd> {{ rating.sigma }} </dd>
-  <dt> Last Rated At: </dt> <dd> {{ rating.elab_date }} </dd>
-  <dt> Last Tournament: </dt> <dd> {{ rating.tournament }} </dd>
-  <dt> Highest Rating: </dt> <dd> {{ max_rating }} </dd>
-</dl>
+
+<div class="clearboth"></div>
+
+<div class="member_content_wrapper">
+    <div class="left-column member_information">
+        <dl>
+            <dt> AGA member since: </dt>
+            <dd> {{ player.join_date }} </dd>
+            <dt> Expiration Date: </dt>
+            <dd> {{ player.renewal_due }} </dd>
+            <dt> Membership type: </dt>
+            <dd> {{ player.type }} </dd>
+            <dt style="font-size: 24px"> Rating: </dt>
+            <dd style="font-size: 24px"> {{ rating.rating }} </dd>
+            <dt> Highest Rating: </dt>
+            <dd> {{ max_rating }} </dd>
+            <dt> Sigma: </dt>
+            <dd> {{ rating.sigma }} </dd>
+            <dt> Last Rated At: </dt>
+            <dd> {{ rating.elab_date }} </dd>
+            <dt> Last Tournament: </dt>
+            <dd> {{ rating.tournament }} </dd>
+        </dl>
+    </div>
+
+    <div class="left-column member_rating_graph">
+    {% include "agagd_core/ratings_graph.html" %}
+    </div>
+</div>
+
 <div style="clear: both;"></div>
+
 <form method="post" action="{% url "find_member_vs" player.member_id %}">
     {% csrf_token %}
     <p> Find matchups of {{player.full_name}} against AGA ID# <input name="opponent_id" type="text"/>

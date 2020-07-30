@@ -24,6 +24,7 @@ class Member(models.Model):
     join_date = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=255, null=True)
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
@@ -45,6 +46,9 @@ class Chapter(models.Model):
         managed = False
 
 class Chapters(models.Model):
+    # ForeignKey for Member
+    member = models.ForeignKey(Member)
+
     # TODO this is not member_id? seems more like a normal pk for ChapterInfo
     member_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
     name = models.CharField(max_length=255, blank=True)
@@ -202,7 +206,19 @@ class Game(models.Model):
     def won_by(self, p1):
         return self.winner() == p1
 
+# Updated Rating Information Table for Players.
+class Players(models.Model):
+    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', primary_key=True)
+    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column=u'Elab_Date')
+    class Meta:
+        managed = False
+        db_table = u'players'
+
 class Rating(models.Model):
+    # ForeignKey for the Members
+    member_id = models.ForeignKey(Member, db_column=u'Pin_Player')
     pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
     tournament = models.ForeignKey(Tournament, db_column=u'Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.

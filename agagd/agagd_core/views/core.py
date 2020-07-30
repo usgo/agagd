@@ -1,12 +1,12 @@
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
 from agagd_core.tables import GameTable, GameTable2, MemberTable, TournamentTable, TopDanTable, TopKyuTable, OpponentTable, TournamentPlayedTable
-from agagd_core.tables import MostRatedGamesPastYearTable, MostTournamentsPastYearTable
+from agagd_core.tables import AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
 from agagd_core.ratings_top_ten_requests import RatingsTopRequest
 from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.urlresolvers import reverse
-from django.db.models import Q, Count
+from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST, require_GET
@@ -52,10 +52,25 @@ def search(request):
                 reverse('member_detail', args=(member_id,))
             )
         except ValueError:
-            member_table = MemberTable(
-                Member.objects.filter(full_name__icontains=query).order_by('family_name')
-            )
+            members_query = Member.objects.filter(
+                Q(member_id=F('players__pin_player'))
+            ).filter(
+                full_name__icontains=query
+            ).values(
+                "member_id",
+                "chapter_id",
+                "join_date",
+                "state",
+                "players__rating",
+                "country",
+                "full_name",
+                "family_name"
+            ).order_by('family_name')
+
+            member_table = MemberTable(members_query)
+
             RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+
             return render(request, 'agagd_core/search_player.html',
                 {
                     'member_table': member_table,
@@ -197,9 +212,49 @@ def chapter_detail(request, chapter_code):
 
 def country_detail(request, country_name):
     member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
+
+    RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+
     return render(request, 'agagd_core/country.html',
-            { 'member_table': member_table, })
-    
+            {   
+                'country_name': country_name,
+                'member_table': member_table, })
+
+def all_player_ratings(request):
+    all_player_ratings_query = Member.objects.filter(
+        Q(chapter_id=F('chapters__member_id')) |
+        Q(chapters__member_id__isnull=True)
+    ).filter(
+        Q(member_id=F('players__pin_player'))
+    ).filter(
+        status='accepted'
+    ).exclude(
+        rating__rating__isnull=True
+    ).exclude(
+        type='chapter'
+    ).exclude(
+        type='e-journal'
+    ).exclude(
+        type='library'
+    ).exclude(
+        type='institution'
+    ).values(
+        "full_name",
+        "member_id",
+        "type",
+        "players__rating",
+        "chapter_id",
+        "state",
+        "players__sigma",
+    ).order_by('-players__rating')
+
+    all_player_ratings_table = AllPlayerRatingsTable(all_player_ratings_query)
+    RequestConfig(request, paginate={'per_page': 50}).configure(all_player_ratings_table)
+
+    return render(request, 'agagd_core/all_player_ratings.html', {
+       'all_player_ratings_table': all_player_ratings_table,
+    })
+
 @require_GET
 def tournament_list(request):
     tourneys = Tournament.objects.order_by('-tournament_date')

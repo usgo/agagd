@@ -1,0 +1,12 @@
+<form class="tournament-search" method="get" action="{% url "tourney_list" %}">
+    <input type="text" name="details" placeholder="Description or location" value="{{ details }}"/>
+    <input class="tournament_date" type="text" name="from_date" placeholder="From date" value="{{ from_date }}"/>
+    <input class="tournament_date" type="text" name="to_date" placeholder="To date" value="{{ to_date }}"/>
+    <input type="submit" value="Search"/>
+</form>
+
+<script>
+    $(function(){
+        $(".tournament_date").datepicker();
+    });
+</script>

@@ -1,30 +1,32 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% load staticfiles %}
 {% load render_table from django_tables2 %}
-{% block title %} AGAGD - Tournaments {% endblock %}
-{% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
 
+{% block title %} AGAGD - All Player Ratings {% endblock %}
+{% block stylesheets %} {{ block.super }} {% endblock %}
+
+{% load render_table from django_tables2 %}
 {% block header_title %}
     <div class="header-col header-title">
         <h2>
             <a href="{% url "index" %}">AGAGD</a>
         </h2>
-        <h2>Tournaments</h2>
+
+        <h2>All Player's Ratings</h2>
     </div>
 {% endblock header_title %}
 
 {% block header %}
     <div class="responsive-row">
         <div class="header-col">
-            {% include "agagd_core/_search_tournaments.html" %}
+
+            {% include "agagd_core/fetch_player_form.html" %}
         </div>
     </div>
- 
+
     <hr class="clearboth" />
 {% endblock header %}
 
-{% block content %} 
-    {{ block.super }}
-
-    {% render_table tournament_table %}
+{% block content %}
+    {% render_table all_player_ratings_table %}
 {% endblock %}
