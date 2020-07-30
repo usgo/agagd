@@ -12,6 +12,19 @@
             <script src={% static "lib/jquery-2.1.0.min.js" %}></script>
             <script src={% static "lib/jquery-ui/js/jquery-ui-1.10.3.custom.min.js" %}></script>
         {% endblock %}
+        {% block google_analytics %}
+           {% if google_analytics_tracking_id != '' %}
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_tracking_id }}"></script>
+                <script>
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', '{{ google_analytics_tracking_id }}' );
+                </script>
+           {% endif %}
+        {% endblock %}
         <meta name="viewport" content="width=device-width,initial-scale=1">
    </head>
    <body>
