@@ -8,35 +8,30 @@
 # * MYSQL_PASSWORD - database password (the docker entrypoint sets MYSQL_PASS to this value for app compatibility)
 
 ### Build stage, to avoid leaving dev dependencies in the final image
-FROM alpine AS build
+FROM python:2-slim AS build
 
 WORKDIR /build
 
-RUN apk add --no-cache \
-    py-pip \
-    build-base \
-    sqlite-dev \
-    python-dev \
-    mariadb-dev \
-    linux-headers
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev \
+    libmariadb-dev \
+    build-essential
 RUN pip install --no-cache-dir -U pip
 
 COPY requirements.txt /build/
 RUN pip install --user --no-cache-dir -r requirements.txt && pip install --user --no-cache-dir uwsgi
 
 ### Final image
-FROM alpine
+FROM python:2-slim
 
 WORKDIR /srv
-RUN addgroup -S django && adduser -S django -G django
+RUN useradd django
 
 COPY --from=build --chown=django:django /root/.local /home/django/.local
 
-RUN apk add --no-cache \
-    python \
-    mysql-client \
-    mariadb-connector-c \
-    bash
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    libmariadb3
 
 USER django
 
