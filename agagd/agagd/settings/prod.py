@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from base import *
+from .base import *
 
 if os.getenv('DEBUG') == 'true':
   DEBUG = True
