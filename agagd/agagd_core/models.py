@@ -14,6 +14,7 @@ class Member(models.Model):
         db_table = u'members'
         verbose_name = u'member'
         verbose_name_plural = u'members'
+        managed = False
 
     member_id = models.AutoField(primary_key=True)
     legacy_id = models.TextField(blank=True) # This field type is a guess.
@@ -23,6 +24,7 @@ class Member(models.Model):
     join_date = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=255, null=True)
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
@@ -41,8 +43,12 @@ class Chapter(models.Model):
     chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr') # x.
     class Meta:
         db_table = u'chapter'
+        managed = False
 
 class Chapters(models.Model):
+    # ForeignKey for Member
+    member = models.ForeignKey(Member)
+
     # TODO this is not member_id? seems more like a normal pk for ChapterInfo
     member_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
     name = models.CharField(max_length=255, blank=True)
@@ -61,6 +67,7 @@ class Chapters(models.Model):
     fees = models.CharField(max_length=255, blank=True)
     display = models.TextField() # This field type is a guess.
     class Meta:
+        managed = False
         db_table = u'chapters'
 
 class CommentsAuthors(models.Model):
@@ -70,6 +77,7 @@ class CommentsAuthors(models.Model):
     country = models.CharField(max_length=3, db_column=u'Country') # x.
     pin = models.TextField(db_column=u'PIN') # x. This field type is a guess.
     class Meta:
+        managed = False
         db_table = u'comments_authors'
 
 class Country(models.Model):
@@ -77,6 +85,7 @@ class Country(models.Model):
     country_descr = models.CharField(max_length=50, db_column=u'Country_Descr') # x.
     country_flag = models.CharField(max_length=4, db_column=u'Country_Flag', blank=True) # x.
     class Meta:
+        managed = False
         db_table = u'country'
 
 class Tournament(models.Model):
@@ -100,6 +109,7 @@ class Tournament(models.Model):
             return u'%s' % self.pk
     
     class Meta:
+        managed = False
         db_table= u'tournaments'
         verbose_name = u'tournament'
         verbose_name_plural = u'tournaments'
@@ -129,7 +139,7 @@ class TopKyu(models.Model):
 class MostRatedGamesPastYear(models.Model):
     pin = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(max_length=25, db_column=u'Game_Count')
+    total = models.BigIntegerField(db_column=u'Game_Count')
 
     class Meta:
         managed = False
@@ -140,7 +150,7 @@ class MostRatedGamesPastYear(models.Model):
 class MostTournamentsPastYear(models.Model):
     pin = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(max_length=25, db_column=u'Tournament_Count')
+    total = models.BigIntegerField(db_column=u'Tournament_Count')
 
     class Meta:
         managed = False
@@ -170,6 +180,7 @@ class Game(models.Model):
     pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2')
 
     class Meta:
+        managed = False
         db_table = u'games'
         verbose_name = u'game'
         verbose_name_plural = u'games'
@@ -195,13 +206,26 @@ class Game(models.Model):
     def won_by(self, p1):
         return self.winner() == p1
 
+# Updated Rating Information Table for Players.
+class Players(models.Model):
+    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', primary_key=True)
+    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column=u'Elab_Date')
+    class Meta:
+        managed = False
+        db_table = u'players'
+
 class Rating(models.Model):
+    # ForeignKey for the Members
+    member_id = models.ForeignKey(Member, db_column=u'Pin_Player')
     pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
     tournament = models.ForeignKey(Tournament, db_column=u'Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date')
     class Meta:
+        managed = False
         db_table = u'ratings'
 
 class MembersRegions(models.Model):
@@ -209,10 +233,12 @@ class MembersRegions(models.Model):
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
     class Meta:
+        managed = False
         db_table = u'members_regions'
 
 class Membership(models.Model):
     mtype = models.CharField(max_length=8, primary_key=True, db_column=u'MType') # x.
     membership_type = models.CharField(max_length=35, db_column=u'Membership_Type') # x.
     class Meta:
+        managed = False
         db_table = u'membership'

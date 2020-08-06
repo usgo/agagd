@@ -2,13 +2,21 @@
 {% load staticfiles %} 
 {% block title %}Ratings Information{% endblock %}
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+
+{% block header_title %}
+    <div class="header-col header-title">
+        <h2>
+            <a href="{% url "index" %}">AGAGD</a>
+        </h2>
+
+        <h2> Ratings Information</h2>
+    </div>
+{% endblock header_title %}
+
 {% block content %} 
 {{ block.super }} 
 
 <div class="clearboth"></div>
-
-<h2> Ratings Information</h2>
-
   <p> The AGA Rating System, unlike some other systems, does not merely tally results and award or remove fixed numbers of points from the player's total. Based on advanced statistical procedures, it looks at results of many events simultaneously, using the results to figure out how likely each player was to defeat the other. Players are ranked and ordered according to these calculations.</p>
   <p>The AGA rates serious games, mainly from face-to-face tournament and club play. The basic qualifications for rated games are probably easier to meet than you might think,and the AGA encourages you to submit your game results. <a href="/qualifications/">Learn how to submit game results to the rating system.</a>
 

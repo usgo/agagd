@@ -1,5 +1,8 @@
 import django_tables2 as tables
-from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
+from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.safestring import mark_safe
+from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
@@ -16,16 +19,16 @@ class WinnerColumn(tables.LinkColumn):
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
     pin_player_1 = WinnerColumn('W',
-            viewname='agagd_core.views.member_detail',
+            viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
     pin_player_2 = WinnerColumn('B',
-            'agagd_core.views.member_detail', 
+            viewname='member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     tournament_code = tables.LinkColumn(
             verbose_name="Tournament",
-            viewname='agagd_core.views.tournament_detail',
+            viewname='tournament_detail',
             kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
 
     class Meta:
@@ -39,11 +42,11 @@ class GameTable(tables.Table):
 #Modified gaeTable to remove duplicate tournament listing displayed on the page, GitHubIssue#20
 class GameTable2(tables.Table):
     pin_player_1 = WinnerColumn('W',
-            viewname='agagd_core.views.member_detail',
+            viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
     pin_player_2 = WinnerColumn('B',
-            'agagd_core.views.member_detail', 
+            'member_detail', 
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     class Meta:
@@ -63,7 +66,7 @@ class OpponentTable(tables.Table):
 
     empty_text = "Opponent information couldn't be calculated"
     opponent = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('opponent.member_id')})
     total = tables.Column(verbose_name="Games")
     won = tables.Column(verbose_name="Won", default=0)
@@ -79,30 +82,45 @@ class OpponentTable(tables.Table):
 
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
-    chapter  = tables.LinkColumn(
-        'agagd_core.views.chapter_detail',
-        kwargs={"chapter_code": tables.A('chapter')})
+    chapter_id  = tables.Column(
+        verbose_name="Chapter"
+    )
+    players__rating = tables.Column(
+        verbose_name="Rating"
+    )
     country = tables.LinkColumn(
-        'agagd_core.views.country_detail',
+        'country_detail',
         kwargs={"country_name": tables.A('country')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
+
+    def render_chapter_id(self, value):
+        try:
+            members_chapter = Chapters.objects.get(member_id=value)
+
+            chapter_url = reverse(
+                viewname='chapter_detail',
+                kwargs={'chapter_code': members_chapter.code})
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+        except:
+            chapter_html = u"\u2014"
+        return chapter_html
 
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
-        fields = ('full_name', 'state', 'join_date', 'country')
-        sequence = ('full_name', 'chapter', 'country', 'state', 'join_date', 'member_id')
+        fields = ('full_name', 'state', 'players__rating', 'join_date', 'country')
+        sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopDan
@@ -112,10 +130,10 @@ class TopDanTable(tables.Table):
 
 class TopKyuTable(tables.Table):
     member_id = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={"member_id": tables.A('member_id')})
     full_name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopKyu
@@ -125,10 +143,10 @@ class TopKyuTable(tables.Table):
 
 class MostRatedGamesPastYearTable(tables.Table):
     pin = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={'member_id': tables.A('pin')})
     name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('pin')})
     class Meta:
         model = MostRatedGamesPastYear
@@ -138,10 +156,10 @@ class MostRatedGamesPastYearTable(tables.Table):
 
 class MostTournamentsPastYearTable(tables.Table):
     pin = tables.LinkColumn(
-        'agagd_core.views.member_detail',
+        'member_detail',
         kwargs={'member_id': tables.A('pin')})
     name = tables.LinkColumn(
-       'agagd_core.views.member_detail',
+       'member_detail',
         kwargs={'member_id': tables.A('pin')})
     class Meta:
         model = MostTournamentsPastYear
@@ -149,10 +167,60 @@ class MostTournamentsPastYearTable(tables.Table):
         fields = ('pin', 'name', 'total')
         sequence = fields
 
+class AllPlayerRatingsTable(tables.Table):
+    full_name = tables.LinkColumn(
+        'member_detail',
+        kwargs={
+            "member_id": tables.A('member_id')
+        }
+    )
+    member_id = tables.LinkColumn(
+        'member_detail',
+        kwargs={
+            "member_id": tables.A('member_id')
+        }
+    )
+    type = tables.Column()
+    players__rating = tables.Column()
+    chapter_id = tables.Column(
+        verbose_name="Chapter"
+    )
+    state = tables.Column()
+    players__sigma = tables.Column(
+        verbose_name="Sigma"
+    )
+
+    def render_chapter_id(self, value):
+        try:
+            members_chapter = Chapters.objects.get(member_id=value)
+
+            if members_chapter.code is not None:
+                chapter_url = reverse(
+                    viewname='chapter_detail',
+                    kwargs={'chapter_code': members_chapter.code})
+                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.name))
+            else:
+                chapter_html = u"\u2014"
+        except:
+            chapter_html = u"\u2014"
+        return chapter_html
+
+    class Meta:
+        attrs = {"class": "paleblue"}
+        fields = (
+                  'full_name',
+                  'member_id',
+                  'players__rating',
+                  'players__sigma',
+                  'type',
+                  'chapter_id',
+                  'state',
+                 )
+        sequence = fields
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
-            'agagd_core.views.tournament_detail',
+            'tournament_detail',
             kwargs={'tourn_code':tables.A('tournament_code')},)
     elab_date = tables.Column(verbose_name="rated on")
 
@@ -164,7 +232,7 @@ class TournamentTable(tables.Table):
 
 class TournamentPlayedTable(tables.Table):
     tournament = tables.LinkColumn(
-            'agagd_core.views.tournament_detail',
+            'tournament_detail',
             kwargs={'tourn_code':tables.A('tournament.pk')},)
     date = tables.Column(default="Unknown")
     won = tables.Column(verbose_name="Won", default=0)
