@@ -2,13 +2,21 @@
 {% load staticfiles %} 
 {% block title %}Qualifications for Rated Games{% endblock %} 
 {% block stylesheets %} {{ block.super }} {% endblock stylesheets %}
+
+{% block header_title %}
+    <div class="header-col header-title">
+        <h2>
+            <a href="{% url "index" %}">AGAGD</a>
+        </h2>
+
+        <h1>Qualifications for Rated Games</h1>
+    </div>
+{% endblock header_title %}
+
 {% block content %} 
 {{ block.super }} 
 
 <div class="clearboth"></div>
-
-  <h1>Qualifications for Rated Games</h1>
-
   <p> The AGA accepts game results for rating from recognized clubs and tournament organizers.</p>
 
   <h1>Qualifications for Rated Games</h1>

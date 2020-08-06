@@ -30,7 +30,7 @@ FROM
 WHERE
     game_count > 10 AND rating > 0
 ORDER BY p.rating DESC
-LIMIT 10
+LIMIT 10;
 
 CREATE VIEW top_kyu_view AS
     SELECT 
@@ -62,4 +62,4 @@ CREATE VIEW top_kyu_view AS
     WHERE
         game_count > 10 AND rating < 0
     ORDER BY p.rating DESC
-    LIMIT 10
+    LIMIT 10;

@@ -28,7 +28,7 @@ CREATE VIEW most_rated_games_view AS
         ORDER BY Game_Count DESC , pin
         LIMIT 10) AS p
             INNER JOIN
-        players ON p.pin = players.pin_player
+        players ON p.pin = players.pin_player;
 
 CREATE VIEW most_tournaments_view AS
     SELECT 
@@ -58,4 +58,4 @@ CREATE VIEW most_tournaments_view AS
         ORDER BY Tournament_Count DESC , pin
         LIMIT 10) AS p
             INNER JOIN
-        players ON p.pin = players.pin_player
+        players ON p.pin = players.pin_player;

@@ -49,15 +49,18 @@ blockquote, q {
 #header {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-right: 10%;
-    float:right;
+}
+
+.frontpage-search form {
+    padding-top: .25em;
+    margin-top: .25em;
 }
 
 #container
 {
     padding-top: 1.5em;
     margin: auto;
-    max-width: 80%;
+    width: 80%;
 }
 
 #footer {
@@ -113,10 +116,9 @@ ps {
     margin-bottom:0.7em;
     text-align:justify;
     line-height:1.5em;
-    display: block;
 }
 
-ul, dl {
+ul {
     margin-left:1.5em;
 }
 
@@ -126,12 +128,13 @@ ol {
 
 
 dt {
-  padding-left: 20px;
+  /* padding-left: 20px; */
   font-variant: small-caps;
   font-weight: bold;
 }
 dd {
-  padding-left: 40px;   color: #666666;
+  padding-left: 40px;   
+  color: #666666;
 }
 
 li {
@@ -162,9 +165,9 @@ a:hover {
     font-style: italic;
 }
 
-#ratings_graph {
+/*#ratings_graph {
     float: right;
-}
+}*/
 
 .axis path,
 .axis line {
@@ -203,16 +206,203 @@ div.ui-datepicker{
  font-size:10px;
 }
 
+/*
+ * Forms
+ */
+
+.player-search {
+    display: grid;
+}
+
+.player-search input,button {
+    margin: .25em 0;
+}
+
+.tournament-search {
+    display: grid;
+}
+
+.tournament-search input,button {
+    margin: .25em 0;
+    margin-right: .25em;
+}
+
+.frontpage-search-item {
+    padding: .5em 0;
+}
+
+.frontpage-search-item h1,h2,h3,h4,h5,h6 {
+    margin-bottom: .125em;
+}
+
+@media all and (min-width: 576px) {
+    .player-search {
+        display: inline;
+    }
+    
+    .tournament-search {
+        display: grid;
+        width: 60%;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .tournament-search {
+        display: inline-flex;
+    }
+}
+
+/*
+ * Logos
+ */
+.footer-aga-logo {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-indent: -9999em;
+    background-image: url("/media/aga-logo-48x48.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 48px;
+}
+
+.footer-aga-logo-container {
+    margin: .25em auto;
+    display: block;
+    float: none;
+    width: 100%;
+}
+
+.aga-copyright {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-align: center;
+}
+
+.aga-copyright-container {
+    margin: .25em auto;
+    display: block;
+    float: none;
+    width: 100%;
+}
+
+@media all and (min-width: 768px) {
+    .footer-aga-logo {
+        margin: 0 0 0 1em;
+        display: block;
+        background-position: left center;
+    }
+
+    .footer-aga-logo-container {
+        float: left;
+        width: 49%;
+    }
+
+    .aga-copyright {
+        display: table-cell;
+        text-align: right;
+        height: 48px;
+        vertical-align: bottom;
+    }
+
+    .aga-copyright-container {
+        display: table;
+        float: left;
+        width: 49%;
+    }
+}
+
+/*
+ * Layout
+ */
+.header-col {
+    float: none;
+    width: 100%;
+    padding: .25em;
+}
+
+.header-title h2 {
+    margin-top: 0;
+}
+
+.responsive-row {
+    margin-top: 0;
+}
+
+.responsive-row:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.right-menu {
+    margin 0;
+    padding: 0;
+    display: block;    
+}
+
+.right-menu ul {
+    list-style: none;
+}
+
+.right-menu ul li {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    display: list-item;
+}
+
+.footer-row {
+    margin-top: 1.5em;
+}
+
+@media all and (min-width: 768px) {
+    .header-col {
+        float: left;
+        width: 49%;
+    }
+ 
+    .right-menu {
+        margin 0;
+        padding: 0;
+        display: block;    
+    }
+    
+    .right-menu ul li {
+        margin: 0;
+        padding: 0;
+        text-align: right;
+        display: list-item;
+    }
+   
+}
+
+/* 
+ * Columns
+ */
+.left-column {
+    float: left;
+}
+
+.right-column {
+    float: right;
+}
 
 .flex-row {
     display: flex
 }
 
 .flex-column {
-    margin: 1em;
     flex: 50%;
+}
+
+.flex-column:not(:first-child) {
+    margin-left: .5em;
 }
 
 .clearboth {
      clear: both
 }
+
