@@ -201,9 +201,16 @@ def tournament_detail(request, tourn_code):
                 'tournament': tourney,
             }) 
 
-def chapter_detail(request, chapter_code):
-    chapter = Chapters.objects.get(code=chapter_code)
-    member_table = MemberTable(Member.objects.filter(chapter=chapter_code).order_by('family_name') )
+def chapter_detail(request, chapter_id):
+    try:
+        chapter = Chapters.objects.get(member_id=chapter_id)
+        member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
+    except DoesNotExist:
+        # Try the lookup with the 4-letter chapter code. These are deprecated,
+        # but we continue to support them in case users have chapter pages bookmarked.
+        chapter = Chapters.objects.get(code=chapter_id)
+        member_table = MemberTable(Member.objects.filter(chapter=chapter_id).order_by('family_name') )
+
     return render(request, 'agagd_core/chapter.html',
             {
                 'member_table': member_table,

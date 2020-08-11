@@ -13,9 +13,13 @@
         </h2>
 
         {% if chapter.name %}
-            <h2> Chapter: {{ chapter.name }} - {{ chapter.code }} </h2>
+            <h2> Chapter: {{ chapter.name }} </h2>
         {% else %}
-            <h2> Chapter: {{ chapter.code }} </h2> 
+            {% comment %}
+                The use of chapter codes is deprecated, but we leave it here for legacy chapters that do not
+                have a populated name field.
+            {% endcomment %}
+            <h2> Chapter: {{ chapter.code }} </h2>
         {% endif %}
     </div>
 {% endblock header_title %}
