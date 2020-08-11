@@ -101,6 +101,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Custom context_processors
                 'django.template.context_processors.request',
+                'agagd_core.context_processors.google_analytics_tracking_id',
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',

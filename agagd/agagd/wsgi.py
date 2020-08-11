@@ -23,7 +23,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agagd.settings.prod")
 from django.core.wsgi import get_wsgi_application
 
 def bootstrap_env(environ, start_response):
-    for key in ['DJANGO_SETTINGS_MODULE', 'AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
+    for key in ['DJANGO_SETTINGS_MODULE', 'GOOGLE_ANALYTICS_TRACKING_ID', 'AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
         if key in environ:
             os.environ[key] = environ[key]
     _application = get_wsgi_application()

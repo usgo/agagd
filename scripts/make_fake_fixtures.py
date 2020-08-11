@@ -10,7 +10,7 @@ COUNTRY_NAMES = ['An awesome country', 'A cool country', 'Canada', 'United State
 import datetime as dt
 
 if len(sys.argv) != 4:
-    print USAGE
+    print( USAGE )
     quit()
 
 try:
@@ -18,7 +18,7 @@ try:
     game_count = int(sys.argv[2])
     tourney_count = int(sys.argv[3])
 except ValueError:
-    print USAGE
+    print( USAGE )
     quit()
 
 members = []
@@ -121,4 +121,4 @@ for i, count_name in enumerate(COUNTRY_NAMES):
         }
     }) 
 
-print json.dumps(members + tournaments + games + chapters + countries, indent=4)
+print( json.dumps(members + tournaments + games + chapters + countries, indent=4) )

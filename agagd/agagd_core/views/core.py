@@ -146,7 +146,7 @@ def member_detail(request, member_id):
             opponent_data[op] = opp_dat
             tourney_data[game.tournament_code.pk] = t_dat
         except exceptions.ObjectDoesNotExist:
-            print 'failing game_id: %s' % game.pk 
+            print( 'failing game_id: %s' % game.pk )
 
     opp_table = OpponentTable(opponent_data.values(), player, prefix='opp')
     opp_table.this_player = player

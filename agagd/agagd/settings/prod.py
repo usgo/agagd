@@ -1,11 +1,13 @@
 #!/bin/env python
 
-from base import *
+from .base import *
 
 if os.getenv('DEBUG') == 'true':
   DEBUG = True
 else:
   DEBUG = False
+
+GOOGLE_ANALYTICS_TRACKING_ID = os.getenv('GOOGLE_ANALYTICS_TRACKING_ID', '')
 
 ADMIN_ENABLED = False
 
