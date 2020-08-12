@@ -112,8 +112,8 @@ class MemberTable(tables.Table):
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
-        fields = ('full_name', 'state', 'players__rating', 'join_date', 'country')
-        sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
+        fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
+        sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'renewal_due', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
