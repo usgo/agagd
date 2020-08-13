@@ -59,7 +59,7 @@ def search(request):
             ).values(
                 "member_id",
                 "chapter_id",
-                "join_date",
+                "renewal_due",
                 "state",
                 "players__rating",
                 "country",
