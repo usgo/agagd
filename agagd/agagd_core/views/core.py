@@ -288,13 +288,18 @@ def tournament_list(request):
     })
 
 def game_stats(request):
-    games_by_date = [{'date': obj['game_date'],
-            'count': obj['game_date__count']} 
-            for obj in 
-            Game.objects.values('game_date').annotate(Count('game_date')) 
-            if obj['game_date'] != None]
-    games_by_date = sorted(games_by_date, key=lambda d: d['date'])
-    return JsonResponse(games_by_date) 
+    games_by_date = []
+
+    for game_obj in Game.objects.values('game_date').annotate(Count('game_date')):
+        try:
+            game_date = datetime.strptime(str(game_obj['game_date']), "%Y-%m-%d")
+            games_by_date.append({'date': game_date.strftime("%Y-%m-%d"),
+                                  'count': game_obj['game_date__count']})
+        except ValueError:
+            pass
+
+    sorted_games_by_date = sorted(games_by_date, key=lambda d: d['date'])
+    return JsonResponse(sorted_games_by_date)
 
 # AGAGD Static Pages
 def information(request):
