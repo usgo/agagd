@@ -8,7 +8,7 @@
 # * MYSQL_PASSWORD - database password (the docker entrypoint sets MYSQL_PASS to this value for app compatibility)
 
 ### Build stage, to avoid leaving dev dependencies in the final image
-FROM python:2.7-slim AS build
+FROM python:3.7-slim AS build
 
 WORKDIR /build
 
@@ -22,7 +22,7 @@ COPY requirements.txt /build/
 RUN pip install --user --no-cache-dir -r requirements.txt && pip install --user --no-cache-dir uwsgi
 
 ### Final image
-FROM python:2.7-slim
+FROM python:3.7-slim
 
 WORKDIR /srv
 RUN useradd django
