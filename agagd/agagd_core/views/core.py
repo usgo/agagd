@@ -5,6 +5,7 @@ from agagd_core.tables import AllPlayerRatingsTable, MostRatedGamesPastYearTable
 from agagd_core.ratings_top_ten_requests import RatingsTopRequest
 from datetime import datetime, timedelta, date
 from django.core import exceptions
+from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
@@ -69,7 +70,10 @@ def search(request):
 
             member_table = MemberTable(members_query)
 
-            RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+            try:
+                RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+            except PageNotAnInteger:
+                RequestConfig(request, paginate=False).configure(member_table)
 
             return render(request, 'agagd_core/search_player.html',
                 {
