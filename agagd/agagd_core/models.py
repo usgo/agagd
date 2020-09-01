@@ -137,7 +137,7 @@ class TopKyu(models.Model):
         verbose_name_plural = u'top_kyu_view'
 
 class MostRatedGamesPastYear(models.Model):
-    pin = models.IntegerField(primary_key=True, db_column=u'pin')
+    member_id = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
     total = models.BigIntegerField(db_column=u'Game_Count')
 
@@ -148,7 +148,7 @@ class MostRatedGamesPastYear(models.Model):
         verbose_name_plural = u'most_rated_games_view'
 
 class MostTournamentsPastYear(models.Model):
-    pin = models.IntegerField(primary_key=True, db_column=u'pin')
+    member_id = models.IntegerField(primary_key=True, db_column=u'pin')
     name = models.CharField(max_length=65, db_column=u'Name')
     total = models.BigIntegerField(db_column=u'Tournament_Count')
 
