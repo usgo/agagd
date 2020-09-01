@@ -2,6 +2,5 @@ Django==1.11.29
 django-admin-tools==0.4.1
 django-tables2==2.0.0a3
 PyMySQL==0.10.0
-requests==2.22.0
 six==1.4.1
 yolk==0.4.3
