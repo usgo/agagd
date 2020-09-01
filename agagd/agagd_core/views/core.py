@@ -2,7 +2,6 @@ from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
 from agagd_core.tables import GameTable, GameTable2, MemberTable, TournamentTable, TopDanTable, TopKyuTable, OpponentTable, TournamentPlayedTable
 from agagd_core.tables import AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
-from agagd_core.ratings_top_ten_requests import RatingsTopRequest
 from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.paginator import PageNotAnInteger
