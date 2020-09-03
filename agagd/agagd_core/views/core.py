@@ -132,7 +132,15 @@ def member_detail(request, member_id):
             t_dat['tournament'] = game.tournament_code
             t_dat['won'] = t_dat.get('won', 0)
             t_dat['lost'] = t_dat.get('lost', 0)
-            t_dat['date'] = t_dat.get('date', game.game_date)
+
+            # Set default game_date to None
+            game_date = None
+
+            # Check for 0000-00-00 dates
+            if game.game_date != u'0000-00-00':
+                game_date = game.game_date
+
+            t_dat['date'] = t_dat.get('date', game_date)
 
             op = game.player_other_than(player)
             opp_dat = opponent_data.get(op, {}) 
