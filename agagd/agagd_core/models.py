@@ -72,17 +72,6 @@ class Chapters(models.Model):
         managed = False
         db_table = 'chapters'
 
-class CommentsAuthors(models.Model):
-    id = models.CharField(max_length=12, primary_key=True, db_column='Id')
-    last_name = models.CharField(max_length=50, db_column='Last_Name')
-    first_name = models.CharField(max_length=50, db_column='First_Name')
-    country = models.CharField(max_length=3, db_column='Country')
-    pin = models.IntegerField(max_length=8, db_column='PIN')
-
-    class Meta:
-        managed = False
-        db_table = 'comments_authors'
-
 class Country(models.Model):
     country_code = models.CharField(max_length=2, primary_key=True, db_column='Country_Code')
     country_descr = models.CharField(max_length=50, db_column='Country_Descr')
