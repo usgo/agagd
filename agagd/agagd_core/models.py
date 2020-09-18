@@ -28,9 +28,9 @@ class Member(models.Model):
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
-    chapter_id = models.TextField(blank=True) # This field type is a guess.
+    chapter_id = models.IntegerField(max_length=11, blank=True) # This field type is a guess.
     occupation = models.CharField(max_length=100, blank=True)
-    citizen = models.TextField() # This field type is a guess.
+    citizen = models.SmallIntegerField(max_length=6)
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
     renewal_due = models.CharField(max_length=255, blank=True)
@@ -39,8 +39,8 @@ class Member(models.Model):
         return u" %s (%s) " % (self.full_name, self.member_id, )
 
 class Chapter(models.Model):
-    chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code') # x.
-    chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr') # x.
+    chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code')
+    chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr')
     class Meta:
         db_table = u'chapter'
         managed = False
@@ -55,7 +55,7 @@ class Chapters(models.Model):
     legacy_status = models.CharField(max_length=1, blank=True)
     code = models.CharField(max_length=4, blank=True)
     contact = models.CharField(max_length=255, blank=True)
-    rep_id = models.TextField(blank=True) # This field type is a guess.
+    rep_id = models.IntegerField(blank=True)
     url = models.CharField(max_length=255, blank=True)
     meeting_city = models.CharField(max_length=255, blank=True)
     contact_html = models.TextField(blank=True)
@@ -65,38 +65,39 @@ class Chapters(models.Model):
     events = models.TextField(blank=True)
     comments = models.TextField(blank=True)
     fees = models.CharField(max_length=255, blank=True)
-    display = models.TextField() # This field type is a guess.
+    display = models.SmallIntegerField(max_length=1)
     class Meta:
         managed = False
         db_table = u'chapters'
 
 class CommentsAuthors(models.Model):
-    id = models.CharField(max_length=12, primary_key=True, db_column=u'Id') # x.
-    last_name = models.CharField(max_length=50, db_column=u'Last_Name') # x.
-    first_name = models.CharField(max_length=50, db_column=u'First_Name') # x.
-    country = models.CharField(max_length=3, db_column=u'Country') # x.
-    pin = models.TextField(db_column=u'PIN') # x. This field type is a guess.
+    id = models.CharField(max_length=12, primary_key=True, db_column=u'Id')
+    last_name = models.CharField(max_length=50, db_column=u'Last_Name')
+    first_name = models.CharField(max_length=50, db_column=u'First_Name')
+    country = models.CharField(max_length=3, db_column=u'Country')
+    pin = models.IntegerField(max_length=8, db_column=u'PIN')
+
     class Meta:
         managed = False
         db_table = u'comments_authors'
 
 class Country(models.Model):
-    country_code = models.CharField(max_length=2, primary_key=True, db_column=u'Country_Code') # x.
-    country_descr = models.CharField(max_length=50, db_column=u'Country_Descr') # x.
-    country_flag = models.CharField(max_length=4, db_column=u'Country_Flag', blank=True) # x.
+    country_code = models.CharField(max_length=2, primary_key=True, db_column=u'Country_Code')
+    country_descr = models.CharField(max_length=50, db_column=u'Country_Descr')
+    country_flag = models.CharField(max_length=4, db_column=u'Country_Flag', blank=True)
     class Meta:
         managed = False
         db_table = u'country'
 
 class Tournament(models.Model):
     tournament_code = models.CharField(max_length=20, primary_key=True, db_column=u'Tournament_Code')
-    description = models.TextField(db_column='Tournament_Descr')
+    description = models.CharField(max_length=80, db_column='Tournament_Descr')
     tournament_date = models.DateField(db_column=u'Tournament_Date')
     elab_date = models.DateField(db_column=u'Elab_Date')
     city = models.CharField(max_length=30, db_column=u'City')
     state = models.CharField(max_length=2, db_column=u'State_Code', blank=True)
-    rounds = models.IntegerField(db_column='Rounds')
-    total_players = models.IntegerField(db_column='Total_Players')
+    rounds = models.SmallIntegerField(max_length=2, db_column='Rounds')
+    total_players = models.SmallIntegerField(max_length=3, db_column='Total_Players')
     wall_list = models.TextField(db_column='Wallist')
     def __str__(self):
         return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
@@ -159,20 +160,20 @@ class MostTournamentsPastYear(models.Model):
         verbose_name_plural = u'most_tournaments_view'
 
 class Game(models.Model):
-    game_id = models.AutoField(primary_key=True, db_column=u'Game_ID') # x. This field type is a guess.
-    game_date = models.DateField(db_column=u'Game_Date') # x.
-    round = models.TextField(db_column=u'Round') # x. This field type is a guess.
-    color_1 = models.CharField(max_length=1, db_column=u'Color_1') # x.
-    rank_1 = models.CharField(max_length=3, db_column=u'Rank_1') # x.
-    color_2 = models.CharField(max_length=1, db_column=u'Color_2') # x.
+    game_id = models.IntegerField(max_length=10, primary_key=True, db_column=u'Game_ID')
+    game_date = models.DateField(db_column=u'Game_Date')
+    round = models.SmallIntegerField(max_length=2, db_column=u'Round')
+    color_1 = models.CharField(max_length=1, db_column=u'Color_1')
+    rank_1 = models.CharField(max_length=3, db_column=u'Rank_1')
+    color_2 = models.CharField(max_length=1, db_column=u'Color_2')
     rank_2 = models.CharField(max_length=3, db_column=u'Rank_2') # x.
-    handicap = models.IntegerField(db_column=u'Handicap') # x. This field type is a guess.
-    komi = models.FloatField(db_column=u'Komi') # x. This field type is a guess.
+    handicap = models.SmallIntegerField(max_length=2, db_column=u'Handicap')
+    komi = models.SmallIntegerField(max_length=2, db_column=u'Komi')
     result = models.CharField(max_length=1, db_column=u'Result') # x.
     sgf_code = models.CharField(max_length=26, db_column=u'Sgf_Code', blank=True) # x.
-    online = models.TextField(db_column=u'Online', blank=True) # x. This field type is a guess.
-    exclude = models.TextField(db_column=u'Exclude', blank=True) # x. This field type is a guess.
-    rated = models.TextField(db_column=u'Rated', blank=True) # x. This field type is a guess.
+    online = models.SmallIntegerField(max_length=1, db_column=u'Online', blank=True) # x. This field type is a guess.
+    exclude = models.SmallIntegerField(max_length=1, db_column=u'Exclude', blank=True) # x. This field type is a guess.
+    rated = models.SmallIntegerField(max_length=1, db_column=u'Rated', blank=True) # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date') # x.
 
     tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
@@ -229,7 +230,7 @@ class Rating(models.Model):
         db_table = u'ratings'
 
 class MembersRegions(models.Model):
-    region_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
+    region_id = models.IntegerField(max_length=11, primary_key=True) # This field type is a guess.
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
     class Meta:
