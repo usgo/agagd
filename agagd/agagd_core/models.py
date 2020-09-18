@@ -11,7 +11,7 @@ from django.db import models
 
 class Member(models.Model):
     member_id = models.AutoField(primary_key=True)
-    legacy_id = models.TextField(blank=True) # This field type is a guess.
+    legacy_id = models.TextField(blank=True)
     full_name = models.CharField(max_length=255, blank=True, db_index=True)
     given_names = models.CharField(max_length=255, blank=True)
     family_name = models.CharField(max_length=255, blank=True, db_index=True)
@@ -22,7 +22,7 @@ class Member(models.Model):
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
-    chapter_id = models.IntegerField(max_length=11, blank=True) # This field type is a guess.
+    chapter_id = models.IntegerField(max_length=11, blank=True)
     occupation = models.CharField(max_length=100, blank=True)
     citizen = models.SmallIntegerField(max_length=6)
     password = models.CharField(max_length=255, blank=True)
@@ -51,7 +51,7 @@ class Chapters(models.Model):
     member = models.ForeignKey(Member)
 
     # TODO this is not member_id? seems more like a normal pk for ChapterInfo
-    member_id = models.CharField(max_length=255, primary_key=True) # This field type is a guess.
+    member_id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
     code = models.CharField(max_length=4, blank=True)
@@ -171,17 +171,17 @@ class Game(models.Model):
     color_1 = models.CharField(max_length=1, db_column='Color_1')
     rank_1 = models.CharField(max_length=3, db_column='Rank_1')
     color_2 = models.CharField(max_length=1, db_column='Color_2')
-    rank_2 = models.CharField(max_length=3, db_column='Rank_2') # x.
+    rank_2 = models.CharField(max_length=3, db_column='Rank_2')
     handicap = models.SmallIntegerField(max_length=2, db_column='Handicap')
     komi = models.SmallIntegerField(max_length=2, db_column='Komi')
-    result = models.CharField(max_length=1, db_column='Result') # x.
-    sgf_code = models.CharField(max_length=26, db_column='Sgf_Code', blank=True) # x.
-    online = models.SmallIntegerField(max_length=1, db_column='Online', blank=True) # x. This field type is a guess.
-    exclude = models.SmallIntegerField(max_length=1, db_column='Exclude', blank=True) # x. This field type is a guess.
-    rated = models.SmallIntegerField(max_length=1, db_column='Rated', blank=True) # x. This field type is a guess.
-    elab_date = models.DateField(db_column='Elab_Date') # x.
+    result = models.CharField(max_length=1, db_column='Result')
+    sgf_code = models.CharField(max_length=26, db_column='Sgf_Code', blank=True)
+    online = models.SmallIntegerField(max_length=1, db_column='Online', blank=True)
+    exclude = models.SmallIntegerField(max_length=1, db_column='Exclude', blank=True)
+    rated = models.SmallIntegerField(max_length=1, db_column='Rated', blank=True)
+    elab_date = models.DateField(db_column='Elab_Date')
 
-    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column='Tournament_Code') # .
+    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column='Tournament_Code')
     pin_player_1 = models.ForeignKey(Member, db_column='Pin_Player_1', related_name='games_as_p1')
     pin_player_2 = models.ForeignKey(Member, db_column='Pin_Player_2', related_name='games_as_p2')
 
@@ -215,8 +215,8 @@ class Game(models.Model):
 # Updated Rating Information Table for Players.
 class Players(models.Model):
     pin_player = models.ForeignKey(Member, db_column='Pin_Player', primary_key=True)
-    rating = models.FloatField(db_column='Rating') # x. This field type is a guess.
-    sigma = models.FloatField(db_column='Sigma') # x. This field type is a guess.
+    rating = models.FloatField(db_column='Rating')
+    sigma = models.FloatField(db_column='Sigma')
     elab_date = models.DateField(db_column='Elab_Date')
 
     class Meta:
@@ -237,7 +237,7 @@ class Rating(models.Model):
         db_table = 'ratings'
 
 class MembersRegions(models.Model):
-    region_id = models.IntegerField(max_length=11, primary_key=True) # This field type is a guess.
+    region_id = models.IntegerField(max_length=11, primary_key=True)
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
 
@@ -246,8 +246,8 @@ class MembersRegions(models.Model):
         db_table = 'members_regions'
 
 class Membership(models.Model):
-    mtype = models.CharField(max_length=8, primary_key=True, db_column='MType') # x.
-    membership_type = models.CharField(max_length=35, db_column='Membership_Type') # x.
+    mtype = models.CharField(max_length=8, primary_key=True, db_column='MType')
+    membership_type = models.CharField(max_length=35, db_column='Membership_Type')
 
     class Meta:
         managed = False
