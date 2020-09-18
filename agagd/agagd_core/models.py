@@ -30,20 +30,20 @@ class Member(models.Model):
     renewal_due = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255, blank=True)
     def __unicode__(self):
-        return u" %s (%s) " % (self.full_name, self.member_id, )
+        return " %s (%s) " % (self.full_name, self.member_id, )
 
     class Meta:
-        db_table = u'members'
-        verbose_name = u'member'
-        verbose_name_plural = u'members'
+        db_table = 'members'
+        verbose_name = 'member'
+        verbose_name_plural = 'members'
         managed = False
 
 class Chapter(models.Model):
-    chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code')
-    chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr')
+    chapter_code = models.CharField(max_length=4, primary_key=True, db_column='Chapter_Code')
+    chapter_descr = models.CharField(max_length=50, db_column='Chapter_Descr')
 
     class Meta:
-        db_table = u'chapter'
+        db_table = 'chapter'
         managed = False
 
 class Chapters(models.Model):
@@ -70,35 +70,35 @@ class Chapters(models.Model):
 
     class Meta:
         managed = False
-        db_table = u'chapters'
+        db_table = 'chapters'
 
 class CommentsAuthors(models.Model):
-    id = models.CharField(max_length=12, primary_key=True, db_column=u'Id')
-    last_name = models.CharField(max_length=50, db_column=u'Last_Name')
-    first_name = models.CharField(max_length=50, db_column=u'First_Name')
-    country = models.CharField(max_length=3, db_column=u'Country')
-    pin = models.IntegerField(max_length=8, db_column=u'PIN')
+    id = models.CharField(max_length=12, primary_key=True, db_column='Id')
+    last_name = models.CharField(max_length=50, db_column='Last_Name')
+    first_name = models.CharField(max_length=50, db_column='First_Name')
+    country = models.CharField(max_length=3, db_column='Country')
+    pin = models.IntegerField(max_length=8, db_column='PIN')
 
     class Meta:
         managed = False
-        db_table = u'comments_authors'
+        db_table = 'comments_authors'
 
 class Country(models.Model):
-    country_code = models.CharField(max_length=2, primary_key=True, db_column=u'Country_Code')
-    country_descr = models.CharField(max_length=50, db_column=u'Country_Descr')
-    country_flag = models.CharField(max_length=4, db_column=u'Country_Flag', blank=True)
+    country_code = models.CharField(max_length=2, primary_key=True, db_column='Country_Code')
+    country_descr = models.CharField(max_length=50, db_column='Country_Descr')
+    country_flag = models.CharField(max_length=4, db_column='Country_Flag', blank=True)
 
     class Meta:
         managed = False
-        db_table = u'country'
+        db_table = 'country'
 
 class Tournament(models.Model):
-    tournament_code = models.CharField(max_length=20, primary_key=True, db_column=u'Tournament_Code')
+    tournament_code = models.CharField(max_length=20, primary_key=True, db_column='Tournament_Code')
     description = models.CharField(max_length=80, db_column='Tournament_Descr')
-    tournament_date = models.DateField(db_column=u'Tournament_Date')
-    elab_date = models.DateField(db_column=u'Elab_Date')
-    city = models.CharField(max_length=30, db_column=u'City')
-    state = models.CharField(max_length=2, db_column=u'State_Code', blank=True)
+    tournament_date = models.DateField(db_column='Tournament_Date')
+    elab_date = models.DateField(db_column='Elab_Date')
+    city = models.CharField(max_length=30, db_column='City')
+    state = models.CharField(max_length=2, db_column='State_Code', blank=True)
     rounds = models.SmallIntegerField(max_length=2, db_column='Rounds')
     total_players = models.SmallIntegerField(max_length=3, db_column='Total_Players')
     wall_list = models.TextField(db_column='Wallist')
@@ -109,87 +109,87 @@ class Tournament(models.Model):
     def __unicode__(self):
         if self.description:
             if len(self.description) > 40:
-                return u'%s...' % self.description[0:37]
-            return u'%s' % self.description
+                return '%s...' % self.description[0:37]
+            return '%s' % self.description
         else:
-            return u'%s' % self.pk
+            return '%s' % self.pk
     
     class Meta:
         managed = False
-        db_table= u'tournaments'
-        verbose_name = u'tournament'
-        verbose_name_plural = u'tournaments'
+        db_table= 'tournaments'
+        verbose_name = 'tournament'
+        verbose_name_plural = 'tournaments'
 
 class TopDan(models.Model):
-    member_id = models.IntegerField(primary_key=True, db_column=u'member_id')
-    full_name = models.CharField(max_length=255, db_column=u'full_name')
-    rating = models.CharField(max_length=42, db_column=u'rating')
+    member_id = models.IntegerField(primary_key=True, db_column='member_id')
+    full_name = models.CharField(max_length=255, db_column='full_name')
+    rating = models.CharField(max_length=42, db_column='rating')
 
     class Meta:
         managed = False
-        db_table = u'top_dan_view'
-        verbose_name = u'top_dan_view'
-        verbose_name_plural = u'top_dan_view'
+        db_table = 'top_dan_view'
+        verbose_name = 'top_dan_view'
+        verbose_name_plural = 'top_dan_view'
 
 class TopKyu(models.Model):
-    member_id = models.IntegerField(primary_key=True, db_column=u'member_id')
-    full_name = models.CharField(max_length=255, db_column=u'full_name')
-    rating = models.CharField(max_length=42, db_column=u'rating')
+    member_id = models.IntegerField(primary_key=True, db_column='member_id')
+    full_name = models.CharField(max_length=255, db_column='full_name')
+    rating = models.CharField(max_length=42, db_column='rating')
 
     class Meta:
         managed = False
-        db_table = u'top_kyu_view'
-        verbose_name = u'top_kyu_view'
-        verbose_name_plural = u'top_kyu_view'
+        db_table = 'top_kyu_view'
+        verbose_name = 'top_kyu_view'
+        verbose_name_plural = 'top_kyu_view'
 
 class MostRatedGamesPastYear(models.Model):
-    member_id = models.IntegerField(primary_key=True, db_column=u'pin')
-    name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(db_column=u'Game_Count')
+    member_id = models.IntegerField(primary_key=True, db_column='pin')
+    name = models.CharField(max_length=65, db_column='Name')
+    total = models.BigIntegerField(db_column='Game_Count')
 
     class Meta:
         managed = False
-        db_table = u'most_rated_games_view'
-        verbose_name = u'most_rated_games_view'
-        verbose_name_plural = u'most_rated_games_view'
+        db_table = 'most_rated_games_view'
+        verbose_name = 'most_rated_games_view'
+        verbose_name_plural = 'most_rated_games_view'
 
 class MostTournamentsPastYear(models.Model):
-    member_id = models.IntegerField(primary_key=True, db_column=u'pin')
-    name = models.CharField(max_length=65, db_column=u'Name')
-    total = models.BigIntegerField(db_column=u'Tournament_Count')
+    member_id = models.IntegerField(primary_key=True, db_column='pin')
+    name = models.CharField(max_length=65, db_column='Name')
+    total = models.BigIntegerField(db_column='Tournament_Count')
 
     class Meta:
         managed = False
-        db_table = u'most_tournaments_view'
-        verbose_name = u'most_tournaments_view'
-        verbose_name_plural = u'most_tournaments_view'
+        db_table = 'most_tournaments_view'
+        verbose_name = 'most_tournaments_view'
+        verbose_name_plural = 'most_tournaments_view'
 
 class Game(models.Model):
-    game_id = models.IntegerField(max_length=10, primary_key=True, db_column=u'Game_ID')
-    game_date = models.DateField(db_column=u'Game_Date')
-    round = models.SmallIntegerField(max_length=2, db_column=u'Round')
-    color_1 = models.CharField(max_length=1, db_column=u'Color_1')
-    rank_1 = models.CharField(max_length=3, db_column=u'Rank_1')
-    color_2 = models.CharField(max_length=1, db_column=u'Color_2')
-    rank_2 = models.CharField(max_length=3, db_column=u'Rank_2') # x.
-    handicap = models.SmallIntegerField(max_length=2, db_column=u'Handicap')
-    komi = models.SmallIntegerField(max_length=2, db_column=u'Komi')
-    result = models.CharField(max_length=1, db_column=u'Result') # x.
-    sgf_code = models.CharField(max_length=26, db_column=u'Sgf_Code', blank=True) # x.
-    online = models.SmallIntegerField(max_length=1, db_column=u'Online', blank=True) # x. This field type is a guess.
-    exclude = models.SmallIntegerField(max_length=1, db_column=u'Exclude', blank=True) # x. This field type is a guess.
-    rated = models.SmallIntegerField(max_length=1, db_column=u'Rated', blank=True) # x. This field type is a guess.
-    elab_date = models.DateField(db_column=u'Elab_Date') # x.
+    game_id = models.IntegerField(max_length=10, primary_key=True, db_column='Game_ID')
+    game_date = models.DateField(db_column='Game_Date')
+    round = models.SmallIntegerField(max_length=2, db_column='Round')
+    color_1 = models.CharField(max_length=1, db_column='Color_1')
+    rank_1 = models.CharField(max_length=3, db_column='Rank_1')
+    color_2 = models.CharField(max_length=1, db_column='Color_2')
+    rank_2 = models.CharField(max_length=3, db_column='Rank_2') # x.
+    handicap = models.SmallIntegerField(max_length=2, db_column='Handicap')
+    komi = models.SmallIntegerField(max_length=2, db_column='Komi')
+    result = models.CharField(max_length=1, db_column='Result') # x.
+    sgf_code = models.CharField(max_length=26, db_column='Sgf_Code', blank=True) # x.
+    online = models.SmallIntegerField(max_length=1, db_column='Online', blank=True) # x. This field type is a guess.
+    exclude = models.SmallIntegerField(max_length=1, db_column='Exclude', blank=True) # x. This field type is a guess.
+    rated = models.SmallIntegerField(max_length=1, db_column='Rated', blank=True) # x. This field type is a guess.
+    elab_date = models.DateField(db_column='Elab_Date') # x.
 
-    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column=u'Tournament_Code') # .
-    pin_player_1 = models.ForeignKey(Member, db_column=u'Pin_Player_1', related_name='games_as_p1')
-    pin_player_2 = models.ForeignKey(Member, db_column=u'Pin_Player_2', related_name='games_as_p2')
+    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column='Tournament_Code') # .
+    pin_player_1 = models.ForeignKey(Member, db_column='Pin_Player_1', related_name='games_as_p1')
+    pin_player_2 = models.ForeignKey(Member, db_column='Pin_Player_2', related_name='games_as_p2')
 
     class Meta:
         managed = False
-        db_table = u'games'
-        verbose_name = u'game'
-        verbose_name_plural = u'games'
+        db_table = 'games'
+        verbose_name = 'game'
+        verbose_name_plural = 'games'
 
     def __unicode__(self):
         return u"Tournament %s Round %s, %s vs %s" % (self.tournament_code,
@@ -214,27 +214,27 @@ class Game(models.Model):
 
 # Updated Rating Information Table for Players.
 class Players(models.Model):
-    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', primary_key=True)
-    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
-    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
-    elab_date = models.DateField(db_column=u'Elab_Date')
+    pin_player = models.ForeignKey(Member, db_column='Pin_Player', primary_key=True)
+    rating = models.FloatField(db_column='Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column='Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column='Elab_Date')
 
     class Meta:
         managed = False
-        db_table = u'players'
+        db_table = 'players'
 
 class Rating(models.Model):
     # ForeignKey for the Members
-    member_id = models.ForeignKey(Member, db_column=u'Pin_Player')
-    pin_player = models.ForeignKey(Member, db_column=u'Pin_Player', related_name='ratings_set', primary_key=True)
-    tournament = models.ForeignKey(Tournament, db_column=u'Tournament_Code', related_name='ratings_set')
-    rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
-    sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
-    elab_date = models.DateField(db_column=u'Elab_Date')
+    member_id = models.ForeignKey(Member, db_column='Pin_Player')
+    pin_player = models.ForeignKey(Member, db_column='Pin_Player', related_name='ratings_set', primary_key=True)
+    tournament = models.ForeignKey(Tournament, db_column='Tournament_Code', related_name='ratings_set')
+    rating = models.FloatField(db_column='Rating') # x. This field type is a guess.
+    sigma = models.FloatField(db_column='Sigma') # x. This field type is a guess.
+    elab_date = models.DateField(db_column='Elab_Date')
 
     class Meta:
         managed = False
-        db_table = u'ratings'
+        db_table = 'ratings'
 
 class MembersRegions(models.Model):
     region_id = models.IntegerField(max_length=11, primary_key=True) # This field type is a guess.
@@ -243,12 +243,12 @@ class MembersRegions(models.Model):
 
     class Meta:
         managed = False
-        db_table = u'members_regions'
+        db_table = 'members_regions'
 
 class Membership(models.Model):
-    mtype = models.CharField(max_length=8, primary_key=True, db_column=u'MType') # x.
-    membership_type = models.CharField(max_length=35, db_column=u'Membership_Type') # x.
+    mtype = models.CharField(max_length=8, primary_key=True, db_column='MType') # x.
+    membership_type = models.CharField(max_length=35, db_column='Membership_Type') # x.
 
     class Meta:
         managed = False
-        db_table = u'membership'
+        db_table = 'membership'
