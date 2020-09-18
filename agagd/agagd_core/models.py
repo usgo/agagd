@@ -10,12 +10,6 @@
 from django.db import models
 
 class Member(models.Model):
-    class Meta:
-        db_table = u'members'
-        verbose_name = u'member'
-        verbose_name_plural = u'members'
-        managed = False
-
     member_id = models.AutoField(primary_key=True)
     legacy_id = models.TextField(blank=True) # This field type is a guess.
     full_name = models.CharField(max_length=255, blank=True, db_index=True)
@@ -38,9 +32,16 @@ class Member(models.Model):
     def __unicode__(self):
         return u" %s (%s) " % (self.full_name, self.member_id, )
 
+    class Meta:
+        db_table = u'members'
+        verbose_name = u'member'
+        verbose_name_plural = u'members'
+        managed = False
+
 class Chapter(models.Model):
     chapter_code = models.CharField(max_length=4, primary_key=True, db_column=u'Chapter_Code')
     chapter_descr = models.CharField(max_length=50, db_column=u'Chapter_Descr')
+
     class Meta:
         db_table = u'chapter'
         managed = False
@@ -66,6 +67,7 @@ class Chapters(models.Model):
     comments = models.TextField(blank=True)
     fees = models.CharField(max_length=255, blank=True)
     display = models.SmallIntegerField(max_length=1)
+
     class Meta:
         managed = False
         db_table = u'chapters'
@@ -85,6 +87,7 @@ class Country(models.Model):
     country_code = models.CharField(max_length=2, primary_key=True, db_column=u'Country_Code')
     country_descr = models.CharField(max_length=50, db_column=u'Country_Descr')
     country_flag = models.CharField(max_length=4, db_column=u'Country_Flag', blank=True)
+
     class Meta:
         managed = False
         db_table = u'country'
@@ -99,8 +102,10 @@ class Tournament(models.Model):
     rounds = models.SmallIntegerField(max_length=2, db_column='Rounds')
     total_players = models.SmallIntegerField(max_length=3, db_column='Total_Players')
     wall_list = models.TextField(db_column='Wallist')
+
     def __str__(self):
         return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
+
     def __unicode__(self):
         if self.description:
             if len(self.description) > 40:
@@ -213,6 +218,7 @@ class Players(models.Model):
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date')
+
     class Meta:
         managed = False
         db_table = u'players'
@@ -225,6 +231,7 @@ class Rating(models.Model):
     rating = models.FloatField(db_column=u'Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column=u'Sigma') # x. This field type is a guess.
     elab_date = models.DateField(db_column=u'Elab_Date')
+
     class Meta:
         managed = False
         db_table = u'ratings'
@@ -233,6 +240,7 @@ class MembersRegions(models.Model):
     region_id = models.IntegerField(max_length=11, primary_key=True) # This field type is a guess.
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
+
     class Meta:
         managed = False
         db_table = u'members_regions'
@@ -240,6 +248,7 @@ class MembersRegions(models.Model):
 class Membership(models.Model):
     mtype = models.CharField(max_length=8, primary_key=True, db_column=u'MType') # x.
     membership_type = models.CharField(max_length=35, db_column=u'Membership_Type') # x.
+
     class Meta:
         managed = False
         db_table = u'membership'
