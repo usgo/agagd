@@ -47,11 +47,7 @@ class Chapter(models.Model):
         managed = False
 
 class Chapters(models.Model):
-    # ForeignKey for Member
-    member = models.ForeignKey(Member)
-
-    # TODO this is not member_id? seems more like a normal pk for ChapterInfo
-    member_id = models.CharField(max_length=255, primary_key=True)
+    member_id = models.ForeignKey(Member, db_column='member_id', primary_key=True)
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
     code = models.CharField(max_length=4, blank=True)
