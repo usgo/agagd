@@ -29,6 +29,7 @@ class Member(models.Model):
     last_changed = models.DateTimeField(null=True, blank=True)
     renewal_due = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255, blank=True)
+
     def __unicode__(self):
         return " %s (%s) " % (self.full_name, self.member_id, )
 
