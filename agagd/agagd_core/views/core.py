@@ -95,7 +95,10 @@ def member_ratings(request, member_id):
             if r.elab_date != None]
         if len(ratings_dict) <= 1: 
             logger.debug('Ratings error: only one rating')
-            return JsonResponse({'result': 'error'})
+            return JsonResponse({
+                'result': 'error',
+                'message': 'Only one rated game. Not enough data'
+            })
         return JsonResponse(ratings_dict) 
     except:
         logger.debug('Ratings error', exc_info=1)
@@ -236,11 +239,11 @@ def all_player_ratings(request):
         Q(chapter_id=F('chapters__member_id')) |
         Q(chapters__member_id__isnull=True)
     ).filter(
-        Q(member_id=F('players__pin_player'))
+        Q(member_id=F('ratings_set__pin_player'))
     ).filter(
         status='accepted'
     ).exclude(
-        rating__rating__isnull=True
+        ratings_set__rating__isnull=True
     ).exclude(
         type='chapter'
     ).exclude(
@@ -256,8 +259,8 @@ def all_player_ratings(request):
         "players__rating",
         "chapter_id",
         "state",
-        "players__sigma",
-    ).order_by('-players__rating')
+        "ratings_set__sigma",
+    ).order_by('-ratings_set__rating')
 
     all_player_ratings_table = AllPlayerRatingsTable(all_player_ratings_query)
     RequestConfig(request, paginate={'per_page': 50}).configure(all_player_ratings_table)
