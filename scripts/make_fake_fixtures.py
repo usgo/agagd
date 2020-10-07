@@ -1,18 +1,32 @@
 # A simple script to generate fake data
-import sys, random, json
+import sys, random, math, json
 
 USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [num_of_tournaments]'
-GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara', ]
-LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra', ]
-CHAPTER_CODES = ['FFLY', 'NBAG', 'DEAD', 'BEEF']
-COUNTRY_CODES = ['USA', 'CAN', 'JPN', 'KOR', 'CHN', 'TWN'] #these, oddly, are not the FK in the member table.
-COUNTRY_NAMES = ['An awesome country', 'A cool country', 'Canada', 'United States of Awesome', 'Donnybrookistan']
+
+# Fake Names: First and Last
+GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara' ]
+LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra' ]
+
+# Misc Chapter Codes
+CHAPTER_CODES = [ 'FFLY', 'NBAG' ]
+CHAPTER_NAMES = [ 'Fire Fly Go Club', 'NBA Go Club' ]
+
+# State Names and City Names
+STATE_CODES = [ 'CA', 'OR', 'NY', 'AZ', 'AR', 'FL', 'KS', 'KY', 'IA' ]
+CITY_NAMES = [ 'Aurora', 'Austin', 'Boston', 'Chandler', 'Charlotte', 'Dallas', 'Dayton', 'Eugene' ]
+
+# Country Names and Codes
+COUNTRY_NAMES = [ 'United States', 'Canada', 'Japan', 'Korea', 'China', 'Tywain' ]
+COUNTRY_CODES = [ 'US', 'CA', 'JP', 'KO', 'CH', 'TW' ] #these, oddly, are not the FK in the member table.
+
+# Membership Status Codes
+STATUS_CODES = [ 'accepted' ]
+
 import datetime as dt
 
 if len(sys.argv) != 4:
     print( USAGE )
     quit()
-
 try:
     member_count = int(sys.argv[1])
     game_count = int(sys.argv[2])
@@ -21,8 +35,16 @@ except ValueError:
     print( USAGE )
     quit()
 
+member_ids = [x for x in range(1, member_count+1)]
+
+tournament_ids = ['T%s' % x for x in range(1, tourney_count+1)]
+
 members = []
-for member_id in range(member_count):
+players = []
+for member_id in member_ids:
+    date = dt.date.today() - dt.timedelta(days = random.randint(2,150))
+    join_date = date - dt.timedelta(days = 150)
+    renewal_due = date + dt.timedelta(days = random.randint(2,720))
     first_name = random.choice(GIVEN_NAMES)
     last_name = random.choice(LAST_NAMES)
     members.append({
@@ -30,83 +52,127 @@ for member_id in range(member_count):
         'model': 'agagd_core.member',
         'fields': {
             'member_id': member_id,
-            'legacy_id': '',
+            'legacy_id': random.choice(range(1, member_count+1)),
             'full_name': '%s %s' % (first_name, last_name),
             'given_names': first_name,
             'family_name': last_name,
-            'join_date': None,
+            'join_date': join_date.strftime("%Y-%m-%d"),
+            'renewal_due': renewal_due.strftime("%Y-%m-%d"),
             'city': 'Seattle',
             'state': 'WA',
+            'status': random.choice(STATUS_CODES),
             'region': 'some region',
             'country': random.choice(COUNTRY_NAMES),
             'chapter': random.choice(CHAPTER_CODES),
-            'chapter_id': 'MAYBE_FK',
+            'chapter_id': random.choice(range(1, len(CHAPTER_CODES))),
             'occupation': '',
-            'citizen': 'yes',
+            'citizen': random.choice(range(0, 1)),
             'password': 'hallo!',
-            'last_changed': None
+            'last_changed': date.strftime("%Y-%m-%d")
+        }
+    })
+    players.append({
+        'pk': member_id,
+        'model': 'agagd_core.players',
+        'fields': {
+            'elab_date': date.strftime("%Y-%m-%d"),
+            'name': first_name,
+            'last_name': last_name,
+            'rating': random.uniform(-15, 10),
+            'sigma': random.random()
         }
     })
 
+ratings = []
+ratings_range = list(range(0, 25))
+for member_id in member_ids:
+    for rating_id in ratings_range:
+        elab_date = dt.date.today() - dt.timedelta(days = random.randint(2,20))
+        player_rating = players[member_id-1]['fields']['rating']
+        player_low_rating = player_rating - random.randint(0, 3)
+        player_high_rating = player_rating - random.randint(0, 3)
+        ratings.append({
+            'pk': None,
+            'model': 'agagd_core.rating',
+            'fields': {
+                'pin_player': member_id,
+                'elab_date': elab_date.strftime("%Y-%m-%d"),
+                'rating': random.uniform(player_low_rating, player_high_rating),
+                'tournament': random.choice(tournament_ids),
+                'sigma': random.random()
+            }
+        })
+
 tournaments = []
-for tourney_id in range(tourney_count):
+for tourney_id in tournament_ids:
+    date = dt.date.today() - dt.timedelta(days = random.randint(2,20))
+    elab_date = date + dt.timedelta(days = 7)
+    random_state = random.choice(STATE_CODES)
     tournaments.append({
-        'pk': 'T%s' % str(tourney_id),
+        'pk': tourney_id,
         'model': 'agagd_core.tournament',
         'fields': {
             'total_players': random.randint(4,20),
-            'city': '',
-            'elab_date': '2013-07-01',
-            'description': '',
-            'wall_list': '',
-            'state': '',
+            'city': random.choice(CITY_NAMES),
+            'elab_date': elab_date.strftime("%Y-%m-%d"),
+            'description': random_state + tourney_id,
+            'wall_list': "1: Mal, Bruce                  2d     2+/w0     3+/w0     4+/w0  3-0-0\n"
+                         "2: Lee, Parker                 1d     1-/b2     4+/w0     3-/w0  1-2-0\n"
+                         "3: Lee, Matt                   1k     4-/w0     1-/b6     2+/b4  1-2-0\n"
+                         "4: Frye, Sam                   3k     3+/b2     2-/b6     1-/b8  1-2-0\n"
+                         "Note: This  is not generated by the AGAGD.",
+            'state': random_state,
             'rounds': random.randint(2,5),
-            'tournament_date': '2013-07-01'
+            'tournament_date': date.strftime("%Y-%m-%d")
         }
     })
 
 games = []
-for game_id in range(game_count):
-    p1 = random.choice(members)['pk']
-    p2 = random.choice(filter(lambda m: m['pk'] != p1, members))['pk']
+for game_id in range(1, game_count+1):
+    p1 = random.choice(member_ids)
+    p2 = random.choice([member_id for member_id in member_ids if member_id != p1])
+    color_1 = random.choice(['B', 'W'])
+    color_2 = 'B' if color_1 != 'B' else 'W'
     date = dt.date.today() - dt.timedelta(days = random.randint(2,20))
+    elab_date = date + dt.timedelta(days = 7)
     games.append({
         'pk': game_id,
         'model': 'agagd_core.game',
         'fields': {
             'pin_player_2': p2,
             'tournament_code': random.choice(tournaments)['pk'],
-            'rated': '',
-            'elab_date': date.strftime("%Y-%m-%d"),
-            'handicap': random.randint(0, 2),
-            'online': '',
-            'color_2': '',
+            'rated': random.randint(0, 1),
+            'elab_date': elab_date.strftime("%Y-%m-%d"),
+            'handicap': random.randint(0, 9),
+            'online': random.randint(0, 1),
+            'color_2': color_2,
             'sgf_code': '',
-            'komi': 0.0,
+            'komi': random.randint(0, 9),
             'pin_player_1': p1,
             'rank_1': '',
-            'result': '',
+            'result': random.choice(['B', 'W']),
             'rank_2': '',
             'game_date': date.strftime("%Y-%m-%d"),
-            'exclude': '',
-            'round': '',
-            'color_1': ''
+            'exclude': random.randint(0,1),
+            'round': random.randint(2,5),
+            'color_1': color_1
         }
     })
 
 chapters = [] 
-for i, chap_code in enumerate(CHAPTER_CODES):
+for member_id in range(member_count+1, len(CHAPTER_CODES)):
     chapters.append({
-        'pk': i,
+        'pk': member_id,
         'model': 'agagd_core.chapters',
         'fields': {
-            'member_id': i,
-            'code': chap_code,
+            'member_id': member_id,
+            'code': random.choice(CHAPTER_CODES),
             'name': random.choice(['Firefly Go Club', 'NBA Go Club', 'some other club']),
             'contact_text': random.choice(['Some contact info would go here.', '']),
             'contact': 'Some guy',
             'meeting_city': 'Seattle',
             'url': 'www.localhost-is-best-host.com',
+            'display': random.randint(0, 1)
         }
     }) 
 
@@ -121,4 +187,5 @@ for i, count_name in enumerate(COUNTRY_NAMES):
         }
     }) 
 
-print( json.dumps(members + tournaments + games + chapters + countries, indent=4) )
+
+print( json.dumps(members + players + ratings + tournaments + games + chapters + countries, indent=4) )
