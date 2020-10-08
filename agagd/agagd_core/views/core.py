@@ -205,7 +205,7 @@ def chapter_detail(request, chapter_id):
     try:
         chapter = Chapters.objects.get(member_id=chapter_id)
         member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
-    except DoesNotExist:
+    except exceptions.ObjectDoesNotExist:
         # Try the lookup with the 4-letter chapter code. These are deprecated,
         # but we continue to support them in case users have chapter pages bookmarked.
         chapter = Chapters.objects.get(code=chapter_id)
