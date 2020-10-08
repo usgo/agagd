@@ -22,8 +22,21 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agagd.settings.prod")
 # setting points here.
 from django.core.wsgi import get_wsgi_application
 
+agagd_environ_keys = [
+                      'DJANGO_SETTINGS_MODULE',
+                      'GOOGLE_ANALYTICS_TRACKING_ID',
+                      'AGAGD_USER',
+                      'MYSQL_PASS',
+                      'APP_DB_NAME',
+                      'DB_HOST',
+                      'DB_PORT',
+                      'SECRET_KEY',
+                      'PROJECT_ROOT',
+                      'TEMPLATE_DIR'
+]
+
 def bootstrap_env(environ, start_response):
-    for key in ['DJANGO_SETTINGS_MODULE', 'GOOGLE_ANALYTICS_TRACKING_ID', 'AGAGD_USER', 'MYSQL_PASS', 'APP_DB_NAME', 'SECRET_KEY', 'TEMPLATE_DIR']:
+    for key in agagd_environ_keys:
         if key in environ:
             os.environ[key] = environ[key]
     _application = get_wsgi_application()

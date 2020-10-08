@@ -117,8 +117,8 @@ class MemberTable(tables.Table):
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
-        fields = ('full_name', 'state', 'players__rating', 'join_date', 'country')
-        sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'join_date', 'member_id')
+        fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
+        sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'renewal_due', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -147,29 +147,29 @@ class TopKyuTable(tables.Table):
         sequence = fields
 
 class MostRatedGamesPastYearTable(tables.Table):
-    pin = tables.LinkColumn(
+    member_id = tables.LinkColumn(
         'member_detail',
-        kwargs={'member_id': tables.A('pin')})
+        kwargs={'member_id': tables.A('member_id')})
     name = tables.LinkColumn(
        'member_detail',
-        kwargs={'member_id': tables.A('pin')})
+        kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = MostRatedGamesPastYear
         attrs = {"class": "paleblue"}
-        fields = ('pin', 'name', 'total')
+        fields = ('member_id', 'name', 'total')
         sequence = fields
 
 class MostTournamentsPastYearTable(tables.Table):
-    pin = tables.LinkColumn(
+    member_id = tables.LinkColumn(
         'member_detail',
-        kwargs={'member_id': tables.A('pin')})
+        kwargs={'member_id': tables.A('member_id')})
     name = tables.LinkColumn(
        'member_detail',
-        kwargs={'member_id': tables.A('pin')})
+        kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = MostTournamentsPastYear
         attrs = {"class": "paleblue"}
-        fields = ('pin', 'name', 'total')
+        fields = ('member_id', 'name', 'total')
         sequence = fields
 
 class AllPlayerRatingsTable(tables.Table):

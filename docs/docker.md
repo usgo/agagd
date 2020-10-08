@@ -20,10 +20,20 @@ Copy `config-docker.env.sample` to `config-docker.env` (in the repository root) 
 $ cp config-docker.env.sample config-docker.env
 ~~~
 
-These values will be used by both the database and the app. Now, run:
+These values will be used by both the database and the app. Now, run either:
+
+#### For Python 2.7
 
 ~~~
 $ docker-compose up --build
+~~~
+
+#### For Python 3.7
+
+##### Note: Python 3.7+ is not fully supported by the AGAGD Application. More information can be found in issue #112.
+
+~~~
+$ docker-compose -f docker-compose-python3.yml up --build
 ~~~
 
 Wait for the database to initialize and the app to start up. (there will be something like `spawned uWSGI worker` in the logs)

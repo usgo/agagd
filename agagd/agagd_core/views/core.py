@@ -2,9 +2,9 @@ from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
 from agagd_core.tables import GameTable, GameTable2, MemberTable, TournamentTable, TopDanTable, TopKyuTable, OpponentTable, TournamentPlayedTable
 from agagd_core.tables import AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
-from agagd_core.ratings_top_ten_requests import RatingsTopRequest
 from datetime import datetime, timedelta, date
 from django.core import exceptions
+from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
@@ -59,7 +59,7 @@ def search(request):
             ).values(
                 "member_id",
                 "chapter_id",
-                "join_date",
+                "renewal_due",
                 "state",
                 "players__rating",
                 "country",
@@ -69,7 +69,10 @@ def search(request):
 
             member_table = MemberTable(members_query)
 
-            RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+            try:
+                RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+            except PageNotAnInteger:
+                RequestConfig(request, paginate=False).configure(member_table)
 
             return render(request, 'agagd_core/search_player.html',
                 {
@@ -129,7 +132,15 @@ def member_detail(request, member_id):
             t_dat['tournament'] = game.tournament_code
             t_dat['won'] = t_dat.get('won', 0)
             t_dat['lost'] = t_dat.get('lost', 0)
-            t_dat['date'] = t_dat.get('date', game.game_date)
+
+            # Set default game_date to None
+            game_date = None
+
+            # Check for 0000-00-00 dates
+            if game.game_date != u'0000-00-00':
+                game_date = game.game_date
+
+            t_dat['date'] = t_dat.get('date', game_date)
 
             op = game.player_other_than(player)
             opp_dat = opponent_data.get(op, {}) 
@@ -295,13 +306,18 @@ def tournament_list(request):
     })
 
 def game_stats(request):
-    games_by_date = [{'date': obj['game_date'],
-            'count': obj['game_date__count']} 
-            for obj in 
-            Game.objects.values('game_date').annotate(Count('game_date')) 
-            if obj['game_date'] != None]
-    games_by_date = sorted(games_by_date, key=lambda d: d['date'])
-    return JsonResponse(games_by_date) 
+    games_by_date = []
+
+    for game_obj in Game.objects.values('game_date').annotate(Count('game_date')):
+        try:
+            game_date = datetime.strptime(str(game_obj['game_date']), "%Y-%m-%d")
+            games_by_date.append({'date': game_date.strftime("%Y-%m-%d"),
+                                  'count': game_obj['game_date__count']})
+        except ValueError:
+            pass
+
+    sorted_games_by_date = sorted(games_by_date, key=lambda d: d['date'])
+    return JsonResponse(sorted_games_by_date)
 
 # AGAGD Static Pages
 def information(request):
