@@ -239,7 +239,7 @@ def all_player_ratings(request):
         Q(chapter_id=F('chapters__member_id')) |
         Q(chapters__member_id__isnull=True)
     ).filter(
-        Q(member_id=F('ratings_set__pin_player'))
+        Q(member_id=F('players__pin_player'))
     ).filter(
         status='accepted'
     ).exclude(
@@ -259,8 +259,8 @@ def all_player_ratings(request):
         "players__rating",
         "chapter_id",
         "state",
-        "ratings_set__sigma",
-    ).order_by('-ratings_set__rating')
+        "players__sigma",
+    ).order_by('-players__rating')
 
     all_player_ratings_table = AllPlayerRatingsTable(all_player_ratings_query)
     RequestConfig(request, paginate={'per_page': 50}).configure(all_player_ratings_table)
