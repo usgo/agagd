@@ -220,7 +220,7 @@ def chapter_detail(request, chapter_id):
         # Try the lookup with the 4-letter chapter code. These are deprecated,
         # but we continue to support them in case users have chapter pages bookmarked.
         chapter = get_object_or_404(Chapters, code=chapter_id)
-        return redirect('chapter_detail', member_id=chapter.member_id)
+        return redirect('chapter_detail', member_id=chapter.member_id, permanent=True)
 
     return render(request, 'agagd_core/chapter.html',
             {
