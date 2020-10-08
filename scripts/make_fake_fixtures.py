@@ -22,6 +22,13 @@ COUNTRY_CODES = [ 'US', 'CA', 'JP', 'KO', 'CH', 'TW' ] #these, oddly, are not th
 # Membership Status Codes
 STATUS_CODES = [ 'accepted' ]
 
+# Membership Types
+MEMBERSHIP_TYPES = ['Full',
+                    'Sustainer',
+                    'Sponser',
+                    'Lifetime',
+                    'E-Journal']
+
 import datetime as dt
 
 if len(sys.argv) != 4:
@@ -68,6 +75,7 @@ for member_id in member_ids:
             'occupation': '',
             'citizen': random.choice(range(0, 1)),
             'password': 'hallo!',
+            'type': random.choice(MEMBERSHIP_TYPES),
             'last_changed': date.strftime("%Y-%m-%d")
         }
     })
