@@ -8,8 +8,8 @@ GIVEN_NAMES = [ 'bruce', 'malcolm', 'kobe', 'peter', 'kaylee', 'inara' ]
 LAST_NAMES = [ 'lee', 'reynolds', 'bryant', 'parker', 'frye', 'serra' ]
 
 # Misc Chapter Codes
-CHAPTER_CODES = [ 'FFLY', 'NBAG' ]
-CHAPTER_NAMES = [ 'Fire Fly Go Club', 'NBA Go Club' ]
+CHAPTER_CODES = [ 'FFLY', 'NBAG', 'SJGC', 'TPGC', None]
+CHAPTER_NAMES = [ 'Fire Fly Go Club', 'NBA Go Club', 'San Jose Go Club', 'Tampa Go Club', None ]
 
 # State Names and City Names
 STATE_CODES = [ 'CA', 'OR', 'NY', 'AZ', 'AR', 'FL', 'KS', 'KY', 'IA' ]
@@ -66,12 +66,12 @@ for member_id in member_ids:
             'join_date': join_date.strftime("%Y-%m-%d"),
             'renewal_due': renewal_due.strftime("%Y-%m-%d"),
             'city': 'Seattle',
-            'state': 'WA',
+            'state': random.choice(STATE_CODES),
             'status': random.choice(STATUS_CODES),
             'region': 'some region',
             'country': random.choice(COUNTRY_NAMES),
             'chapter': random.choice(CHAPTER_CODES),
-            'chapter_id': random.choice(range(1, len(CHAPTER_CODES))),
+            'chapter_id': random.choice(range(1, len(CHAPTER_CODES)+1)),
             'occupation': '',
             'citizen': random.choice(range(0, 1)),
             'password': 'hallo!',
@@ -168,14 +168,14 @@ for game_id in range(1, game_count+1):
     })
 
 chapters = [] 
-for member_id in range(member_count+1, len(CHAPTER_CODES)):
+for member_id in range(0, len(CHAPTER_CODES)):
     chapters.append({
-        'pk': member_id,
+        'pk': member_id+1,
         'model': 'agagd_core.chapters',
         'fields': {
-            'member_id': member_id,
-            'code': random.choice(CHAPTER_CODES),
-            'name': random.choice(['Firefly Go Club', 'NBA Go Club', 'some other club']),
+            'member_id': member_id+1,
+            'code': CHAPTER_CODES[member_id],
+            'name': CHAPTER_NAMES[member_id],
             'contact_text': random.choice(['Some contact info would go here.', '']),
             'contact': 'Some guy',
             'meeting_city': 'Seattle',
