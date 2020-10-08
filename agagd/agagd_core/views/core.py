@@ -8,7 +8,7 @@ from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
@@ -219,8 +219,8 @@ def chapter_detail(request, chapter_id):
     except exceptions.ObjectDoesNotExist:
         # Try the lookup with the 4-letter chapter code. These are deprecated,
         # but we continue to support them in case users have chapter pages bookmarked.
-        chapter = Chapters.objects.get(code=chapter_id)
-        member_table = MemberTable(Member.objects.filter(chapter=chapter_id).order_by('family_name') )
+        chapter = get_object_or_404(Chapters, code=chapter_id)
+        return redirect('chapter_detail', member_id=chapter.member_id)
 
     return render(request, 'agagd_core/chapter.html',
             {
