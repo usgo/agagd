@@ -36,7 +36,12 @@
             <dt> Chapter: </dt>
             <dd>
               {% if chapter %}
-                <a href="{% url 'chapter_detail' chapter.member_id }}"> {{ chapter.name }} </a>
+                {% comment %}
+                  We have to use "chapter.pk" instead of the more mnemonic "chapter.member_id" here, because member_id is both a primary key *and* a foreign key.
+                  This confuses the Django ORM into always resolving "chapter.member_id" into an object looked up from the Members table. Explicitly using the "pk"
+                  pseudo-field works around this limitation.
+                {% endcomment %}
+                <a href="{% url 'chapter_detail' chapter.pk %}"> {{ chapter.name }} </a>
               {% else %}
                 None
               {% endif %}
