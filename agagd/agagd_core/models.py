@@ -39,14 +39,6 @@ class Member(models.Model):
         verbose_name_plural = 'members'
         managed = False
 
-class Chapter(models.Model):
-    chapter_code = models.CharField(max_length=4, primary_key=True, db_column='Chapter_Code')
-    chapter_descr = models.CharField(max_length=50, db_column='Chapter_Descr')
-
-    class Meta:
-        db_table = 'chapter'
-        managed = False
-
 class Chapters(models.Model):
     member_id = models.ForeignKey(Member, db_column='member_id', primary_key=True)
     name = models.CharField(max_length=255, blank=True)
