@@ -115,6 +115,7 @@ def member_detail(request, member_id):
     RequestConfig(request, paginate={'per_page': 20}).configure(table) 
 
     player = Member.objects.get(member_id=member_id)
+    chapter = Chapters.objects.get(member_id=player.chapter_id)
     ratings = player.ratings_set.all().order_by('-elab_date')
     if len(ratings) > 0:
         max_rating = max([r.rating for r in ratings])
@@ -172,6 +173,7 @@ def member_detail(request, member_id):
             {
                 'table': table,
                 'player': player,
+                'chapter': chapter,
                 'rating': last_rating,
                 'max_rating': max_rating,
                 'num_games': len(game_list),

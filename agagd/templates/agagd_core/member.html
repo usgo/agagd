@@ -33,6 +33,14 @@
             <dd> {{ player.renewal_due }} </dd>
             <dt> Membership type: </dt>
             <dd> {{ player.type }} </dd>
+            <dt> Chapter: </dt>
+            <dd>
+              {% if chapter %}
+                <a href="{% url 'chapter_detail' chapter.member_id }}"> {{ chapter.name }} </a>
+              {% else %}
+                None
+              {% endif %}
+            </dd>
             <dt style="font-size: 24px"> Rating: </dt>
             <dd style="font-size: 24px"> {{ rating.rating }} </dd>
             <dt> Highest Rating: </dt>
