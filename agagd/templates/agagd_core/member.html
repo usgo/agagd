@@ -27,12 +27,8 @@
 <div class="member_content_wrapper">
     <div class="left-column member_information">
         <dl>
-            <dt> AGA member since: </dt>
-            <dd> {{ player.join_date }} </dd>
-            <dt> Expiration Date: </dt>
-            <dd> {{ player.renewal_due }} </dd>
-            <dt> Membership type: </dt>
-            <dd> {{ player.type }} </dd>
+            <dt style="font-size: 24px"> Rating: </dt>
+            <dd style="font-size: 24px"> {{ rating.rating }} </dd>
             <dt> Chapter: </dt>
             <dd>
               {% if chapter %}
@@ -46,8 +42,12 @@
                 None
               {% endif %}
             </dd>
-            <dt style="font-size: 24px"> Rating: </dt>
-            <dd style="font-size: 24px"> {{ rating.rating }} </dd>
+            <dt> AGA member since: </dt>
+            <dd> {{ player.join_date }} </dd>
+            <dt> Expiration Date: </dt>
+            <dd> {{ player.renewal_due }} </dd>
+            <dt> Membership type: </dt>
+            <dd> {{ player.type }} </dd>
             <dt> Highest Rating: </dt>
             <dd> {{ max_rating }} </dd>
             <dt> Sigma: </dt>
