@@ -1,5 +1,6 @@
 # A simple script to generate fake data
 import sys, random, math, json
+import datetime as dt
 
 USAGE = 'Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [num_of_tournaments]'
 
@@ -28,8 +29,6 @@ MEMBERSHIP_TYPES = ['Full',
                     'Sponser',
                     'Lifetime',
                     'E-Journal']
-
-import datetime as dt
 
 if len(sys.argv) != 4:
     print( USAGE )
