@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^search/$', agagd_views.search, name='search'),
     url(r'^player/(?P<member_id>\d+)/$', agagd_views.member_detail, name='member_detail'),
     url(r'^chapter/(?P<chapter_id>\d+)/$', agagd_views.chapter_detail, name='chapter_detail'),
+    url(r'^chapter/(?P<chapter_code>\w+)/$', agagd_views.chapter_code_redirect, name='chapter_code_redirect'),
     url(r'^country/(?P<country_name>[\w ]+)/$', agagd_views.country_detail, name='country_detail'),
     url(r'^player/(?P<member_id>\d+)/vs/$', agagd_views.find_member_vs, name='find_member_vs'),
     url(r'^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$', agagd_views.member_vs, name='member_vs'),

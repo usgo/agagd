@@ -213,20 +213,19 @@ def tournament_detail(request, tourn_code):
             }) 
 
 def chapter_detail(request, chapter_id):
-    try:
-        chapter = Chapters.objects.get(member_id=chapter_id)
-        member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
-    except exceptions.ObjectDoesNotExist:
-        # Try the lookup with the 4-letter chapter code. These are deprecated,
-        # but we continue to support them in case users have chapter pages bookmarked.
-        chapter = get_object_or_404(Chapters, code=chapter_id)
-        return redirect('chapter_detail', member_id=chapter.member_id, permanent=True)
-
+    chapter = get_object_or_404(Chapters, member_id=chapter_id)
+    member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
     return render(request, 'agagd_core/chapter.html',
             {
                 'member_table': member_table,
                 'chapter': chapter,
             })
+
+def chapter_code_redirect(request, chapter_code):
+    # Try the lookup with the 4-letter chapter code. These are deprecated,
+    # but we continue to support them in case users have chapter pages bookmarked.
+    chapter = get_object_or_404(Chapters, code=chapter_code)
+    return redirect('chapter_detail', chapter_id=chapter.pk, permanent=True)
 
 def country_detail(request, country_name):
     member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
