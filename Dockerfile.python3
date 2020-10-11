@@ -40,7 +40,7 @@ ENV DJANGO_SETTINGS_MODULE=agagd.settings.prod
 ENV PROJECT_ROOT=/srv
 ENV TEMPLATE_DIR=/srv/templates
 
-COPY --chown=django:django scripts/entrypoint.sh agagd/ /srv/
+COPY --chown=django:django scripts/entrypoint.sh scripts/make_fake_fixures.py agagd/ /srv/
 RUN SECRET_KEY=stub-for-build python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]
