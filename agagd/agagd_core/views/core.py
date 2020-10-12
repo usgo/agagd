@@ -8,7 +8,7 @@ from django.core.paginator import PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
@@ -215,14 +215,20 @@ def tournament_detail(request, tourn_code):
                 'tournament': tourney,
             }) 
 
-def chapter_detail(request, chapter_code):
-    chapter = Chapters.objects.get(code=chapter_code)
-    member_table = MemberTable(Member.objects.filter(chapter=chapter_code).order_by('family_name') )
+def chapter_detail(request, chapter_id):
+    chapter = get_object_or_404(Chapters, member_id=chapter_id)
+    member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
     return render(request, 'agagd_core/chapter.html',
             {
                 'member_table': member_table,
                 'chapter': chapter,
             })
+
+def chapter_code_redirect(request, chapter_code):
+    # Try the lookup with the 4-letter chapter code. These are deprecated,
+    # but we continue to support them in case users have chapter pages bookmarked.
+    chapter = get_object_or_404(Chapters, code=chapter_code)
+    return redirect('chapter_detail', chapter_id=chapter.pk, permanent=True)
 
 def country_detail(request, country_name):
     member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )

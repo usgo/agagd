@@ -103,8 +103,13 @@ class MemberTable(tables.Table):
 
             chapter_url = reverse(
                 viewname='chapter_detail',
-                kwargs={'chapter_code': members_chapter.code})
-            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.code))
+                kwargs={'chapter_id': value})
+
+            chapter_name = members_chapter.name
+            if chapter_name is None or chapter_name == "":
+                chapter_name = members_chapter.code
+
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
         except:
             chapter_html = u"\u2014"
         return chapter_html
@@ -194,13 +199,15 @@ class AllPlayerRatingsTable(tables.Table):
         try:
             members_chapter = Chapters.objects.get(member_id=value)
 
-            if members_chapter.code is not None:
-                chapter_url = reverse(
-                    viewname='chapter_detail',
-                    kwargs={'chapter_code': members_chapter.code})
-                chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, members_chapter.name))
-            else:
-                chapter_html = u"\u2014"
+            chapter_url = reverse(
+                viewname='chapter_detail',
+                kwargs={'chapter_id': value})
+
+            chapter_name = members_chapter.name
+            if chapter_name is None or chapter_name == "":
+                chapter_name = members_chapter.code
+
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
         except:
             chapter_html = u"\u2014"
         return chapter_html

@@ -40,9 +40,12 @@ class Member(models.Model):
         managed = False
 
 class Chapters(models.Model):
+    # The member_id for a chapter is the same in this table and in the chapter's corresponding Member object.
     member_id = models.ForeignKey(Member, db_column='member_id', primary_key=True)
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
+    # code is the 4-letter chapter code, which is now deprecated. It will remain
+    # in place so that we can redirect URLs using the chapter code to the appropriate member_id-based link.
     code = models.CharField(max_length=4, blank=True)
     contact = models.CharField(max_length=255, blank=True)
     rep_id = models.IntegerField(blank=True)
