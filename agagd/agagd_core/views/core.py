@@ -224,7 +224,18 @@ def tournament_detail(request, tourn_code):
 
 def chapter_detail(request, chapter_id):
     chapter = get_object_or_404(Chapters, member_id=chapter_id)
-    member_table = MemberTable(Member.objects.filter(chapter_id=chapter_id).order_by('family_name') )
+    member_table = MemberTable(
+        Member.objects.filter(
+            chapter_id=chapter_id).values(
+                "member_id",
+                "chapter_id",
+                "renewal_due",
+                "state",
+                "players__rating",
+                "country",
+                "full_name",
+                "family_name"
+            ).order_by('family_name'))
     return render(request, 'agagd_core/chapter.html',
             {
                 'member_table': member_table,
@@ -238,7 +249,18 @@ def chapter_code_redirect(request, chapter_code):
     return redirect('chapter_detail', chapter_id=chapter.pk, permanent=True)
 
 def country_detail(request, country_name):
-    member_table = MemberTable(Member.objects.filter(country=country_name).order_by('family_name') )
+    member_table = MemberTable(
+        Member.objects.filter(
+            country=country_name).values(
+                "member_id",
+                "chapter_id",
+                "renewal_due",
+                "state",
+                "players__rating",
+                "country",
+                "full_name",
+                "family_name"
+            ).order_by('family_name') )
 
     RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
 
