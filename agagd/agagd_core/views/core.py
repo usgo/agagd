@@ -95,7 +95,10 @@ def member_ratings(request, member_id):
             if r.elab_date != None]
         if len(ratings_dict) <= 1: 
             logger.debug('Ratings error: only one rating')
-            return JsonResponse({'result': 'error'})
+            return JsonResponse({
+                'result': 'error',
+                'message': 'Only one rated game. Not enough data'
+            })
         return JsonResponse(ratings_dict) 
     except:
         logger.debug('Ratings error', exc_info=1)
@@ -240,7 +243,7 @@ def all_player_ratings(request):
     ).filter(
         status='accepted'
     ).exclude(
-        rating__rating__isnull=True
+        ratings_set__rating__isnull=True
     ).exclude(
         type='chapter'
     ).exclude(

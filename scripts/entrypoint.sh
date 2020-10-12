@@ -28,7 +28,8 @@ function wait_for_db() {
 wait_for_db
 
 if $LOAD_FIXTURES == "true"; then
-    python manage.py loaddata fake_data
+    python make_fake_fixtures.py 100 1000 1000 > /tmp/fake_agagd_data.json
+    python manage.py loaddata /tmp/fake_agagd_data.json
 fi
 
 uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi --static-map /static=/tmp/static/

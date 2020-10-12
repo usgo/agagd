@@ -193,6 +193,15 @@ class Game(models.Model):
 # Updated Rating Information Table for Players.
 class Players(models.Model):
     pin_player = models.ForeignKey(Member, db_column='Pin_Player', primary_key=True)
+    
+    # Member Name Fields
+    # Note: These are just for completeness. They should be removed when 
+    #       the mysql views are migrated into ORM within the AGAGD app. 
+    #       Views include: most_rated_games_view, most_tournaments_view,
+    #                      most_tournaments_view and top_kyu_view.
+    name = models.CharField(max_length=30, db_column='Name')
+    last_name = models.CharField(max_length=30, db_column='Last_Name')
+    
     rating = models.FloatField(db_column='Rating')
     sigma = models.FloatField(db_column='Sigma')
     elab_date = models.DateField(db_column='Elab_Date')
@@ -203,8 +212,7 @@ class Players(models.Model):
 
 class Rating(models.Model):
     # ForeignKey for the Members
-    member_id = models.ForeignKey(Member, db_column='Pin_Player')
-    pin_player = models.ForeignKey(Member, db_column='Pin_Player', related_name='ratings_set', primary_key=True)
+    pin_player = models.ForeignKey(Member, db_column='Pin_Player', related_name='ratings_set')
     tournament = models.ForeignKey(Tournament, db_column='Tournament_Code', related_name='ratings_set')
     rating = models.FloatField(db_column='Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column='Sigma') # x. This field type is a guess.
