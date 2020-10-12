@@ -168,12 +168,11 @@ for game_id in range(1, game_count+1):
 
 chapters = [] 
 for member_id in range(0, len(CHAPTER_CODES)):
-    chapter_member_id = member_count+member_id+2
     chapters.append({
-        'pk': chapter_member_id,
+        'pk': member_id+1,
         'model': 'agagd_core.chapters',
         'fields': {
-            'member_id': chapter_member_id,
+            'member_id': member_id+1,
             'code': CHAPTER_CODES[member_id],
             'name': CHAPTER_NAMES[member_id],
             'contact_text': random.choice(['Some contact info would go here.', '']),
