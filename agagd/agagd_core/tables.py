@@ -98,27 +98,20 @@ class MemberTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
 
     def render_chapter_id(self, value):
-        try:
-            members_chapter = Chapters.objects.get(member_id=value)
-
-            chapter_url = reverse(
-                viewname='chapter_detail',
-                kwargs={'chapter_id': value})
-
-            chapter_name = members_chapter.name
-            if chapter_name is None or chapter_name == "":
-                chapter_name = members_chapter.code
-
-            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
-        except:
-            chapter_html = u"\u2014"
-        return chapter_html
+        render_chapter_link_from_id(value)
 
     class Meta:
         model = Member
         attrs = {"class": "paleblue"}
         fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
         sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'renewal_due', 'member_id')
+
+class ChapterMemberTable(MemberTable):
+    class Meta:
+        model = Member
+        attrs = {"class": "paleblue"}
+        fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
+        sequence = ('full_name', 'players__rating', 'country', 'state', 'renewal_due', 'member_id')
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -196,21 +189,7 @@ class AllPlayerRatingsTable(tables.Table):
     )
 
     def render_chapter_id(self, value):
-        try:
-            members_chapter = Chapters.objects.get(member_id=value)
-
-            chapter_url = reverse(
-                viewname='chapter_detail',
-                kwargs={'chapter_id': value})
-
-            chapter_name = members_chapter.name
-            if chapter_name is None or chapter_name == "":
-                chapter_name = members_chapter.code
-
-            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
-        except:
-            chapter_html = u"\u2014"
-        return chapter_html
+        render_chapter_link_from_id(value)
 
     class Meta:
         attrs = {"class": "paleblue"}
@@ -247,3 +226,22 @@ class TournamentPlayedTable(tables.Table):
 
     class Meta:
         attrs = {"class": "paleblue"}
+
+# Takes a chapter ID and produces an href with the chapter's name
+def render_chapter_link_from_id(value):
+    try:
+        members_chapter = Chapters.objects.get(member_id=value)
+
+        chapter_url = reverse(
+            viewname='chapter_detail',
+            kwargs={'chapter_id': value})
+
+        chapter_name = members_chapter.name
+        if chapter_name is None or chapter_name == "":
+            chapter_name = members_chapter.code
+
+        chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
+    except:
+        chapter_html = u"\u2014"
+
+    return chapter_html
