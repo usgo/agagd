@@ -27,14 +27,27 @@
 <div class="member_content_wrapper">
     <div class="left-column member_information">
         <dl>
+            <dt style="font-size: 24px"> Rating: </dt>
+            <dd style="font-size: 24px"> {{ rating.rating }} </dd>
+            <dt> Chapter: </dt>
+            <dd>
+              {% if chapter %}
+                {% comment %}
+                  We have to use "chapter.pk" instead of the more mnemonic "chapter.member_id" here, because member_id is both a primary key *and* a foreign key.
+                  This confuses the Django ORM into always resolving "chapter.member_id" into an object looked up from the Members table. Explicitly using the "pk"
+                  pseudo-field works around this limitation.
+                {% endcomment %}
+                <a href="{% url 'chapter_detail' chapter.pk %}"> {{ chapter.name }} </a>
+              {% else %}
+                None
+              {% endif %}
+            </dd>
             <dt> AGA member since: </dt>
             <dd> {{ player.join_date }} </dd>
             <dt> Expiration Date: </dt>
             <dd> {{ player.renewal_due }} </dd>
             <dt> Membership type: </dt>
             <dd> {{ player.type }} </dd>
-            <dt style="font-size: 24px"> Rating: </dt>
-            <dd style="font-size: 24px"> {{ rating.rating }} </dd>
             <dt> Highest Rating: </dt>
             <dd> {{ max_rating }} </dd>
             <dt> Sigma: </dt>
