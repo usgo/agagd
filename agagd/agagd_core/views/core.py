@@ -256,7 +256,7 @@ def all_player_ratings(request):
     ).filter(
         status='accepted'
     ).exclude(
-        ratings_set__rating__isnull=True
+        players__rating__isnull=True
     ).exclude(
         type='chapter'
     ).exclude(
