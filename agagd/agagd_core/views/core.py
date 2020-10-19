@@ -1,7 +1,7 @@
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
-from agagd_core.tables import GameTable, GameTable2, MemberTable, TournamentTable, TopDanTable, TopKyuTable, OpponentTable, TournamentPlayedTable
-from agagd_core.tables import AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
+from agagd_core.tables import GameTable, GameTable2, MemberTable, ChapterMemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
+from agagd_core.tables import TopDanTable, TopKyuTable, AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
 from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.paginator import PageNotAnInteger
@@ -224,7 +224,7 @@ def tournament_detail(request, tourn_code):
 
 def chapter_detail(request, chapter_id):
     chapter = get_object_or_404(Chapters, member_id=chapter_id)
-    member_table = MemberTable(
+    chapter_member_table = ChapterMemberTable(
         Member.objects.filter(
             chapter_id=chapter_id).values(
                 "member_id",
@@ -238,7 +238,7 @@ def chapter_detail(request, chapter_id):
             ).order_by('family_name'))
     return render(request, 'agagd_core/chapter.html',
             {
-                'member_table': member_table,
+                'member_table': chapter_member_table,
                 'chapter': chapter,
             })
 
