@@ -16,6 +16,26 @@ class WinnerColumn(tables.LinkColumn):
             self.attrs['td'] = {'class': 'foo'}
         return tables.LinkColumn.render(self, value, record, bound_column)
 
+class ChapterColumn(tables.Column):
+    # Takes a chapter ID and produces an href with the chapter's name
+    def render(self, value):
+        try:
+            members_chapter = Chapters.objects.get(member_id=value)
+
+            chapter_url = reverse(
+                viewname='chapter_detail',
+                kwargs={'chapter_id': value})
+
+            chapter_name = members_chapter.name
+            if chapter_name is None or chapter_name == "":
+                chapter_name = members_chapter.code
+
+            chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
+        except:
+            chapter_html = u"\u2014"
+
+        return chapter_html
+
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
     pin_player_1 = WinnerColumn('W',
@@ -84,7 +104,7 @@ class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
         'member_detail',
         kwargs={"member_id": tables.A('member_id')})
-    chapter_id  = tables.Column(
+    chapter_id  = ChapterColumn(
         verbose_name="Chapter"
     )
     players__rating = tables.Column(
@@ -96,9 +116,6 @@ class MemberTable(tables.Table):
     full_name = tables.LinkColumn(
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
-
-    def render_chapter_id(self, value):
-        render_chapter_link_from_id(value)
 
     class Meta:
         model = Member
@@ -180,16 +197,13 @@ class AllPlayerRatingsTable(tables.Table):
     )
     type = tables.Column()
     players__rating = tables.Column()
-    chapter_id = tables.Column(
+    chapter_id = ChapterColumn(
         verbose_name="Chapter"
     )
     state = tables.Column()
     players__sigma = tables.Column(
         verbose_name="Sigma"
     )
-
-    def render_chapter_id(self, value):
-        render_chapter_link_from_id(value)
 
     class Meta:
         attrs = {"class": "paleblue"}
@@ -226,22 +240,3 @@ class TournamentPlayedTable(tables.Table):
 
     class Meta:
         attrs = {"class": "paleblue"}
-
-# Takes a chapter ID and produces an href with the chapter's name
-def render_chapter_link_from_id(value):
-    try:
-        members_chapter = Chapters.objects.get(member_id=value)
-
-        chapter_url = reverse(
-            viewname='chapter_detail',
-            kwargs={'chapter_id': value})
-
-        chapter_name = members_chapter.name
-        if chapter_name is None or chapter_name == "":
-            chapter_name = members_chapter.code
-
-        chapter_html = mark_safe("<a href='{}'>{}</a>".format(chapter_url, chapter_name))
-    except:
-        chapter_html = u"\u2014"
-
-    return chapter_html
