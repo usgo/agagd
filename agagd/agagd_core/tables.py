@@ -2,7 +2,7 @@ import django_tables2 as tables
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
-from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
+from agagd_core.models import Chapters, Game, Member, Rating, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
@@ -237,6 +237,10 @@ class TournamentPlayedTable(tables.Table):
     date = tables.Column(default="Unknown")
     won = tables.Column(verbose_name="Won", default=0)
     lost = tables.Column(verbose_name="Lost", default=0) 
+    rating = tables.LinkColumn(
+            'member_detail',
+            kwargs={'member_id':tables.A('ratings.elab_date')})
+
 
     class Meta:
         attrs = {"class": "paleblue"}

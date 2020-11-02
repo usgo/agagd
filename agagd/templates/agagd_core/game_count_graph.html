@@ -79,11 +79,11 @@ d3.json("{% url "game_stats" %}", function(error, data) {
       .call(yAxis2)
     .append("text")
       .attr("transform", " rotate(-90)")
-      .attr("x", -height)
+      .attr("x", -85)
       .attr("y", -16)
       .attr("dy", ".71em")
       .style("text-anchor", "start")
-      .text("total # of Games");
+      .text("Total # of Games");
 
   svg.append("path")
       .datum(data)
