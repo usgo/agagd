@@ -406,3 +406,18 @@ div.ui-datepicker{
      clear: both
 }
 
+/*
+ * Tables
+ */
+
+table.tournament-directors-info-table {
+    margin: 0 auto;
+    border: .25rem solid black;
+    border-collapse: collapse;
+}
+
+table.tournament-directors-info-table th, 
+table.tournament-directors-info-table td {
+    padding: .125rem;
+    border: .25rem solid black;
+}
