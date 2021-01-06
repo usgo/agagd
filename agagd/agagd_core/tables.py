@@ -2,7 +2,7 @@ import django_tables2 as tables
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
-from agagd_core.models import Chapters, Game, Member, Rating, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
+from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.LinkColumn):
     def __init__(self, color, *args, **kwargs):
