@@ -237,6 +237,7 @@ class TournamentPlayedTable(tables.Table):
     date = tables.Column(default="Unknown")
     won = tables.Column(verbose_name="Won", default=0)
     lost = tables.Column(verbose_name="Lost", default=0) 
+    #Steve note for issue #122 here
 
     class Meta:
         attrs = {"class": "paleblue"}
