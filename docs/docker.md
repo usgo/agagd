@@ -14,11 +14,7 @@ Docker can automate much of the configuration for you.
 
 ### Running a dev environment using Docker
 
-Copy `config-docker.env.sample` to `config-docker.env` (in the repository root) and edit the file to provide values for the variables.
-
-~~~
-$ cp config-docker.env.sample config-docker.env
-~~~
+If you wish to change the environmental variables, the `.env` file to provides values for the environmental variables. Additional information about how docker-compose uses env-files can be found on [Environmental File](https://docs.docker.com/compose/env-file/).
 
 These values will be used by both the database and the app. Now, run either:
 
