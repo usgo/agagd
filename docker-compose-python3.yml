@@ -23,8 +23,7 @@ services:
       DB_PORT: 3306
       APP_DB_NAME: agagd
       AGAGD_USER: agagd
-      MYSQL_PASS: "${MYSQL_PASS}"
-      MYSQL_PASSWORD: "${MYSQL_PASS}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
       SECRET_KEY: insecure-key-for-testing
       DEBUG: "true"
       LOAD_FIXTURES: "true"
@@ -43,7 +42,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_USER: agagd
       MYSQL_DATABASE: agagd
-      MYSQL_PASS: "${MYSQL_PASS}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
 
 volumes:
   database:
