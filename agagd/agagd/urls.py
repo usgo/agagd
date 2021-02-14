@@ -27,4 +27,4 @@ urlpatterns = [
     # Static Pages
     url(r'^information/$', agagd_views.information),
     url(r'^qualifications/$', agagd_views.qualifications)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
