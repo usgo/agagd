@@ -9,7 +9,12 @@ ADMINS = [
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['localhost', 'test.agagd.usgo.org', 'agagd.usgo.org', 'a.agagd.usgo.org']
+# Allow only the default ALLOWED_HOSTS ['.localhost', '127.0.0.1', '[::1]'].
+ALLOWED_HOSTS = []
+
+# Only one allowed host is expected here.
+if os.getenv('ALLOWED_HOSTS') != None:
+    ALLOWED_HOSTS.append(os.getenv('ALLOWED_HOSTS'))
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
