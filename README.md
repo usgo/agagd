@@ -13,7 +13,7 @@ We welcome and encourage contributions to the AGAGD with Pull Requests (PRs), fe
 
 ## Database Prerequisites
 
-Contributors submitting Pull Requests (PRs) may notice some difficulty in running a local Docker configuration. That is due to changes which now require a current dump of the AGAGD database schema  which is not available publically. If you are interested in contributing and would like access to the database schema, contact [Steve Colburn](mailto:steve.colburn@usgo.org).
+Contributors submitting Pull Requests (PRs) will require a `schema.sql` file within their local AGAGD repository. The `schema.sql` can be found in [USGO SQL Schema's Repo](https://github.com/usgo/usgo-sql-schemas).
 
 ## Project Priorities
 [Bug Triage](https://github.com/usgo/agagd/projects/1) project for the AGAGD which lists and organizes current priorites the AGA Development Team has for the AGAGD.
