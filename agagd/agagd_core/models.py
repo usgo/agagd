@@ -41,7 +41,13 @@ class Member(models.Model):
 
 class Chapters(models.Model):
     # The member_id for a chapter is the same in this table and in the chapter's corresponding Member object.
-    member_id = models.ForeignKey(Member, db_column='member_id', primary_key=True)
+    member_id = models.ForeignKey(
+            Member,
+            db_column='member_id',
+            primary_key=True,
+            on_delete=models.DO_NOTHING
+    )
+
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
     # code is the 4-letter chapter code, which is now deprecated. It will remain
@@ -162,9 +168,26 @@ class Game(models.Model):
     rated = models.SmallIntegerField(max_length=1, db_column='Rated', blank=True)
     elab_date = models.DateField(db_column='Elab_Date')
 
-    tournament_code = models.ForeignKey(Tournament, related_name='games_in_tourney', db_column='Tournament_Code')
-    pin_player_1 = models.ForeignKey(Member, db_column='Pin_Player_1', related_name='games_as_p1')
-    pin_player_2 = models.ForeignKey(Member, db_column='Pin_Player_2', related_name='games_as_p2')
+    tournament_code = models.ForeignKey(
+            Tournament,
+            related_name='games_in_tourney',
+            db_column='Tournament_Code',
+            on_delete=models.DO_NOTHING
+    )
+
+    pin_player_1 = models.ForeignKey(
+            Member,
+            db_column='Pin_Player_1',
+            related_name='games_as_p1',
+            on_delete=models.DO_NOTHING
+    )
+
+    pin_player_2 = models.ForeignKey(
+            Member,
+            db_column='Pin_Player_2',
+            related_name='games_as_p2',
+            on_delete=models.DO_NOTHING
+    )
 
     class Meta:
         managed = False
@@ -195,7 +218,12 @@ class Game(models.Model):
 
 # Updated Rating Information Table for Players.
 class Players(models.Model):
-    pin_player = models.ForeignKey(Member, db_column='Pin_Player', primary_key=True)
+    pin_player = models.ForeignKey(
+            Member,
+            db_column='Pin_Player',
+            primary_key=True,
+            on_delete=models.DO_NOTHING
+    )
     
     # Member Name Fields
     # Note: These are just for completeness. They should be removed when 
@@ -215,8 +243,20 @@ class Players(models.Model):
 
 class Rating(models.Model):
     # ForeignKey for the Members
-    pin_player = models.ForeignKey(Member, db_column='Pin_Player', related_name='ratings_set')
-    tournament = models.ForeignKey(Tournament, db_column='Tournament_Code', related_name='ratings_set')
+    pin_player = models.ForeignKey(
+            Member,
+            db_column='Pin_Player',
+            related_name='ratings_set',
+            on_delete=models.DO_NOTHING
+    )
+
+    tournament = models.ForeignKey(
+            Tournament,
+            db_column='Tournament_Code',
+            related_name='ratings_set',
+            on_delete=models.DO_NOTHING
+    )
+
     rating = models.FloatField(db_column='Rating') # x. This field type is a guess.
     sigma = models.FloatField(db_column='Sigma') # x. This field type is a guess.
     elab_date = models.DateField(db_column='Elab_Date')
