@@ -5,7 +5,7 @@ from agagd_core.tables import TopDanTable, TopKyuTable, AllPlayerRatingsTable, M
 from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.paginator import PageNotAnInteger
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
