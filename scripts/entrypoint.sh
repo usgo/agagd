@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# This is sugar to allow our docker-config to use the same variable name for the app
-# and for the mysql server itself.
-export MYSQL_PASS=$MYSQL_PASSWORD
-
 MYSQL_COMMAND="mysql --host=$DB_HOST --port=$DB_PORT --user=$AGAGD_USER --password=$MYSQL_PASSWORD"
 
 # Wait on DB server to be up *and* app DB to be created and available.

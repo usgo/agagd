@@ -17,7 +17,7 @@ ADMIN_ENABLED = False
 _key = os.environ['SECRET_KEY']
 
 _user = os.getenv('AGAGD_USER', '')
-_password = os.getenv('MYSQL_PASS', '')
+_password = os.getenv('MYSQL_PASSWORD', '')
 _dbname = os.getenv('APP_DB_NAME', '')
 _dbhost = os.getenv('DB_HOST', '')
 _dbport = os.getenv('DB_PORT', '')
