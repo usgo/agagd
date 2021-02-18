@@ -30,7 +30,7 @@ class Member(models.Model):
     renewal_due = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return " %s (%s) " % (self.full_name, self.member_id, )
 
     class Meta:
