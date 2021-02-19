@@ -4,17 +4,36 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
 from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
-class WinnerColumn(tables.LinkColumn):
-    def __init__(self, color, *args, **kwargs):
-        tables.LinkColumn.__init__(self, *args, **kwargs)
+class WinnerColumn(tables.Column):
+    def __init__(
+        self,
+        color='W',
+        viewname=None,
+        urlconf=None,
+        args=None,
+        kwargs=None,
+        current_app=None,
+        attrs=None,
+        **extra
+    ):
+        super().__init__(
+            attrs=attrs,
+            linkify=dict(
+                viewname=viewname,
+                urlconf=urlconf,
+                args=args,
+                kwargs=kwargs,
+                current_app=current_app,
+            ),
+            **extra
+        )
         self.color = color
-
-    def render(self, value, record, bound_column):
+    def render(self, value, record):
         if record.result == self.color:
             self.attrs['td'] = {'class': 'winner'} 
         else:
             self.attrs['td'] = {'class': 'foo'}
-        return tables.LinkColumn.render(self, value, record, bound_column)
+        return value
 
 class ChapterColumn(tables.Column):
     # Takes a chapter ID and produces an href with the chapter's name
@@ -38,12 +57,12 @@ class ChapterColumn(tables.Column):
 
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
-    pin_player_1 = WinnerColumn('W',
+    pin_player_1 = WinnerColumn(color='W',
             viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
-    pin_player_2 = WinnerColumn('B',
-            viewname='member_detail', 
+    pin_player_2 = WinnerColumn(color='B',
+            viewname='member_detail',
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     tournament_code = tables.LinkColumn(
@@ -61,12 +80,12 @@ class GameTable(tables.Table):
 
 #Modified gaeTable to remove duplicate tournament listing displayed on the page, GitHubIssue#20
 class GameTable2(tables.Table):
-    pin_player_1 = WinnerColumn('W',
+    pin_player_1 = WinnerColumn(color='W',
             viewname='member_detail',
             verbose_name="white player",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
-    pin_player_2 = WinnerColumn('B',
-            'member_detail', 
+    pin_player_2 = WinnerColumn(color='B',
+            viewname='member_detail',
             verbose_name="black player",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     class Meta:
