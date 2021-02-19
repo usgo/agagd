@@ -1,6 +1,5 @@
-Django==2.0
+Django==3.0
 django-admin-tools==0.4.1
-django-tables2==2.0.0a3
+django-tables2==2.1.0
 PyMySQL==0.10.0
-six==1.4.1
 yolk==0.4.3
