@@ -3,9 +3,18 @@ import os
 
 PROJECT_ROOT = os.environ['PROJECT_ROOT']
 
-ADMINS = [
-    ('Admins', 'webmaster@usgo.org'),
-]
+# AGAGD Administrators Configuration:
+#
+# This assumes AGAGD_ADMINS environmental variable is formated as follows:
+# 'webmaster:webmaster@usgo.org,agagd_webmaster:agagd+webmaster@usgo.org'
+#
+# For local configurations the ADMINS defaults to [('Admin', 'admin@localhost.local')]
+ADMINS = []
+
+if os.getenv('AGAGD_ADMINS') == None:
+    ADMINS.append(('Admin', 'admin@localhost.local'))
+else
+    ADMINS = [ (value.split(':')[0], value.split(':')[1]) for value in os.environ.get('AGAGD_ADMINS').split(',') ]
 
 MANAGERS = ADMINS
 
