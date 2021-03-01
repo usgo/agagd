@@ -91,15 +91,14 @@ class Tournament(models.Model):
     wall_list = models.TextField(db_column='Wallist')
 
     def __str__(self):
-        return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
+        return "{0} - on {1} with {2} players".format(self.tournament_code, self.tournament_date, self.total_players)
 
     def __unicode__(self):
         if self.description:
             if len(self.description) > 40:
-                return '%s...' % self.description[0:37]
-            return '%s' % self.description
-        else:
-            return '%s' % self.pk
+                return "{0}...".format(self.description[0:37])
+            return "{0}".format(self.description)
+        return "{0}".format(self.pk)
     
     class Meta:
         managed = False
