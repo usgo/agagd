@@ -31,7 +31,7 @@ class Member(models.Model):
     type = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return " %s (%s) " % (self.full_name, self.member_id, )
+        return "{0} ({1})".format(self.full_name, self.member_id)
 
     class Meta:
         db_table = 'members'
