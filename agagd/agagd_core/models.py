@@ -202,9 +202,14 @@ class Game(models.Model):
     def __str__(self):
         return str(self.__unicode__())
 
+    # player_other_than(self, one_player)
+    #
+    # returns the player opposite whichever player
+    # is provided to player_other_than
     def player_other_than(self, one_player):
-        """ returns the member of the other player. """
-        return self.pin_player_2 if (one_player == self.pin_player_1) else self.pin_player_1
+        if (one_player == self.pin_player_1)
+            return self.pin_player_2
+        return self.pin_player_1
 
     def winner(self):
         if self.result == self.color_1:
