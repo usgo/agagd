@@ -13,7 +13,7 @@ ADMINS = []
 
 if os.getenv('AGAGD_ADMINS') == None:
     ADMINS.append(('Admin', 'admin@localhost.local'))
-else
+else:
     ADMINS = [ (value.split(':')[0], value.split(':')[1]) for value in os.environ.get('AGAGD_ADMINS').split(',') ]
 
 MANAGERS = ADMINS
