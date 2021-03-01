@@ -1,6 +1,6 @@
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
-from agagd_core.tables import GameTable, GameTable2, MemberTable, ChapterMemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
+from agagd_core.tables import GameTable, SecondaryGameTable, MemberTable, ChapterMemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from agagd_core.tables import TopDanTable, TopKyuTable, AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
 from datetime import datetime, timedelta, date
 from django.core import exceptions
@@ -214,11 +214,11 @@ def member_vs(request, member_id, other_id):
 
 def tournament_detail(request, tourn_code):
     tourney = Tournament.objects.get(pk=tourn_code)
-    game_table2 = GameTable2(tourney.games_in_tourney.all())
-    RequestConfig(request, paginate={'per_page': 20}).configure(game_table2)
+    secondary_gametable = SecondaryGameTable(tourney.games_in_tourney.all())
+    RequestConfig(request, paginate={'per_page': 20}).configure(secondary_gametable)
     return render(request, 'agagd_core/tourney.html',
             {
-                'game_table2': game_table2,
+                'secondary_gametable': secondary_gametable,
                 'tournament': tourney,
             }) 
 
