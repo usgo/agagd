@@ -121,7 +121,7 @@ class OpponentTable(tables.Table):
     ratio = tables.Column(verbose_name="Rate", default=0, empty_values=(-1,), orderable=False)
 
     def render_ratio(self, record):
-        return "{}".format(record['won'] / record['total'])
+        return "{:.2f}".format(record['won'] / record['total'])
 
     class Meta:
         attrs = {"class": "paleblue"}
