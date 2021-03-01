@@ -207,7 +207,7 @@ class Game(models.Model):
     # returns the player opposite whichever player
     # is provided to player_other_than
     def player_other_than(self, one_player):
-        if (one_player == self.pin_player_1)
+        if (one_player == self.pin_player_1):
             return self.pin_player_2
         return self.pin_player_1
 
