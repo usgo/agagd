@@ -194,12 +194,13 @@ class Game(models.Model):
         verbose_name = 'game'
         verbose_name_plural = 'games'
 
-    def __unicode__(self):
-        return u"Tournament %s Round %s, %s vs %s" % (self.tournament_code,
-                self.round, self.pin_player_1, self.pin_player_2)
-
     def __str__(self):
-        return str(self.__unicode__())
+        return "Tournament {0} Round {1}, {2} vs {3}".format(
+            self.tournament_code,
+            self.round,
+            self.pin_player_1,
+            self.pin_player_2
+        )
 
     # player_other_than(self, one_player)
     #
