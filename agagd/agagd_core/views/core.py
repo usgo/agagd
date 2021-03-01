@@ -45,43 +45,44 @@ def index(request):
 @require_GET
 def search(request):
     query = request.GET.get('q','')
-    if query:
-        try:
-            member_id = int(query)
-            return HttpResponseRedirect(
-                reverse('member_detail', args=(member_id,))
-            )
-        except ValueError:
-            members_query = Member.objects.filter(
-                Q(member_id=F('players__pin_player'))
-            ).filter(
-                full_name__icontains=query
-            ).values(
-                "member_id",
-                "chapter_id",
-                "renewal_due",
-                "state",
-                "players__rating",
-                "country",
-                "full_name",
-                "family_name"
-            ).order_by('family_name')
 
-            member_table = MemberTable(members_query)
-
-            try:
-                RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
-            except PageNotAnInteger:
-                RequestConfig(request, paginate=False).configure(member_table)
-
-            return render(request, 'agagd_core/search_player.html',
-                {
-                    'member_table': member_table,
-                    'query': query,
-                }
-            )
-    else:
+    if not query:
         return HttpResponseRedirect('/')
+
+    try:
+        member_id = int(query)
+        return HttpResponseRedirect(
+            reverse('member_detail', args=(member_id,))
+        )
+    except ValueError:
+        members_query = Member.objects.filter(
+            Q(member_id=F('players__pin_player'))
+        ).filter(
+            full_name__icontains=query
+        ).values(
+            "member_id",
+            "chapter_id",
+            "renewal_due",
+            "state",
+            "players__rating",
+            "country",
+            "full_name",
+            "family_name"
+        ).order_by('family_name')
+
+        member_table = MemberTable(members_query)
+
+        try:
+            RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+        except PageNotAnInteger:
+            RequestConfig(request, paginate=False).configure(member_table)
+
+        return render(request, 'agagd_core/search_player.html',
+            {
+                'member_table': member_table,
+                'query': query,
+            }
+        )
 
 def member_ratings(request, member_id):
     #returns a members rating data as a json dict for graphing
