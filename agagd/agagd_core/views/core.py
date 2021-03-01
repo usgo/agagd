@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import TemplateView
 from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
@@ -351,9 +352,9 @@ def game_stats(request):
     sorted_games_by_date = sorted(games_by_date, key=lambda d: d['date'])
     return JsonResponse(sorted_games_by_date)
 
-# AGAGD Static Pages
-def information(request):
-    return render(request, 'static_pages/information.html')
+# AGAGD Pages
+class InformationPageView(TemplateView):
+    template_name = 'information.html'
 
-def qualifications(request):
-    return render(request, 'static_pages/qualifications.html')
+class QualificationsPageView(TemplateView):
+    template_name = 'qualifications.html'

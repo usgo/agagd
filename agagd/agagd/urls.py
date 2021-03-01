@@ -1,9 +1,10 @@
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.conf import settings
-from django.urls import reverse_lazy
+from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 from agagd_core import views as agagd_views
+from agagd_core.views import InformationPageView, QualificationsPageView
 
 urlpatterns = [
     url(r'^$', agagd_views.index, name='index'),
@@ -24,7 +25,7 @@ urlpatterns = [
     url(r'^tournaments/$', agagd_views.tournament_list, name='tourney_list'),
     url(r'^tournaments/(?P<tourn_code>\w{1,20})/$', agagd_views.tournament_detail, name='tournament_detail'),
 
-    # Static Pages
-    url(r'^information/$', agagd_views.information),
-    url(r'^qualifications/$', agagd_views.qualifications)
+    # Pages
+    path('information/', InformationPageView.as_view()),
+    path('qualifications/', QualificationsPageView.as_view())
 ]
