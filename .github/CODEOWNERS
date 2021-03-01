@@ -1,0 +1,8 @@
+# CODEOWNERS file
+#
+# This file will assign a code reviewer to review code which is
+# submitted via pull-request.
+#
+# More information about can be found on:
+# https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
+* @EarthSchlange
