@@ -32,7 +32,7 @@ class WinnerColumn(tables.Column):
         if record.result == self.color:
             self.attrs['td'] = {'class': 'winner'} 
         else:
-            self.attrs['td'] = {'class': 'foo'}
+            self.attrs['td'] = {'class': 'runner-up'}
         return value
 
 class ChapterColumn(tables.Column):
