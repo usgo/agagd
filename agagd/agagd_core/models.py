@@ -31,7 +31,7 @@ class Member(models.Model):
     type = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return " %s (%s) " % (self.full_name, self.member_id, )
+        return "{0} ({1})".format(self.full_name, self.member_id)
 
     class Meta:
         db_table = 'members'
@@ -91,15 +91,14 @@ class Tournament(models.Model):
     wall_list = models.TextField(db_column='Wallist')
 
     def __str__(self):
-        return "%s - on %s with %d players" % (self.tournament_code, self.tournament_date, self.total_players)
+        return "{0} - on {1} with {2} players".format(self.tournament_code, self.tournament_date, self.total_players)
 
     def __unicode__(self):
         if self.description:
             if len(self.description) > 40:
-                return '%s...' % self.description[0:37]
-            return '%s' % self.description
-        else:
-            return '%s' % self.pk
+                return "{0}...".format(self.description[0:37])
+            return "{0}".format(self.description)
+        return "{0}".format(self.pk)
     
     class Meta:
         managed = False
@@ -195,16 +194,22 @@ class Game(models.Model):
         verbose_name = 'game'
         verbose_name_plural = 'games'
 
-    def __unicode__(self):
-        return u"Tournament %s Round %s, %s vs %s" % (self.tournament_code,
-                self.round, self.pin_player_1, self.pin_player_2)
-
     def __str__(self):
-        return str(self.__unicode__())
+        return "Tournament {0} Round {1}, {2} vs {3}".format(
+            self.tournament_code,
+            self.round,
+            self.pin_player_1,
+            self.pin_player_2
+        )
 
+    # player_other_than(self, one_player)
+    #
+    # returns the player opposite whichever player
+    # is provided to player_other_than
     def player_other_than(self, one_player):
-        """ returns the member of the other player. """
-        return self.pin_player_2 if (one_player == self.pin_player_1) else self.pin_player_1
+        if (one_player == self.pin_player_1):
+            return self.pin_player_2
+        return self.pin_player_1
 
     def winner(self):
         if self.result == self.color_1:

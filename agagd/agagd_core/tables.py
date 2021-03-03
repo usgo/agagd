@@ -32,7 +32,7 @@ class WinnerColumn(tables.Column):
         if record.result == self.color:
             self.attrs['td'] = {'class': 'winner'} 
         else:
-            self.attrs['td'] = {'class': 'foo'}
+            self.attrs['td'] = {'class': 'runner-up'}
         return value
 
 class ChapterColumn(tables.Column):
@@ -72,31 +72,39 @@ class GameTable(tables.Table):
 
     class Meta:
         model = Game
-        # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("game_date", "round", "pin_player_1",
-                "pin_player_2", 'handicap', 'komi', 'tournament_code')
+        fields = (
+            'game_date',
+            'round',
+            'pin_player_1',
+            'pin_player_2',
+            'handicap',
+            'komi',
+            'tournament_code'
+        )
         sequence = fields
 
-#Modified gaeTable to remove duplicate tournament listing displayed on the page, GitHubIssue#20
-class GameTable2(tables.Table):
-    pin_player_1 = WinnerColumn(color='W',
-            viewname='member_detail',
-            verbose_name="white player",
-            kwargs={"member_id":tables.A('pin_player_1.member_id')})
-    pin_player_2 = WinnerColumn(color='B',
-            viewname='member_detail',
-            verbose_name="black player",
-            kwargs={"member_id":tables.A('pin_player_2.member_id')})
+# Alternative GameTable
+#
+# Displays GameTable without the Tournament Name Column
+#
+# References:
+# GitHubIssue#20
+class SecondaryGameTable(GameTable):
+    tournament_code = None
+
     class Meta:
         model = Game
-        # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("game_date", "round", "pin_player_1",
-                "pin_player_2", 'handicap', 'komi')
+        fields = (
+            'game_date',
+            'round',
+            'pin_player_1',
+            'pin_player_2',
+            'handicap',
+            'komi'
+        )
         sequence = fields
-
-
 
 class OpponentTable(tables.Table):
     def __init__(self, qs, p1, *args, **kwargs):
@@ -113,7 +121,7 @@ class OpponentTable(tables.Table):
     ratio = tables.Column(verbose_name="Rate", default=0, empty_values=(-1,), orderable=False)
 
     def render_ratio(self, record):
-        return "%0.2f" % (float(record['won']) / record['total'])
+        return "{:.2f}".format(record['won'] / record['total'])
 
     class Meta:
         attrs = {"class": "paleblue"}

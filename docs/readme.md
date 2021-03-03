@@ -11,9 +11,7 @@ A port of the old eurogo Games Database to python, for the AGA
 
 ### Getting started
 
-**Important: agagd is no longer compatible with sqlite3; as of 2020-02-01, it requires features only available in MySQL.**
-
-**Important: running the agagd locally now requires access to a database schema not provided by this repository.**
+**Important: running the agagd locally now requires the `schema.sql` which can be found in [USGO SQL Schema's Repo](https://github.com/usgo/usgo-sql-schemas).**
 
 *A new docker-based development approach is also available, see [docker.md](docker.md) for details.*
 
@@ -62,12 +60,4 @@ with shuffled AGAIDs, random names & chapters, and a few sample tournaments.
 6. extend to put a frontend on the ratings workings of Bresler et al.
 7. Provide online game submissions
 8. Document game submission protocol for use with other servers.
-
-
-### Deployment
-
-This needs some help.  We'll need to diff the schema, figure out staging, 
-and maybe some routing/networking magic with Steve.
-
-
 

@@ -1,6 +1,6 @@
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import Game, Member, Tournament, TopDan, TopKyu, MostRatedGamesPastYear, MostTournamentsPastYear, Chapters, Country
-from agagd_core.tables import GameTable, GameTable2, MemberTable, ChapterMemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
+from agagd_core.tables import GameTable, SecondaryGameTable, MemberTable, ChapterMemberTable, TournamentTable, OpponentTable, TournamentPlayedTable
 from agagd_core.tables import TopDanTable, TopKyuTable, AllPlayerRatingsTable, MostRatedGamesPastYearTable, MostTournamentsPastYearTable
 from datetime import datetime, timedelta, date
 from django.core import exceptions
@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.db.models import F, Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import TemplateView
 from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
 
@@ -45,43 +46,44 @@ def index(request):
 @require_GET
 def search(request):
     query = request.GET.get('q','')
-    if query:
-        try:
-            member_id = int(query)
-            return HttpResponseRedirect(
-                reverse('member_detail', args=(member_id,))
-            )
-        except ValueError:
-            members_query = Member.objects.filter(
-                Q(member_id=F('players__pin_player'))
-            ).filter(
-                full_name__icontains=query
-            ).values(
-                "member_id",
-                "chapter_id",
-                "renewal_due",
-                "state",
-                "players__rating",
-                "country",
-                "full_name",
-                "family_name"
-            ).order_by('family_name')
 
-            member_table = MemberTable(members_query)
-
-            try:
-                RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
-            except PageNotAnInteger:
-                RequestConfig(request, paginate=False).configure(member_table)
-
-            return render(request, 'agagd_core/search_player.html',
-                {
-                    'member_table': member_table,
-                    'query': query,
-                }
-            )
-    else:
+    if not query:
         return HttpResponseRedirect('/')
+
+    try:
+        member_id = int(query)
+        return HttpResponseRedirect(
+            reverse('member_detail', args=(member_id,))
+        )
+    except ValueError:
+        members_query = Member.objects.filter(
+            Q(member_id=F('players__pin_player'))
+        ).filter(
+            full_name__icontains=query
+        ).values(
+            "member_id",
+            "chapter_id",
+            "renewal_due",
+            "state",
+            "players__rating",
+            "country",
+            "full_name",
+            "family_name"
+        ).order_by('family_name')
+
+        member_table = MemberTable(members_query)
+
+        try:
+            RequestConfig(request, paginate={'per_page': 100}).configure(member_table)
+        except PageNotAnInteger:
+            RequestConfig(request, paginate=False).configure(member_table)
+
+        return render(request, 'agagd_core/search_player.html',
+            {
+                'member_table': member_table,
+                'query': query,
+            }
+        )
 
 def member_ratings(request, member_id):
     #returns a members rating data as a json dict for graphing
@@ -214,11 +216,11 @@ def member_vs(request, member_id, other_id):
 
 def tournament_detail(request, tourn_code):
     tourney = Tournament.objects.get(pk=tourn_code)
-    game_table2 = GameTable2(tourney.games_in_tourney.all())
-    RequestConfig(request, paginate={'per_page': 20}).configure(game_table2)
+    secondary_gametable = SecondaryGameTable(tourney.games_in_tourney.all())
+    RequestConfig(request, paginate={'per_page': 20}).configure(secondary_gametable)
     return render(request, 'agagd_core/tourney.html',
             {
-                'game_table2': game_table2,
+                'secondary_gametable': secondary_gametable,
                 'tournament': tourney,
             }) 
 
@@ -350,9 +352,9 @@ def game_stats(request):
     sorted_games_by_date = sorted(games_by_date, key=lambda d: d['date'])
     return JsonResponse(sorted_games_by_date)
 
-# AGAGD Static Pages
-def information(request):
-    return render(request, 'static_pages/information.html')
+# AGAGD Pages
+class InformationPageView(TemplateView):
+    template_name = 'information.html'
 
-def qualifications(request):
-    return render(request, 'static_pages/qualifications.html')
+class QualificationsPageView(TemplateView):
+    template_name = 'qualifications.html'
