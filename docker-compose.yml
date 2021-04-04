@@ -25,6 +25,12 @@ services:
       SECRET_KEY: insecure-key-for-testing
       DEBUG: "true"
       LOAD_FIXTURES: "true"
+    volumes:
+      - ./agagd/agagd:/srv/agagd
+      - ./agagd/agagd_core:/srv/agagd_core
+      - ./agagd/media:/srv/media
+      - ./agagd/static:/srv/static
+      - ./agagd/templates:/srv/templates
 
   db:
     build:
