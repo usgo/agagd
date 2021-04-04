@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path, reverse_lazy
@@ -6,7 +6,7 @@ from django.views.generic import RedirectView
 from agagd_core import views as agagd_views
 from agagd_core.views import InformationPageView, QualificationsPageView
 
-urlpatterns = [
+urlpatterns = (
     url(r'^$', agagd_views.index, name='index'),
     url(r'.php$', RedirectView.as_view(url=reverse_lazy('index'))),
 
@@ -27,5 +27,8 @@ urlpatterns = [
 
     # Pages
     path('information/', InformationPageView.as_view()),
-    path('qualifications/', QualificationsPageView.as_view())
-]
+    path('qualifications/', QualificationsPageView.as_view()),
+
+    # Beta
+    url(r'^beta/', include('agagd_core.urls')),
+)

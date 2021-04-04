@@ -9,3 +9,4 @@ agagd_core/fixtures/fake_data.json
 docker-compose.override.yml
 local_settings.py
 schema.sql
+agagd/agagd/uwsgi-reload
