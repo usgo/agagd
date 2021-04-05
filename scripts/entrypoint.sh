@@ -28,4 +28,4 @@ if $LOAD_FIXTURES == "true"; then
     python manage.py loaddata /tmp/fake_agagd_data.json
 fi
 
-uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi --static-map /static=/tmp/static/ --static-map /media=/srv/media --touch-reload /srv/agagd/uwsgi-reload
+uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi --static-map /static=/tmp/static/ --static-map /media=/srv/media --touch-reload=/srv/agagd/wsgi.py
