@@ -82,7 +82,12 @@ class GameTable(tables.Table):
 
     class Meta:
         model = Game
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            },
+        }
         fields = (
             'game_date',
             'round',
@@ -93,6 +98,7 @@ class GameTable(tables.Table):
             'tournament_code'
         )
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 # Alternative GameTable
 #
@@ -105,7 +111,6 @@ class SecondaryGameTable(GameTable):
 
     class Meta:
         model = Game
-        attrs = {"class": "paleblue"}
         fields = (
             'game_date',
             'round',
@@ -115,6 +120,7 @@ class SecondaryGameTable(GameTable):
             'komi'
         )
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class OpponentTable(tables.Table):
     def __init__(self, qs, p1, *args, **kwargs):
@@ -134,8 +140,14 @@ class OpponentTable(tables.Table):
         return "{:.2f}".format(record['won'] / record['total'])
 
     class Meta:
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         order_by = ('-total', '-won')
+        template_name = "django_tables2/bootstrap4.html"
 
 class MemberTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -156,16 +168,28 @@ class MemberTable(tables.Table):
 
     class Meta:
         model = Member
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
         sequence = ('full_name', 'players__rating', 'chapter_id', 'country', 'state', 'renewal_due', 'member_id')
+        template_name = "django_tables2/bootstrap4.html"
 
 class ChapterMemberTable(MemberTable):
     class Meta:
         model = Member
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('full_name', 'state', 'players__rating', 'renewal_due', 'country')
         sequence = ('full_name', 'players__rating', 'country', 'state', 'renewal_due', 'member_id')
+        template_name = "django_tables2/bootstrap4.html"
 
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -176,9 +200,15 @@ class TopDanTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopDan
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('member_id', 'full_name', 'rating')
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class TopKyuTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -189,9 +219,15 @@ class TopKyuTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = TopKyu
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('member_id', 'full_name', 'rating')
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class MostRatedGamesPastYearTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -202,9 +238,15 @@ class MostRatedGamesPastYearTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = MostRatedGamesPastYear
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('member_id', 'name', 'total')
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class MostTournamentsPastYearTable(tables.Table):
     member_id = tables.LinkColumn(
@@ -215,9 +257,15 @@ class MostTournamentsPastYearTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
         model = MostTournamentsPastYear
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = ('member_id', 'name', 'total')
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class AllPlayerRatingsTable(tables.Table):
     full_name = tables.LinkColumn(
@@ -243,7 +291,12 @@ class AllPlayerRatingsTable(tables.Table):
     )
 
     class Meta:
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
         fields = (
                   'full_name',
                   'member_id',
@@ -254,6 +307,7 @@ class AllPlayerRatingsTable(tables.Table):
                   'state',
                  )
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class TournamentTable(tables.Table):
     tournament_code = tables.LinkColumn(
@@ -263,9 +317,18 @@ class TournamentTable(tables.Table):
 
     class Meta:
         model = Tournament
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            },
+            "th": {
+                "scope": "col"
+            }
+        }
         fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields
+        template_name = "django_tables2/bootstrap4.html"
 
 class TournamentPlayedTable(tables.Table):
     tournament = tables.LinkColumn(
@@ -277,4 +340,10 @@ class TournamentPlayedTable(tables.Table):
     #Steve note for issue #122 here
 
     class Meta:
-        attrs = {"class": "paleblue"}
+        attrs = { 
+            "class": "table", 
+            "thead": {
+                "class": "thead-light"
+            }
+        }
+        template_name = "django_tables2/bootstrap4.html"
