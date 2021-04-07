@@ -1,26 +1,33 @@
-{% extends "base.html" %}
+{% extends "base.beta.html" %}
 {% load render_table from django_tables2 %}
 
 {% block content %}
     {{ block.super }}
-
     <section class="top-players-tables">
-        <div class="top-dan-table">
+        <section class="top-dan">
+            <div class="top-dan-table">
             {% render_table top_dan_table %}
-        </div>
+            </div>
+        </section>
 
-        <div class="top-kyu-table">
+        <section class="top-kyu">
+            <div class="top-kyu-table">
             {% render_table top_kyu_table %}
-        </div>
+            </div>
+        </section>
     </section>
 
     <section class="recent-activity-tables">
-        <div class="tournaments-table">
+        <section class="tournaments">
+            <div class="tournaments-table">
             {% render_table tournaments %}
-        </div>
+            </div>
+        </section>
 
-        <div class="games-table">
+        <section class="games">
+            <div class="games-table">
             {% render_table table %}
-        </div>
+            </div>
+        </section>
     </section>
 {% endblock %}
