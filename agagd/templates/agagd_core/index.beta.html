@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+    {{ block.super }}
+
+    <section class="top-players-tables">
+        <div class="top-dan-table">
+            {% render_table top_dan_table %}
+        </div>
+
+        <div class="top-kyu-table">
+            {% render_table top_kyu_table %}
+        </div>
+    </section>
+
+    <section class="recent-activity-tables">
+        <div class="tournaments-table">
+            {% render_table tournaments %}
+        </div>
+
+        <div class="games-table">
+            {% render_table table %}
+        </div>
+    </section>
+{% endblock %}
