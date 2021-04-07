@@ -1,8 +1,18 @@
+# AGAGD Core Imports
+from agagd_core.models import Chapters
+from agagd_core.models import Game
+from agagd_core.models import Member
+from agagd_core.models import Tournament
+from agagd_core.models import TopDan
+from agagd_core.models import TopKyu
+from agagd_core.models import MostTournamentsPastYear
+from agagd_core.models import MostRatedGamesPastYear
+
+# Django Imports
 import django_tables2 as tables
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
-from agagd_core.models import Chapters, Game, Member, Tournament, TopDan, TopKyu, MostTournamentsPastYear, MostRatedGamesPastYear
 
 class WinnerColumn(tables.Column):
     def __init__(
