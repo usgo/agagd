@@ -67,7 +67,27 @@ class ChapterColumn(tables.Column):
 
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
-    game_date = tables.Column(verbose_name="Date")
+    game_date = tables.Column(
+        verbose_name="Date",
+        attrs={
+            "th": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            },
+            "td": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            }
+        }
+    )
+    handicap = tables.Column(
+        attrs={
+            "th": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            },
+            "td": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            }
+        }
+    )
     pin_player_1 = WinnerColumn(color='W',
             viewname='member_detail',
             verbose_name="White",
@@ -79,7 +99,7 @@ class GameTable(tables.Table):
     tournament_code = tables.LinkColumn(
             verbose_name="Tournament",
             viewname='tournament_detail',
-            kwargs={'tourn_code':tables.A('tournament_code.tournament_code')},)
+            kwargs={'tourn_code':tables.A('tournament_code.tournament_code')})
 
     class Meta:
         model = Game
@@ -311,12 +331,43 @@ class AllPlayerRatingsTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 class TournamentTable(tables.Table):
-    tournament_date = tables.Column(verbose_name="Date")
+    tournament_date = tables.Column(
+        verbose_name="Date",
+        attrs={
+            "th": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            },
+            "td": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            }
+        }
+    )
     tournament_code = tables.LinkColumn(
             'tournament_detail',
             verbose_name="Code",
             kwargs={'tourn_code':tables.A('tournament_code')},)
-    elab_date = tables.Column(verbose_name="rated on")
+    total_players = tables.Column(
+        verbose_name="# Players",
+        attrs={
+            "th": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            },
+            "td": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            }
+        }
+    )
+    elab_date = tables.Column(
+        verbose_name="Rated",
+        attrs={
+            "th": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            },
+            "td": {
+                "class": "d-none d-lg-table-cell d-xl-table-cell"
+            }
+        }
+    )
 
     class Meta:
         model = Tournament
