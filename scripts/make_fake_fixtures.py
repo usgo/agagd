@@ -75,7 +75,7 @@ for member_id in member_ids:
             'citizen': random.choice(range(0, 1)),
             'password': 'hallo!',
             'type': random.choice(MEMBERSHIP_TYPES),
-            'last_changed': date.strftime("%Y-%m-%d")
+            'last_changed': date.strftime("%Y-%m-%d 00:00:00Z")
         }
     })
     players.append({

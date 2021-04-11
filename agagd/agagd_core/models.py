@@ -11,7 +11,7 @@ from django.db import models
 
 class Member(models.Model):
     member_id = models.AutoField(primary_key=True)
-    legacy_id = models.IntegerField(max_length=11, blank=True)
+    legacy_id = models.IntegerField(blank=True)
     full_name = models.CharField(max_length=255, blank=True, db_index=True)
     given_names = models.CharField(max_length=255, blank=True)
     family_name = models.CharField(max_length=255, blank=True, db_index=True)
@@ -22,9 +22,9 @@ class Member(models.Model):
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
-    chapter_id = models.IntegerField(max_length=11, blank=True)
+    chapter_id = models.IntegerField(blank=True)
     occupation = models.CharField(max_length=100, blank=True)
-    citizen = models.SmallIntegerField(max_length=6)
+    citizen = models.SmallIntegerField()
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
     renewal_due = models.CharField(max_length=255, blank=True)
@@ -64,7 +64,7 @@ class Chapters(models.Model):
     events = models.TextField(blank=True)
     comments = models.TextField(blank=True)
     fees = models.CharField(max_length=255, blank=True)
-    display = models.SmallIntegerField(max_length=1)
+    display = models.SmallIntegerField()
 
     class Meta:
         managed = False
@@ -86,8 +86,8 @@ class Tournament(models.Model):
     elab_date = models.DateField(db_column='Elab_Date')
     city = models.CharField(max_length=30, db_column='City')
     state = models.CharField(max_length=2, db_column='State_Code', blank=True)
-    rounds = models.SmallIntegerField(max_length=2, db_column='Rounds')
-    total_players = models.SmallIntegerField(max_length=3, db_column='Total_Players')
+    rounds = models.SmallIntegerField(db_column='Rounds')
+    total_players = models.SmallIntegerField(db_column='Total_Players')
     wall_list = models.TextField(db_column='Wallist')
 
     def __str__(self):
@@ -151,20 +151,20 @@ class MostTournamentsPastYear(models.Model):
         verbose_name_plural = 'most_tournaments_view'
 
 class Game(models.Model):
-    game_id = models.IntegerField(max_length=10, primary_key=True, db_column='Game_ID')
+    game_id = models.IntegerField(primary_key=True, db_column='Game_ID')
     game_date = models.DateField(db_column='Game_Date')
-    round = models.SmallIntegerField(max_length=2, db_column='Round')
+    round = models.SmallIntegerField(db_column='Round')
     color_1 = models.CharField(max_length=1, db_column='Color_1')
     rank_1 = models.CharField(max_length=3, db_column='Rank_1')
     color_2 = models.CharField(max_length=1, db_column='Color_2')
     rank_2 = models.CharField(max_length=3, db_column='Rank_2')
-    handicap = models.SmallIntegerField(max_length=2, db_column='Handicap')
-    komi = models.SmallIntegerField(max_length=2, db_column='Komi')
+    handicap = models.SmallIntegerField(db_column='Handicap')
+    komi = models.SmallIntegerField(db_column='Komi')
     result = models.CharField(max_length=1, db_column='Result')
     sgf_code = models.CharField(max_length=26, db_column='Sgf_Code', blank=True)
-    online = models.SmallIntegerField(max_length=1, db_column='Online', blank=True)
-    exclude = models.SmallIntegerField(max_length=1, db_column='Exclude', blank=True)
-    rated = models.SmallIntegerField(max_length=1, db_column='Rated', blank=True)
+    online = models.SmallIntegerField(db_column='Online', blank=True)
+    exclude = models.SmallIntegerField(db_column='Exclude', blank=True)
+    rated = models.SmallIntegerField(db_column='Rated', blank=True)
     elab_date = models.DateField(db_column='Elab_Date')
 
     tournament_code = models.ForeignKey(
@@ -271,7 +271,7 @@ class Rating(models.Model):
         db_table = 'ratings'
 
 class MembersRegions(models.Model):
-    region_id = models.IntegerField(max_length=11, primary_key=True)
+    region_id = models.IntegerField(primary_key=True)
     region = models.CharField(max_length=255, blank=True)
     states = models.CharField(max_length=255, blank=True)
 
