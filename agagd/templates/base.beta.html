@@ -36,7 +36,7 @@
 
        <section class="container mx-auto my-4">
             <header class="header row mx-0">
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <h4 class="header-subtext mb-0">
                         {% block header_title %}AGAGD{% endblock header_title %}
                     </h4>
@@ -46,8 +46,8 @@
                     </h6>
                 </div>
 
-                <div class="col">
-                    <form class="form-inline justify-content-end my-2 my-lg-0" action="{% url "search" %}" method="get">
+                <div class="col-12 col-md-6">
+                    <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{% url "search" %}" method="get">
                         <input class="form-control mr-sm-2" type="search" name="q" placeholder="Player Name or AGA ID" aria-label="Search">
                     </form>
                 </div>
