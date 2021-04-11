@@ -3,31 +3,33 @@
 
 {% block content %}
     {{ block.super }}
-    <section class="top-players-tables">
-        <section class="top-dan">
-            <div class="top-dan-table">
-            {% render_table top_dan_table %}
-            </div>
+    <section class="container">
+        <section class="row top-players-tables">
+            <section class="col top-dan">
+                <div class="top-dan-table">
+                {% render_table top_dan_table %}
+                </div>
+            </section>
+
+            <section class="col top-kyu">
+                <div class="top-kyu-table">
+                {% render_table top_kyu_table %}
+                </div>
+            </section>
         </section>
 
-        <section class="top-kyu">
-            <div class="top-kyu-table">
-            {% render_table top_kyu_table %}
-            </div>
-        </section>
-    </section>
+        <section class="row recent-activity-tables">
+            <section class="col tournaments">
+                <div class="tournaments-table">
+                {% render_table tournaments %}
+                </div>
+            </section>
 
-    <section class="recent-activity-tables">
-        <section class="tournaments">
-            <div class="tournaments-table">
-            {% render_table tournaments %}
-            </div>
-        </section>
-
-        <section class="games">
-            <div class="games-table">
-            {% render_table table %}
-            </div>
+            <section class="col games">
+                <div class="games-table">
+                {% render_table table %}
+                </div>
+            </section>
         </section>
     </section>
 {% endblock %}
