@@ -67,13 +67,14 @@ class ChapterColumn(tables.Column):
 
 #Standard gameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
+    game_date = tables.Column(verbose_name="Date")
     pin_player_1 = WinnerColumn(color='W',
             viewname='member_detail',
-            verbose_name="white player",
+            verbose_name="White",
             kwargs={"member_id":tables.A('pin_player_1.member_id')})
     pin_player_2 = WinnerColumn(color='B',
             viewname='member_detail',
-            verbose_name="black player",
+            verbose_name="Black",
             kwargs={"member_id":tables.A('pin_player_2.member_id')})
     tournament_code = tables.LinkColumn(
             verbose_name="Tournament",
@@ -90,12 +91,12 @@ class GameTable(tables.Table):
         }
         fields = (
             'game_date',
-            'round',
+            'tournament_code',
             'pin_player_1',
             'pin_player_2',
+            'round',
             'handicap',
-            'komi',
-            'tournament_code'
+            'komi'
         )
         sequence = fields
         template_name = "django_tables2/bootstrap4.html"
@@ -310,8 +311,10 @@ class AllPlayerRatingsTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 class TournamentTable(tables.Table):
+    tournament_date = tables.Column(verbose_name="Date")
     tournament_code = tables.LinkColumn(
             'tournament_detail',
+            verbose_name="Code",
             kwargs={'tourn_code':tables.A('tournament_code')},)
     elab_date = tables.Column(verbose_name="rated on")
 
@@ -326,7 +329,7 @@ class TournamentTable(tables.Table):
                 "scope": "col"
             }
         }
-        fields = ("tournament_code", "description", "tournament_date", "city", "state", "total_players", "rounds", 'elab_date')
+        fields = ("tournament_date", "tournament_code", "description", "city", "state", "total_players", "rounds", 'elab_date')
         sequence = fields
         template_name = "django_tables2/bootstrap4.html"
 
