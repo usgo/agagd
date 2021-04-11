@@ -6,12 +6,16 @@
     <section class="container">
         <section class="row top-players-tables">
             <section class="col top-dan">
-                <div class="top-dan-table">
+                <h5 class="table-headers top-players-headers">Top Dan</h5>
+
+                <div class="table-headers top-dan-table">
                 {% render_table top_dan_table %}
                 </div>
             </section>
 
             <section class="col top-kyu">
+                <h5 class="table-headers top-players-headers">Top Kyu</h5>
+
                 <div class="top-kyu-table">
                 {% render_table top_kyu_table %}
                 </div>
@@ -20,12 +24,16 @@
 
         <section class="row recent-activity-tables">
             <section class="col tournaments">
+                <h5 class="table-headers top-players-headers">Tournaments</h5>
+
                 <div class="tournaments-table">
                 {% render_table tournaments %}
                 </div>
             </section>
 
             <section class="col games">
+                <h5 class="table-headers top-players-headers">Games</h5>
+
                 <div class="games-table">
                 {% render_table table %}
                 </div>
