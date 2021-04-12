@@ -58,7 +58,7 @@ class ChapterColumn(tables.Column):
 
         return chapter_html
 
-#Standard gameTable display as is on agagd.usgo.org and most pages
+# Standard GameTable display as is on agagd.usgo.org and most pages
 class GameTable(tables.Table):
     game_date = tables.Column(
         verbose_name="Date",
