@@ -1,7 +1,9 @@
 # Datetime Imports
-from datetime import datetime
-from datetime import timedelta
-from datetime import date
+from datetime import (
+    datetime,
+    timedelta,
+    date
+)
 
 # AGAGD Models Import
 import agagd_core.models as agagd_models
@@ -10,9 +12,11 @@ import agagd_core.models as agagd_models
 import agagd_core.tables.beta as agagd_tables
 
 # Django Imports
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404 
-from django.shortcuts import redirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    redirect
+)
 
 # Django Table Imports
 from django_tables2 import RequestConfig
@@ -33,13 +37,12 @@ def index(request):
     t_table = agagd_tables.TournamentTable(tourneys, prefix='tourneys')
     RequestConfig(request, paginate={'per_page': 10}).configure(t_table)
 
-    return render(request, 'agagd_core/index.beta.html',
-            {
+    return render(request, 'agagd_core/index.beta.html', {
                 'table': table,
                 'top_dan_table': topDanTable,
                 'top_kyu_table': topKyuTable,
                 'most_rated_games_table': mostRatedGamesTable,
                 'most_tournaments_table': mostTournamentsPastYearTable,
                 'tournaments': t_table,
-            })
+   })
 
