@@ -1,12 +1,5 @@
-# AGAGD Core Imports
-from agagd_core.models import Chapters
-from agagd_core.models import Game
-from agagd_core.models import Member
-from agagd_core.models import Tournament
-from agagd_core.models import TopDan
-from agagd_core.models import TopKyu
-from agagd_core.models import MostTournamentsPastYear
-from agagd_core.models import MostRatedGamesPastYear
+# AGAGD Models Imports
+import agagd_core.models as agagd_models
 
 # Django Imports
 import django_tables2 as tables
@@ -49,7 +42,7 @@ class ChapterColumn(tables.Column):
     # Takes a chapter ID and produces an href with the chapter's name
     def render(self, value):
         try:
-            members_chapter = Chapters.objects.get(member_id=value)
+            members_chapter = agagd_models.Chapters.objects.get(member_id=value)
 
             chapter_url = reverse(
                 viewname='chapter_detail',
@@ -102,7 +95,7 @@ class GameTable(tables.Table):
             kwargs={'tourn_code':tables.A('tournament_code.tournament_code')})
 
     class Meta:
-        model = Game
+        model = agagd_models.Game
         attrs = { 
             "class": "table", 
             "thead": {
@@ -131,7 +124,7 @@ class SecondaryGameTable(GameTable):
     tournament_code = None
 
     class Meta:
-        model = Game
+        model = agagd_models.Game
         fields = (
             'game_date',
             'round',
@@ -188,7 +181,7 @@ class MemberTable(tables.Table):
         kwargs={'member_id': tables.A('member_id')})
 
     class Meta:
-        model = Member
+        model = agagd_models.Member
         attrs = { 
             "class": "table", 
             "thead": {
@@ -201,7 +194,7 @@ class MemberTable(tables.Table):
 
 class ChapterMemberTable(MemberTable):
     class Meta:
-        model = Member
+        model = agagd_models.Member
         attrs = { 
             "class": "table", 
             "thead": {
@@ -220,7 +213,7 @@ class TopDanTable(tables.Table):
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
-        model = TopDan
+        model = agagd_models.TopDan
         attrs = { 
             "class": "table", 
             "thead": {
@@ -239,7 +232,7 @@ class TopKyuTable(tables.Table):
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
-        model = TopKyu
+        model = agagd_models.TopKyu
         attrs = { 
             "class": "table", 
             "thead": {
@@ -257,8 +250,10 @@ class MostRatedGamesPastYearTable(tables.Table):
     name = tables.LinkColumn(
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
+    total = tables.Column()
+
     class Meta:
-        model = MostRatedGamesPastYear
+        model = agagd_models.MostRatedGamesPastYear
         attrs = { 
             "class": "table", 
             "thead": {
@@ -277,7 +272,7 @@ class MostTournamentsPastYearTable(tables.Table):
        'member_detail',
         kwargs={'member_id': tables.A('member_id')})
     class Meta:
-        model = MostTournamentsPastYear
+        model = agagd_models.MostTournamentsPastYear
         attrs = { 
             "class": "table", 
             "thead": {
@@ -370,7 +365,7 @@ class TournamentTable(tables.Table):
     )
 
     class Meta:
-        model = Tournament
+        model = agagd_models.Tournament
         attrs = { 
             "class": "table", 
             "thead": {
