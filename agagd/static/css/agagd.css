@@ -133,7 +133,7 @@ dt {
   font-weight: bold;
 }
 dd {
-  padding-left: 40px;   
+  padding-left: 40px;
   color: #666666;
 }
 
@@ -239,7 +239,7 @@ div.ui-datepicker{
     .player-search {
         display: inline;
     }
-    
+
     .tournament-search {
         display: grid;
         width: 60%;
@@ -340,7 +340,7 @@ div.ui-datepicker{
 .right-menu {
     margin 0;
     padding: 0;
-    display: block;    
+    display: block;
 }
 
 .right-menu ul {
@@ -363,23 +363,23 @@ div.ui-datepicker{
         float: left;
         width: 49%;
     }
- 
+
     .right-menu {
         margin 0;
         padding: 0;
-        display: block;    
+        display: block;
     }
-    
+
     .right-menu ul li {
         margin: 0;
         padding: 0;
         text-align: right;
         display: list-item;
     }
-   
+
 }
 
-/* 
+/*
  * Columns
  */
 .left-column {
@@ -416,7 +416,7 @@ table.tournament-directors-info-table {
     border-collapse: collapse;
 }
 
-table.tournament-directors-info-table th, 
+table.tournament-directors-info-table th,
 table.tournament-directors-info-table td {
     padding: .125rem;
     border: .25rem solid black;

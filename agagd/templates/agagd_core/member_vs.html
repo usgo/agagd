@@ -1,6 +1,6 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% load render_table from django_tables2 %}
-{% block content %} 
+{% block content %}
     <h2>Games between
         <a href="{% url "member_detail" player_1.member_id %}">{{ player_1.full_name }} ({{ player_1.member_id }})</a>
         and
