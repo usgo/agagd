@@ -130,12 +130,9 @@ table.paleblue > tbody > tr > td > .missing {
 
 table.paleblue > tbody > tr > td > .missing:hover {
     color: #333;
-} 
+}
 
 
 div.table-container {
     display: inline-block;
 }
-
-
-

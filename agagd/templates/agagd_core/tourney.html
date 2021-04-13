@@ -1,5 +1,5 @@
 
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% load render_table from django_tables2 %}
 
 {% block title %} Tournament Detail for {{ tournament.description }}  {% endblock %}
@@ -14,7 +14,7 @@
         {% if tournament.description %}
             <h2> Tournament: {{ tournament.description }} </h2>
         {% else %}
-            <h2> Tournament: {{ tournament.tournament_code }} </h2> 
+            <h2> Tournament: {{ tournament.tournament_code }} </h2>
         {% endif %}
 
         <p> Held {{ tournament.tournament_date }}, there were {{ tournament.total_players }} players in {{ tournament.rounds }} rounds </p>
@@ -22,13 +22,13 @@
 {% endblock header_title %}
 
 
-{% block content %} 
-{{ block.super }} 
+{% block content %}
+{{ block.super }}
 
 <h3> Recreated Wall List </h3>
   <pre> {{ tournament.wall_list }} </pre>
 
-<h3> Games </h3> 
+<h3> Games </h3>
   {% render_table secondary_gametable %}
 
 {% endblock %}

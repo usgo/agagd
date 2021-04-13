@@ -1,7 +1,7 @@
 ## AGAGD - the American Go Association Games Database
 
 The AGAGD is a django web application ported from the EuroGo Games Database to Python that provides:
-* member information, 
+* member information,
 * top tournaments listings,
 * top players listings,
 * top active players,
@@ -9,7 +9,7 @@ The AGAGD is a django web application ported from the EuroGo Games Database to P
 
 ## Contributing
 
-We welcome and encourage contributions to the AGAGD with Pull Requests (PRs), feature requests, bug reports, etc. 
+We welcome and encourage contributions to the AGAGD with Pull Requests (PRs), feature requests, bug reports, etc.
 
 ## Database Prerequisites
 
