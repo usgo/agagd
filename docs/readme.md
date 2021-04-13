@@ -1,20 +1,26 @@
 # AGAGD
 
 ## Overview
-An app to display users, games, tournaments, and ratings information on the AGA website.  
+An app to display users, games, tournaments, and ratings information on the AGA website.
 A port of the old eurogo Games Database to python, for the AGA
 
  - agagd_core/     --
- - agagd/          -- 
+ - agagd/          --
 
 ## Development
+
+### Code Style
+The AGAGD project uses pre-commit for some basic linting and mostly follows [black](https://github.com/psf/black), so before it is required to have pre-commit installed and any errors fixed before making a pull request. ([Pre Commit](https://pre-commit.com/), [DJango Code Style](https://docs.djangoproject.com/en/3.2/internals/contributing/writing-code/coding-style/))
+
+#### Install pre-commit
+* `shell> pip3 install pre-commit`
+* `shell> pre-commit install`
 
 ### Getting started
 
 **Important: running the agagd locally now requires the `schema.sql` which can be found in [USGO SQL Schema's Repo](https://github.com/usgo/usgo-sql-schemas).**
 
 *A new docker-based development approach is also available, see [docker.md](docker.md) for details.*
-
 
 The first step is to install `mysql` and create an `agagd` database. Then load the current database schema snapshot, as well
 as the SQL files in `sql/`, into the `agagd` database, e.g.:
@@ -30,7 +36,7 @@ Next set up the app environment. Virtualenv and virtualenvwrapper are recommende
 
 ~~~
 $ mkvirtualenv agagd
-$ workon agagd 
+$ workon agagd
 $ cd PATH_TO_REPO_ROOT
 $ pip install -r requirements_dev.txt
 $ cd agagd/
@@ -60,4 +66,3 @@ with shuffled AGAIDs, random names & chapters, and a few sample tournaments.
 6. extend to put a frontend on the ratings workings of Bresler et al.
 7. Provide online game submissions
 8. Document game submission protocol for use with other servers.
-
