@@ -1,8 +1,17 @@
-from agagd_core.models import Chapters, Country, Game, Member, MembersRegions, Membership
+from agagd_core.models import (
+    Chapters,
+    Country,
+    Game,
+    Member,
+    MembersRegions,
+    Membership,
+)
 from django.contrib import admin
 
-class MemberAdmin(admin.ModelAdmin): 
-    list_display = ('member_id', 'full_name', 'join_date', 'chapter', 'chapter_id')
+
+class MemberAdmin(admin.ModelAdmin):
+    list_display = ("member_id", "full_name", "join_date", "chapter", "chapter_id")
+
 
 admin.site.register(Chapters)
 admin.site.register(Country)

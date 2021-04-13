@@ -6,13 +6,13 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponse
 import json as python_json
 
+
 class JsonResponse(HttpResponse):
     def __init__(self, object):
         if isinstance(object, QuerySet):
-            content = serialize('json', object)
+            content = serialize("json", object)
         else:
             content = python_json.dumps(
-                object, indent=2, cls=json.DjangoJSONEncoder,
-                ensure_ascii=False)
-        super(JsonResponse, self).__init__(
-            content, content_type='application/json')
+                object, indent=2, cls=json.DjangoJSONEncoder, ensure_ascii=False
+            )
+        super(JsonResponse, self).__init__(content, content_type="application/json")
