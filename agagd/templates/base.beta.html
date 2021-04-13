@@ -2,7 +2,7 @@
 
 {%  load static %}
 
-<html> 
+<html>
   <head>
     <title>{% block title %} AGAGD | American Go Game Database {% endblock title %}</title>
         {% block css %}
@@ -52,10 +52,10 @@
             </header>
 
             <main class="main-content">
-               {% block content %}{% endblock content %} 
+               {% block content %}{% endblock content %}
             </main>
 
-            <footer class="footer mx-3"> 
+            <footer class="footer mx-3">
                 <nav class="footer-nav">
                     {% block footer_nav %}
                         <h5>Ratings</h5>
@@ -71,12 +71,12 @@
                     {% endblock footer_nav %}
                 </nav>
 
-                <section class="footer-copy">                    
+                <section class="footer-copy">
                     {% block footer_copy %}
                         <div class="footer-copyright text-center">&copy; 2020 <a href="https://www.usgo.org">American Go Association</a></div>
                    {% endblock footer_copy %}
                 </section>
             </footer>
        </section>
-   </body> 
+   </body>
 </html>
