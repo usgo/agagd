@@ -10,7 +10,7 @@ A port of the old eurogo Games Database to python, for the AGA
 ## Development
 
 ### Code Style
-The AGAGD project uses pre-commit for some basic linting, so before it is required to have pre-commit installed and any errors fixed before making a pull request. ([Pre Commit](https://pre-commit.com/), [DJango Code Style](https://docs.djangoproject.com/en/3.2/internals/contributing/writing-code/coding-style/))
+The AGAGD project uses pre-commit for some basic linting and mostly follows [black](https://github.com/psf/black), so before it is required to have pre-commit installed and any errors fixed before making a pull request. ([Pre Commit](https://pre-commit.com/), [DJango Code Style](https://docs.djangoproject.com/en/3.2/internals/contributing/writing-code/coding-style/))
 
 #### Install pre-commit
 * `shell> pip3 install pre-commit`
