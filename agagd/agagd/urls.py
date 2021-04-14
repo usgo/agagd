@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 from agagd_core import views as agagd_views
+from agagd_core import urls as agagd_beta_urls
 from agagd_core.views import InformationPageView, QualificationsPageView
 
 urlpatterns = (
@@ -59,5 +60,5 @@ urlpatterns = (
     path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
-    path("beta/", include("agagd_core.urls")),
+    path("beta/", include(agagd_beta_urls.beta_patterns)),
 )
