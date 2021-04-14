@@ -1,0 +1,16 @@
+{% extends "base.beta.html" %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+    <section class="container">
+        <section class="row">
+            <section class="col-sm-12 col-md-12 col-lg-12">
+                <h5 class="table-headers list-all-players-table-headers">Members Ratings</h5>
+
+                <div class="list-all-players-table">
+                    {% render_table list_all_players_table %}
+                </div>
+            </section>
+        </section>
+    </section>
+{% endblock %}
