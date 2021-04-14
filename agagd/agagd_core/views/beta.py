@@ -81,5 +81,8 @@ def list_all_players(request):
     return render(
         request,
         "agagd_core/players_list.html",
-        {"list_all_players_table": list_all_players_table},
+        {
+            "list_all_players_table": list_all_players_table,
+            "page_title": "Members Ratings",
+        },
     )
