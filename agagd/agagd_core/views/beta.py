@@ -9,6 +9,7 @@ import agagd_core.tables.beta as agagd_tables
 
 # Django Imports
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import F, Q
 
 # Django Table Imports
 from django_tables2 import RequestConfig
@@ -47,4 +48,38 @@ def index(request):
             "most_tournaments_table": mostTournamentsPastYearTable,
             "tournaments": t_table,
         },
+    )
+
+
+def list_all_players(request):
+    list_all_players_query = (
+        agagd_models.Member.objects.filter(
+            Q(chapter_id=F("chapters__member_id")) | Q(chapters__member_id__isnull=True)
+        )
+        .filter(Q(member_id=F("players__pin_player")))
+        .filter(status="accepted")
+        .exclude(players__rating__isnull=True)
+        .exclude(type="chapter")
+        .exclude(type="e-journal")
+        .exclude(type="library")
+        .exclude(type="institution")
+        .values(
+            "full_name",
+            "member_id",
+            "type",
+            "players__rating",
+            "chapter_id",
+            "state",
+            "players__sigma",
+        )
+        .order_by("-players__rating")
+    )
+
+    list_all_players_table = agagd_tables.ListAllPlayersTable(list_all_players_query)
+    RequestConfig(request, paginate={"per_page": 50}).configure(list_all_players_table)
+
+    return render(
+        request,
+        "agagd_core/players_list.html",
+        {"list_all_players_table": list_all_players_table},
     )

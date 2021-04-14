@@ -18,7 +18,7 @@ class WinnerColumn(tables.Column):
         kwargs=None,
         current_app=None,
         attrs=None,
-        **extra
+        **extra,
     ):
         super().__init__(
             attrs=attrs,
@@ -29,7 +29,7 @@ class WinnerColumn(tables.Column):
                 kwargs=kwargs,
                 current_app=current_app,
             ),
-            **extra
+            **extra,
         )
         self.color = color
 
@@ -59,7 +59,7 @@ class ChapterColumn(tables.Column):
                 "<a href='{}'>{}</a>".format(chapter_url, chapter_name)
             )
         except:
-            chapter_html = u"\u2014"
+            chapter_html = "\u2014"
 
         return chapter_html
 
@@ -271,29 +271,46 @@ class MostTournamentsPastYearTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 
-class AllPlayerRatingsTable(tables.Table):
+class ListAllPlayersTable(tables.Table):
     full_name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "member_detail",
+        verbose_name="Name",
+        kwargs={"member_id": tables.A("member_id")},
     )
-    member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+    type = tables.Column(
+        attrs={
+            "th": {"class": "d-none d-md-table-cell d-lg-table-cell d-xl-table-cell"},
+            "td": {"class": "d-none d-md-table-cell d-lg-table-cell d-xl-table-cell"},
+        }
     )
-    type = tables.Column()
     players__rating = tables.Column()
     chapter_id = ChapterColumn(verbose_name="Chapter")
-    state = tables.Column()
-    players__sigma = tables.Column(verbose_name="Sigma")
+    state = tables.Column(
+        attrs={
+            "th": {"class": "d-none d-lg-table-cell d-xl-table-cell"},
+            "td": {"class": "d-none d-lg-table-cell d-xl-table-cell"},
+        }
+    )
+    players__sigma = tables.Column(
+        verbose_name="Sigma",
+        attrs={
+            "th": {"class": "d-none d-lg-table-cell d-xl-table-cell"},
+            "td": {"class": "d-none d-lg-table-cell d-xl-table-cell"},
+        },
+    )
+
+    def render_full_name(self, value, record):
+        return f"{value} ({record['member_id']})"
 
     class Meta:
         attrs = {"class": "table", "thead": {"class": "thead-light"}}
         fields = (
             "full_name",
-            "member_id",
-            "players__rating",
-            "players__sigma",
-            "type",
             "chapter_id",
             "state",
+            "type",
+            "players__rating",
+            "players__sigma",
         )
         sequence = fields
         template_name = "django_tables2/bootstrap4.html"
