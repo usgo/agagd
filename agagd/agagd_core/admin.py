@@ -3,8 +3,8 @@ from agagd_core.models import (
     Country,
     Game,
     Member,
-    MembersRegions,
     Membership,
+    MembersRegions,
 )
 from django.contrib import admin
 

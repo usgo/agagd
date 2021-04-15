@@ -1,5 +1,6 @@
-import django.conf.global_settings as DEFAULT_SETTINGS
 import os
+
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 PROJECT_ROOT = os.environ["PROJECT_ROOT"]
 

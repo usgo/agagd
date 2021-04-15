@@ -1,5 +1,5 @@
 # Datetime Imports
-from datetime import datetime, timedelta, date
+from datetime import date, datetime, timedelta
 
 # AGAGD Models Import
 import agagd_core.models as agagd_models
@@ -8,7 +8,7 @@ import agagd_core.models as agagd_models
 import agagd_core.tables.beta as agagd_tables
 
 # Django Imports
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 # Django Table Imports
 from django_tables2 import RequestConfig
