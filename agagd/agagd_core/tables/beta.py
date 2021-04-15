@@ -3,8 +3,8 @@ import agagd_core.models as agagd_models
 
 # Django Imports
 import django_tables2 as tables
-from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 

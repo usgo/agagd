@@ -1,6 +1,9 @@
 # A simple script to generate fake data
-import sys, random, math, json
 import datetime as dt
+import json
+import math
+import random
+import sys
 
 USAGE = "Usage: python make_fake_fixtures.py [num_of_members] [num_of_games] [num_of_tournaments]"
 

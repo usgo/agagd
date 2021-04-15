@@ -1,43 +1,41 @@
+import logging
+from datetime import date, datetime, timedelta
+
 from agagd_core.json_response import JsonResponse
 from agagd_core.models import (
-    Game,
-    Member,
-    Tournament,
-    TopDan,
-    TopKyu,
-    MostRatedGamesPastYear,
-    MostTournamentsPastYear,
     Chapters,
     Country,
+    Game,
+    Member,
+    MostRatedGamesPastYear,
+    MostTournamentsPastYear,
+    TopDan,
+    TopKyu,
+    Tournament,
 )
 from agagd_core.tables.core import (
-    GameTable,
-    SecondaryGameTable,
-    MemberTable,
-    ChapterMemberTable,
-    TournamentTable,
-    OpponentTable,
-    TournamentPlayedTable,
-)
-from agagd_core.tables.core import (
-    TopDanTable,
-    TopKyuTable,
     AllPlayerRatingsTable,
+    ChapterMemberTable,
+    GameTable,
+    MemberTable,
     MostRatedGamesPastYearTable,
     MostTournamentsPastYearTable,
+    OpponentTable,
+    SecondaryGameTable,
+    TopDanTable,
+    TopKyuTable,
+    TournamentPlayedTable,
+    TournamentTable,
 )
-from datetime import datetime, timedelta, date
 from django.core import exceptions
 from django.core.paginator import PageNotAnInteger
-from django.urls import reverse
-from django.db.models import F, Q, Count
+from django.db.models import Count, F, Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView
-from django.views.decorators.http import require_POST, require_GET
 from django_tables2 import RequestConfig
-
-import logging
 
 logger = logging.getLogger("agagd.core.views")
 

@@ -1,10 +1,10 @@
-from django.conf.urls import url, include
-from django.conf.urls.static import static
-from django.conf import settings
-from django.urls import path, reverse_lazy
-from django.views.generic import RedirectView
 from agagd_core import views as agagd_views
 from agagd_core.views import InformationPageView, QualificationsPageView
+from django.conf import settings
+from django.conf.urls import include, url
+from django.conf.urls.static import static
+from django.urls import path, reverse_lazy
+from django.views.generic import RedirectView
 
 urlpatterns = (
     url(r"^$", agagd_views.index, name="index"),
