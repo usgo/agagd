@@ -59,5 +59,5 @@ urlpatterns = (
     path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
-    url(r"^beta/", include("agagd_core.urls")),
+    path("beta/", include("agagd_core_urls.beta_urlpatterns")),
 )
