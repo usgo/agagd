@@ -67,23 +67,32 @@
             <footer class="footer mx-3">
                 <nav class="footer-nav">
                     {% block footer_nav %}
-                        <h5>Ratings</h5>
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="/information/">Information</a>
-                            </li>
+                        <section class="container footer-nav-sections">
+                            <section class="row">
+                                <div class="col-12 col-md-3">
+                                    <h5>Ratings</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="{% url 'beta:players_list' %}">Members Ratings</a>
+                                        </li>
+                                        <li>
+                                            <a href="/information/">Information</a>
+                                        </li>
 
-                            <li>
-                                <a href="/qualifications/">Qualifications</a>
-                            </li>
-                        </ul>
+                                        <li>
+                                            <a href="/qualifications/">Qualifications</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </section>
                     {% endblock footer_nav %}
                 </nav>
 
                 <section class="footer-copy">
                     {% block footer_copy %}
                         <div class="footer-copyright text-center">&copy; 2020 <a href="https://www.usgo.org">American Go Association</a></div>
-                   {% endblock footer_copy %}
+                    {% endblock footer_copy %}
                 </section>
             </footer>
        </section>
