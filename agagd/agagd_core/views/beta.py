@@ -91,13 +91,16 @@ def list_all_players(request):
         )
         .order_by("-players__rating")
     )
+
+    mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+
     list_all_players_columns = (
         {"name": "Name", "attrs": None},
         {"name": "Chapter", "attrs": None},
-        {"name": "State", "attrs": None},
-        {"name": "Type", "attrs": None},
+        {"name": "State", "attrs": mobile_column_attrs},
+        {"name": "Type", "attrs": mobile_column_attrs},
         {"name": "Rating", "attrs": None},
-        {"name": "Sigma", "attrs": None},
+        {"name": "Sigma", "attrs": mobile_column_attrs},
     )
 
     list_all_players_with_pagination = agagd_paginator_helper(
@@ -108,6 +111,7 @@ def list_all_players(request):
         request,
         "agagd_core/players_list.html",
         {
+            "mobile_column_attrs": mobile_column_attrs,
             "list_all_players_columns": list_all_players_columns,
             "list_all_players_data": list_all_players_with_pagination,
             "page_title": "Members Ratings",

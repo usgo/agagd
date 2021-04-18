@@ -12,7 +12,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 {% for player_column in list_all_players_columns %}
-                                <th scope="col">{{ player_column.name }}</th>
+                                <th scope="col" {% if player_column.attrs %} class="{{ player_column.attrs }}" {% endif %}>{{ player_column.name }}</th>
                                 {% endfor %}
                             </tr>
                         </thead>
@@ -20,7 +20,9 @@
                         <tbody>
                             {% for player_data in list_all_players_data %}
                             <tr>
-                                <th scope="row">{{ forloop.counter0|add:list_all_players_data.start_index }}</th>
+                                <th scope="row">
+                                    {{ forloop.counter0|add:list_all_players_data.start_index }}
+                                </th>
                                 <td>
                                     <a href="/player/{{ player_data.member_id }}">
                                         {{ player_data.full_name }} ({{ player_data.member_id }})
@@ -33,10 +35,16 @@
                                         &#8212;
                                     {% endif %}
                                 </td>
-                                <td>{{ player_data.state }}</td>
-                                <td>{{ player_data.type }}</td>
-                                <td>{{ player_data.players__rating }}</td>
-                                <td>{{ player_data.players__sigma }}</td>
+                                <td class="{{ mobile_column_attrs }}">{{ player_data.state }}</td>
+                                <td class="{{ mobile_column_attrs }}">
+                                    {{ player_data.type }}
+                                </td>
+                                <td>
+                                    {{ player_data.players__rating }}
+                                </td>
+                                <td class="{{ mobile_column_attrs }}">
+                                    {{ player_data.players__sigma }}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
