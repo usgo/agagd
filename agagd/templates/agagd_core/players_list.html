@@ -1,0 +1,81 @@
+{% extends "base.beta.html" %}
+
+{% block content %}
+    <section id="list-all-players-block" class="container">
+        <section class="row">
+            <section class="col-sm-12 col-md-12 col-lg-12">
+                <h5 class="table-headers list-all-players-table-headers">Members Ratings</h5>
+
+                <div class="list-all-players-table">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                {% for player_column in list_all_players_columns %}
+                                <th scope="col" {% if player_column.attrs %} class="{{ player_column.attrs }}" {% endif %}>{{ player_column.name }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for player_data in list_all_players_data %}
+                            <tr>
+                                <th scope="row">
+                                    {{ forloop.counter0|add:list_all_players_data.start_index }}
+                                </th>
+                                <td>
+                                    <a href="/player/{{ player_data.member_id }}">
+                                        {{ player_data.full_name }} ({{ player_data.member_id }})
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if player_data.chapters__name %}
+                                        <a href="/chapter/{{ player_data.chapter_id }}">{{ player_data.chapters__name }}</a>
+                                    {% else %}
+                                        &#8212;
+                                    {% endif %}
+                                </td>
+                                <td class="{{ mobile_column_attrs }}">{{ player_data.state }}</td>
+                                <td class="{{ mobile_column_attrs }}">
+                                    {{ player_data.type }}
+                                </td>
+                                <td>
+                                    {{ player_data.players__rating }}
+                                </td>
+                                <td class="{{ mobile_column_attrs }}">
+                                    {{ player_data.players__sigma }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <nav aria-label="Table Page Navigation">
+
+                    {% if list_all_players_data.has_other_pages %}
+                        <ul class="pagination justify-content-center">
+                          {% if list_all_players_data.has_previous %}
+                          <li class="previous page-item">
+                                <a href="?pg={{ list_all_players_data.previous_page_number }}" class="page-link">«</a>
+                          </li>
+                          {% endif %}
+
+                          {% for page_number in list_all_players_data.paginator.page_range %}
+                          <li class="page-item {% if list_all_players_data.number == page_number %} active {% endif %}">
+                            <a href="?pg={{ page_number }}" class="page-link">{{ page_number }}</a>
+                          </li>
+                          {% endfor %}
+
+                          {% if list_all_players_data.has_next %}
+                          <li class="next page-item">
+                                <a href="?pg={{ list_all_players_data.next_page_number }}" class="page-link">»</a>
+                          </li>
+                          {% endif %}
+                        </ul>
+                    {% endif %}
+                    </nav>
+                </div>
+            </section>
+        </section>
+    </section>
+{% endblock %}

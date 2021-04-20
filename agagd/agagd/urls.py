@@ -1,3 +1,4 @@
+from agagd_core import urls as beta_urls
 from agagd_core import views as agagd_views
 from agagd_core.views import InformationPageView, QualificationsPageView
 from django.conf import settings
@@ -59,5 +60,5 @@ urlpatterns = (
     path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
-    url(r"^beta/", include("agagd_core.urls")),
+    path("beta/", include(beta_urls.beta_patterns)),
 )

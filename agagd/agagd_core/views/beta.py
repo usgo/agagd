@@ -8,10 +8,29 @@ import agagd_core.models as agagd_models
 import agagd_core.tables.beta as agagd_tables
 
 # Django Imports
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import F, Prefetch, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 # Django Table Imports
 from django_tables2 import RequestConfig
+
+
+def agagd_paginator_helper(
+    request, query_list_object, max_rows_per_page=50, page_request_get_value="pg"
+):
+    paginator = Paginator(query_list_object, max_rows_per_page)
+
+    page_number = request.GET.get(page_request_get_value, 1)
+
+    try:
+        query_list_object_with_page_information = paginator.page(page_number)
+    except PageNotAnInteger:
+        query_list_object_with_page_information = paginator.page(1)
+    except EmptyPage:
+        query_list_object_with_page_information = paginator.page(paginator.num_pages)
+
+    return query_list_object_with_page_information
 
 
 def index(request):
@@ -46,5 +65,55 @@ def index(request):
             "most_rated_games_table": mostRatedGamesTable,
             "most_tournaments_table": mostTournamentsPastYearTable,
             "tournaments": t_table,
+        },
+    )
+
+
+def list_all_players(request):
+    list_all_players_query = (
+        agagd_models.Member.objects.select_related("chapters")
+        .filter(status="accepted")
+        .filter(players__rating__isnull=False)
+        .exclude(type="chapter")
+        .exclude(type="e-journal")
+        .exclude(type="library")
+        .exclude(type="institution")
+        .values(
+            "member_id",
+            "chapter_id",
+            "chapters__member_id",
+            "chapters__name",
+            "full_name",
+            "type",
+            "players__rating",
+            "state",
+            "players__sigma",
+        )
+        .order_by("-players__rating")
+    )
+
+    mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+
+    list_all_players_columns = (
+        {"name": "Name", "attrs": None},
+        {"name": "Chapter", "attrs": None},
+        {"name": "State", "attrs": mobile_column_attrs},
+        {"name": "Type", "attrs": mobile_column_attrs},
+        {"name": "Rating", "attrs": None},
+        {"name": "Sigma", "attrs": mobile_column_attrs},
+    )
+
+    list_all_players_with_pagination = agagd_paginator_helper(
+        request, list_all_players_query
+    )
+
+    return render(
+        request,
+        "agagd_core/players_list.html",
+        {
+            "mobile_column_attrs": mobile_column_attrs,
+            "list_all_players_columns": list_all_players_columns,
+            "list_all_players_data": list_all_players_with_pagination,
+            "page_title": "Members Ratings",
         },
     )

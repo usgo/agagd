@@ -44,7 +44,12 @@ class Member(models.Model):
 class Chapters(models.Model):
     # The member_id for a chapter is the same in this table and in the chapter's corresponding Member object.
     member_id = models.ForeignKey(
-        Member, db_column="member_id", primary_key=True, on_delete=models.DO_NOTHING
+        "Member",
+        db_column="member_id",
+        to_field="chapter_id",
+        unique=True,
+        primary_key=True,
+        on_delete=models.DO_NOTHING,
     )
 
     name = models.CharField(max_length=255, blank=True)
