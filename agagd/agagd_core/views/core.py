@@ -322,22 +322,20 @@ def country_detail(request, country_name):
 
 def all_player_ratings(request):
     all_player_ratings_query = (
-        Member.objects.filter(
-            Q(chapter_id=F("chapters__member_id")) | Q(chapters__member_id__isnull=True)
-        )
-        .filter(Q(member_id=F("players__pin_player")))
+        Member.objects.select_related("chapter_id")
         .filter(status="accepted")
-        .exclude(players__rating__isnull=True)
-        .exclude(type="chapter")
-        .exclude(type="e-journal")
-        .exclude(type="library")
-        .exclude(type="institution")
+        .filter(players__rating__isnull=False)
+        .exclude(type__iexact="e-journal")
+        .exclude(type__iexact="chapter")
+        .exclude(type__iexact="library")
+        .exclude(type__iexact="institution")
         .values(
-            "full_name",
+            "chapter_id",
             "member_id",
+            "chapter_id__name",
+            "full_name",
             "type",
             "players__rating",
-            "chapter_id",
             "state",
             "players__sigma",
         )
