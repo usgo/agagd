@@ -152,7 +152,7 @@ def member_detail(request, member_id):
     player = Member.objects.get(member_id=member_id)
 
     try:
-        chapter = Chapters.objects.get(member_id=player.chapter_id)
+        chapter = Chapters.objects.get(member_id=player.chapter_id.member_id)
     except exceptions.ObjectDoesNotExist:
         chapter = None
 
