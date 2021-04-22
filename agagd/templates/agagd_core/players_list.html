@@ -29,8 +29,8 @@
                                     </a>
                                 </td>
                                 <td>
-                                    {% if player_data.chapters__name %}
-                                        <a href="/chapter/{{ player_data.chapter_id }}">{{ player_data.chapters__name }}</a>
+                                    {% if player_data.chapter_id__name %}
+                                        <a href="/chapter/{{ player_data.chapter_id }}">{{ player_data.chapter_id__name }}</a>
                                     {% else %}
                                         &#8212;
                                     {% endif %}
@@ -61,9 +61,11 @@
                           {% endif %}
 
                           {% for page_number in list_all_players_data.paginator.page_range %}
-                          <li class="page-item {% if list_all_players_data.number == page_number %} active {% endif %}">
-                            <a href="?pg={{ page_number }}" class="page-link">{{ page_number }}</a>
-                          </li>
+                                {% if page_number > list_all_players_data.number|add:'-5' and page_number < list_all_players_data.number|add:'5' %}
+                                <li class="page-item {% if list_all_players_data.number == page_number %} active {% endif %}">
+                                    <a href="?pg={{ page_number }}" class="page-link">{{ page_number }}</a>
+                                </li>
+                                {% endif %}
                           {% endfor %}
 
                           {% if list_all_players_data.has_next %}

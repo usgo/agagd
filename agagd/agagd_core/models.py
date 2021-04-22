@@ -11,7 +11,7 @@ from django.db import models
 
 
 class Member(models.Model):
-    member_id = models.AutoField(primary_key=True)
+    member_id = models.AutoField(primary_key=True, unique=True)
     legacy_id = models.IntegerField(blank=True)
     full_name = models.CharField(max_length=255, blank=True, db_index=True)
     given_names = models.CharField(max_length=255, blank=True)
@@ -23,13 +23,20 @@ class Member(models.Model):
     region = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
     chapter = models.CharField(max_length=100, blank=True)
-    chapter_id = models.IntegerField(blank=True)
     occupation = models.CharField(max_length=100, blank=True)
     citizen = models.SmallIntegerField()
     password = models.CharField(max_length=255, blank=True)
     last_changed = models.DateTimeField(null=True, blank=True)
     renewal_due = models.CharField(max_length=255, blank=True)
     type = models.CharField(max_length=255, blank=True)
+
+    chapter_id = models.ForeignKey(
+        "Chapters",
+        blank=True,
+        db_column="chapter_id",
+        to_field="member_id",
+        on_delete=models.DO_NOTHING,
+    )
 
     def __str__(self):
         return "{0} ({1})".format(self.full_name, self.member_id)
@@ -43,14 +50,7 @@ class Member(models.Model):
 
 class Chapters(models.Model):
     # The member_id for a chapter is the same in this table and in the chapter's corresponding Member object.
-    member_id = models.ForeignKey(
-        "Member",
-        db_column="member_id",
-        to_field="chapter_id",
-        unique=True,
-        primary_key=True,
-        on_delete=models.DO_NOTHING,
-    )
+    member_id = models.IntegerField(unique=True, primary_key=True)
 
     name = models.CharField(max_length=255, blank=True)
     legacy_status = models.CharField(max_length=1, blank=True)
@@ -238,8 +238,8 @@ class Game(models.Model):
 
 # Updated Rating Information Table for Players.
 class Players(models.Model):
-    pin_player = models.ForeignKey(
-        Member, db_column="Pin_Player", primary_key=True, on_delete=models.DO_NOTHING
+    pin_player = models.OneToOneField(
+        "Member", db_column="Pin_Player", primary_key=True, on_delete=models.DO_NOTHING
     )
 
     # Member Name Fields

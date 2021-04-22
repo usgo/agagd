@@ -9,7 +9,7 @@ import agagd_core.tables.beta as agagd_tables
 
 # Django Imports
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import F, Prefetch, Q
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 # Django Table Imports
@@ -71,18 +71,17 @@ def index(request):
 
 def list_all_players(request):
     list_all_players_query = (
-        agagd_models.Member.objects.select_related("chapters")
+        agagd_models.Member.objects.select_related("chapter_id")
         .filter(status="accepted")
         .filter(players__rating__isnull=False)
-        .exclude(type="chapter")
-        .exclude(type="e-journal")
-        .exclude(type="library")
-        .exclude(type="institution")
+        .exclude(type__iexact="e-journal")
+        .exclude(type__iexact="chapter")
+        .exclude(type__iexact="library")
+        .exclude(type__iexact="institution")
         .values(
-            "member_id",
             "chapter_id",
-            "chapters__member_id",
-            "chapters__name",
+            "member_id",
+            "chapter_id__name",
             "full_name",
             "type",
             "players__rating",
