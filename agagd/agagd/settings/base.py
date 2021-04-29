@@ -126,7 +126,7 @@ TEMPLATES = [
     },
     {
         "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [os.path.join(PROJECT_ROOT, "templates/beta")],
+        "DIRS": [os.path.join(PROJECT_ROOT, "jinja2")],
         "OPTIONS": {
             "environment": "agagd_core.jinga2.environment",
             "context_processors": [
