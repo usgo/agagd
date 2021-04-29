@@ -6,4 +6,5 @@ from django.urls import path
 beta_patterns = ([
         path('', beta.index, name='index'),
         path('players/', beta.list_all_players, name='players_list'),
+        path('tournaments/', beta.list_all_tournaments, name='tournaments_list'),
     ], 'beta')
