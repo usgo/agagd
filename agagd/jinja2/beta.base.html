@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-
-{%  load static %}
-
 <html>
   <head>
     <title>
     {% block title %}
         {% if page_title %}
-            {{ "AGAGD | "|add:page_title }}
+            {{ "AGAGD | " ~ page_title }}
         {% else %}
             AGAGD | American Go Game Database
         {% endif %}
@@ -53,7 +50,7 @@
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{% url "search" %}" method="get">
+                    <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{{ url("search") }}" method="get">
                         <input class="form-control mr-sm-2" type="search" name="q" placeholder="Player Name or AGA ID" aria-label="Search">
                     </form>
                 </div>
@@ -72,7 +69,7 @@
                                     <h5>Ratings</h5>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a href="{% url 'beta:players_list' %}">Members Ratings</a>
+                                            <a href="{{ url("beta:players_list") }}">Members Ratings</a>
                                         </li>
                                         <li>
                                             <a href="/information/">Information</a>
