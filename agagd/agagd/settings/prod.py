@@ -21,7 +21,6 @@ _password = os.getenv("MYSQL_PASSWORD", "")
 _dbname = os.getenv("APP_DB_NAME", "")
 _dbhost = os.getenv("DB_HOST", "")
 _dbport = os.getenv("DB_PORT", "")
-_templates = os.getenv("TEMPLATE_DIR", os.path.join(PROJECT_ROOT, "templates"))
 
 SECRET_KEY = _key
 
@@ -35,5 +34,3 @@ DATABASES = {
         "PORT": _dbport,  # Set to empty string for default. Not used with sqlite3.
     }
 }
-
-TEMPLATES[0]["DIRS"] = [_templates]
