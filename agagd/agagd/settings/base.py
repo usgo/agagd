@@ -123,7 +123,27 @@ TEMPLATES = [
                 # 'django.template.loaders.eggs.Loader',
             ],
         },
-    }
+    },
+    {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [os.path.join(PROJECT_ROOT, "templates/beta")],
+        "OPTIONS": {
+            "environment": "agagd_core.jinga2.environment",
+            "context_processors": [
+                # Standard context_processors
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+                # Custom context_processors
+                "django.template.context_processors.request",
+                "agagd_core.context_processors.google_analytics_tracking_id",
+            ],
+        },
+    },
 ]
 
 
