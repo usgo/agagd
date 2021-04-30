@@ -1,11 +1,10 @@
-{% extends "jinja2/base.html" %}
+{% extends "beta.base.html" %}
 
 {% block content %}
     <section id="list-all-players-block" class="container">
         <section class="row">
             <section class="col-sm-12 col-md-12 col-lg-12">
                 <h5 class="table-headers list-all-players-table-headers">Members Ratings</h5>
-
                 <div class="list-all-players-table">
                     <table class="table">
                         <thead class="thead-dark">
@@ -21,7 +20,7 @@
                             {% for player_data in list_all_players_data %}
                             <tr>
                                 <th scope="row">
-                                    {{ forloop.counter0|add:list_all_players_data.start_index }}
+                                    {{ loop.index0 + list_all_players_data.start_index() }}
                                 </th>
                                 <td>
                                     <a href="/player/{{ player_data.member_id }}">
@@ -61,9 +60,9 @@
                           {% endif %}
 
                           {% for page_number in list_all_players_data.paginator.page_range %}
-                                {% if page_number > list_all_players_data.number|add:'-5' and page_number < list_all_players_data.number|add:'5' %}
+                                {% if page_number > (list_all_players_data.number - 5) and page_number < (list_all_players_data.number + 5) %}
                                 <li class="page-item {% if list_all_players_data.number == page_number %} active {% endif %}">
-                                    <a href="?pg={{ page_number }}" class="page-link">{{ page_number }}</a>
+                                    <a href="?pg={{ loop.index }}" class="page-link">{{ loop.index }}</a>
                                 </li>
                                 {% endif %}
                           {% endfor %}
