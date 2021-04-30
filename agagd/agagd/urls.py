@@ -1,3 +1,4 @@
+import debug_toolbar
 from agagd_core import urls as beta_urls
 from agagd_core import views as agagd_views
 from agagd_core.views import InformationPageView, QualificationsPageView
@@ -56,6 +57,8 @@ urlpatterns = (
         agagd_views.tournament_detail,
         name="tournament_detail",
     ),
+    # Debug Url for DJango Debug Toobar
+    path("__debug__/", include(debug_toolbar.urls)),
     # Pages
     path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
