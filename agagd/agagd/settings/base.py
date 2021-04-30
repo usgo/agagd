@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 if os.getenv("ALLOWED_HOSTS") != None:
     ALLOWED_HOSTS.append(os.getenv("ALLOWED_HOSTS"))
 
+# Default Interal IP Addresses for DJango.
+INTERNAL_IPS = ["127.0.0.1", "[::1]"]
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
