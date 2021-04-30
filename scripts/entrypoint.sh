@@ -28,6 +28,11 @@ if $LOAD_FIXTURES == "true"; then
     python manage.py loaddata /tmp/fake_agagd_data.json
 fi
 
+# Run Collect Static in the Entrypoint because Dockerfile does not always
+# get all static images. For example, debug toolbar will not have css, images or
+# other assets shown.
+python manage.py collectstatic --noinput
+
 # touch-reload is added for development convenience, though it's not hooked up
 # to any automated watcher at the moment.
 uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \

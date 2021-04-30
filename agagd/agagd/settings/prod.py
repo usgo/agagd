@@ -11,18 +11,20 @@ if os.getenv("DEBUG") == "true":
     # DebugToobar
     INSTALLED_APPS += ["debug_toolbar"]
 
-    # DebugToolbar Configurations
-    DEBUG_TOOLBAR_CONFIG = {
-        "INTERCEPT_REDIRECTS": False,
-        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
-    }
-
     # Add our Docker host IP to the INTERNAL_IPS
     import os
     import socket
 
     HOSTNAME = os.getenv("HOSTNAME")
-    INTERNAL_IPS = [socket.gethostbyname(HOSTNAME)]
+    INTERNAL_IPS = ["127.0.0.1", socket.gethostbyname(HOSTNAME)]
+
+    # DebugToolbar Configurations
+    DEBUG_TOOLBAR_CONFIG = {
+        "INTERCEPT_REDIRECTS": False,
+        "SHOW_COLLAPSED": True,
+        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+    }
+
 else:
     DEBUG = False
 
