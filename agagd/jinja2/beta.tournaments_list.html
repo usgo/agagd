@@ -28,6 +28,33 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <nav aria-label="Table Page Navigation">
+
+                    {% if list_all_tournaments.has_other_pages() %}
+                        <ul class="pagination justify-content-center">
+                          {% if list_all_tournaments.has_previous() %}
+                          <li class="previous page-item">
+                                <a href="?pg={{ list_all_tournaments.previous_page_number() }}" class="page-link">«</a>
+                          </li>
+                          {% endif %}
+
+                          {% for page_number in list_all_tournaments.paginator.page_range %}
+                                {% if page_number > (list_all_tournaments.number - 5) and page_number < (list_all_tournaments.number + 5) %}
+                                <li class="page-item {% if list_all_tournaments.number == page_number %} active {% endif %}">
+                                    <a href="?pg={{ loop.index }}" class="page-link">{{ loop.index }}</a>
+                                </li>
+                                {% endif %}
+                          {% endfor %}
+
+                          {% if list_all_tournaments.has_next() %}
+                          <li class="next page-item">
+                                <a href="?pg={{ list_all_tournaments.next_page_number() }}" class="page-link">»</a>
+                          </li>
+                          {% endif %}
+                        </ul>
+                    {% endif %}
+                    </nav>
                 </div>
             </section>
         </section>
