@@ -4,8 +4,28 @@ from .base import *
 
 if os.getenv("DEBUG") == "true":
     DEBUG = True
+
+    # DebugToolbar Middleware
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+    # DebugToobar
+    INSTALLED_APPS += ["debug_toolbar"]
+
+    # DebugToolbar Configurations
+    DEBUG_TOOLBAR_CONFIG = {
+        "INTERCEPT_REDIRECTS": False,
+        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+    }
+
+    # Add our Docker host IP to the INTERNAL_IPS
+    import os
+    import socket
+
+    HOSTNAME = os.getenv("HOSTNAME")
+    INTERNAL_IPS = [socket.gethostbyname(HOSTNAME)]
 else:
     DEBUG = False
+
 
 GOOGLE_ANALYTICS_TRACKING_ID = os.getenv("GOOGLE_ANALYTICS_TRACKING_ID", "")
 

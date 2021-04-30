@@ -1,4 +1,3 @@
-import debug_toolbar
 from agagd_core import urls as beta_urls
 from agagd_core import views as agagd_views
 from agagd_core.views import InformationPageView, QualificationsPageView
@@ -8,7 +7,7 @@ from django.conf.urls.static import static
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
-urlpatterns = (
+urlpatterns = [
     url(r"^$", agagd_views.index, name="index"),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(r"^search/$", agagd_views.search, name="search"),
@@ -57,11 +56,15 @@ urlpatterns = (
         agagd_views.tournament_detail,
         name="tournament_detail",
     ),
-    # Debug Url for DJango Debug Toobar
-    path("__debug__/", include(debug_toolbar.urls)),
     # Pages
     path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
     path("beta/", include(beta_urls.beta_patterns)),
-)
+]
+
+# DebugToolbar URL Configuration
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

@@ -31,6 +31,7 @@ COPY --from=build --chown=django:django /root/.local /home/django/.local
 
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
+    mime-support \
     libmariadb3
 
 USER django
