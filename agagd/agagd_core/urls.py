@@ -7,4 +7,5 @@ beta_patterns = ([
         path('', beta.index, name='index'),
         path('players/', beta.list_all_players, name='players_list'),
         path('tournaments/', beta.list_all_tournaments, name='tournaments_list'),
+        path('tournaments/<slug:code>/', beta.tournament_detail)
     ], 'beta')
