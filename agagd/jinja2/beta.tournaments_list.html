@@ -22,7 +22,13 @@
                             {% for tournament_row in list_all_tournaments %}
                                 <tr>
                                 {% for key, value in tournament_row.items() %}
-                                    <td {% if mobile_columns[key] %} class="{{ mobile_columns[key] }}" {% endif %}>{{ value }}</td>
+                                    <td {% if mobile_columns[key] %} class="{{ mobile_columns[key] }}" {% endif %}>
+                                        {% if key == "tournament_code" %}
+                                            <a href="{{ url("beta:tournament_detail", args=[value]) }}">{{ value }}</a>
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </td>
                                 {% endfor %}
                                 </tr>
                             {% endfor %}
