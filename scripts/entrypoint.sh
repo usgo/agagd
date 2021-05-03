@@ -24,7 +24,7 @@ function wait_for_db() {
 wait_for_db
 
 if $LOAD_FIXTURES == "true"; then
-    python make_fake_fixtures.py 100 1000 1000 > /tmp/fake_agagd_data.json
+    python make_fake_fixtures.py 1000 1000 1000 > /tmp/fake_agagd_data.json
     python manage.py loaddata /tmp/fake_agagd_data.json
 fi
 
