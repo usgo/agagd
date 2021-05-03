@@ -1,0 +1,91 @@
+{% extends "beta.base.html" %}
+
+{% block content %}
+    <section id="list-all-tournaments-block" class="container">
+        <section class="row">
+            <section class="col">
+                <h5 class="table-headers tournament-name-header">{{ tournament_information.tournament_code }}</h5>
+
+                <table class="table">
+                    <tbody>
+                        {% for key, value in tournament_information.items() %}
+                        <tr>
+                            <th class="table-dark" scope="row">
+                            {% if key in tournament_table_headers %}
+                                {{ tournament_table_headers[key] }}
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                            </th>
+                            <td class="table-bordered">{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </section>
+        <section class="row">
+            <section class="col-sm-12 col-md-12 col-lg-12">
+                <h5 class="table-headers list-all-tournament-players-table-header">Games</h5>
+
+                <div class="list-all-tournament-players-table">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in tournament_game_table_headers.items() %}
+                                        <th scope="col">
+                                            {{ value }}
+                                        </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for row in tournament_games %}
+                                <tr>
+                                {% for key, value in row.items() %}
+
+                                    {% if key == "pin_player_1" or key == "pin_player_2" %}
+                                        <td>
+                                            <a href="/player/{{ value }}">{{ value|get_members_name_and_id }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>{{ value }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <nav aria-label="Table Page Navigation">
+
+                    {% if tournament_games.has_other_pages() %}
+                        <ul class="pagination justify-content-center">
+                          {% if tournament_games.has_previous() %}
+                          <li class="previous page-item">
+                                <a href="?pg={{ tournament_games.previous_page_number() }}" class="page-link">«</a>
+                          </li>
+                          {% endif %}
+
+                          {% for page_number in tournament_games.paginator.page_range %}
+                                {% if page_number > (tournament_games.number - 5) and page_number < (tournament_games.number + 5) %}
+                                <li class="page-item {% if tournament_games.number == page_number %} active {% endif %}">
+                                    <a href="?pg={{ loop.index }}" class="page-link">{{ loop.index }}</a>
+                                </li>
+                                {% endif %}
+                          {% endfor %}
+
+                          {% if tournament_games.has_next() %}
+                          <li class="next page-item">
+                                <a href="?pg={{ tournament_games.next_page_number() }}" class="page-link">»</a>
+                          </li>
+                          {% endif %}
+                        </ul>
+                    {% endif %}
+                    </nav>
+                </div>
+            </section>
+        </section>
+    </section>
+{% endblock %}
