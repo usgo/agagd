@@ -69,6 +69,59 @@ def index(request):
     )
 
 
+def tournament_detail(request, code):
+    try:
+        tournament = agagd_models.Tournament.objects.get(pk=code)
+    except Tournament.DoesNotExist:
+        raise Http404(f"Tournament {name} does not exist.")
+
+    tournament_information = {
+        "tournament_code": tournament.pk,
+        "description": tournament.description,
+        "elab_date": tournament.elab_date,
+        "tournament_date": tournament.tournament_date,
+        "state": tournament.state,
+    }
+
+    tournament_table_headers = {
+        "tournament_code": "Code",
+        "description": "Description",
+        "tournament_date": "Date",
+        "elab_date": "Rated",
+        "city": "City",
+        "state": "State",
+        "rounds": "Rounds",
+        "total_players": "No. Players",
+    }
+
+    tournament_games = agagd_paginator_helper(
+        request,
+        tournament.games_in_tourney.values(
+            "game_date", "pin_player_1", "pin_player_2", "handicap", "komi"
+        ),
+    )
+
+    tournament_game_table_headers = {
+        "game_date": "Date",
+        "pin_player_1": "White",
+        "pin_player_2": "Black",
+        "handicap": "Handicap",
+        "komi": "Komi",
+    }
+
+    return render(
+        request,
+        "beta.tournament_detail.html",
+        {
+            "page_title": tournament_information["tournament_code"],
+            "tournament_information": tournament_information,
+            "tournament_games": tournament_games,
+            "tournament_table_headers": tournament_table_headers,
+            "tournament_game_table_headers": tournament_game_table_headers,
+        },
+    )
+
+
 def list_all_players(request):
     list_all_players_query = (
         agagd_models.Member.objects.select_related("chapter_id")
