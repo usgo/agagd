@@ -71,13 +71,13 @@ def index(request):
     top_10_dan = (
         agagd_models.Players.objects.filter(rating__gt=0)
         .values("pin_player", "rating", "sigma")
-        .order_by("-rating")[0:10]
+        .order_by("-rating")[:10]
     )
 
     top_10_kyu = (
         agagd_models.Players.objects.filter(rating__lt=0)
         .values("pin_player", "rating", "sigma")
-        .order_by("-rating")[0:10]
+        .order_by("-rating")[:10]
     )
 
     return render(
