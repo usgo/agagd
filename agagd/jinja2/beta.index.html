@@ -22,7 +22,9 @@
                                 <tr>
                                     {% for key, value in row.items() %}
                                         {% if key == "pin_player" %}
-                                            <td>{{ value|get_members_name_and_id }}</td>
+                                            <td>
+                                                <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
+                                            </td>
                                         {% else %}
                                             <td>{{ value }}</td>
                                         {% endif %}
@@ -53,7 +55,9 @@
                                 <tr>
                                     {% for key, value in row.items() %}
                                         {% if key == "pin_player" %}
-                                            <td>{{ value|get_members_name_and_id }}</td>
+                                            <td>
+                                                <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
+                                            </td>
                                         {% else %}
                                             <td>{{ value }}</td>
                                         {% endif %}
