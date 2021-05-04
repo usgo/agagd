@@ -4,9 +4,6 @@ from datetime import date, datetime, timedelta
 # AGAGD Models Import
 import agagd_core.models as agagd_models
 
-# AGAGD Tables Import
-import agagd_core.tables.beta as agagd_tables
-
 # Django Imports
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import F, Q
