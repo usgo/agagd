@@ -128,6 +128,12 @@
                                             <td>
                                                 <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
                                             </td>
+                                        {% elif key == "tournament_code_id" %}
+                                            <td>
+                                                <a href="{{ url("beta:tournament_detail", args=[value]) }}">
+                                                    {{ value }}
+                                                </a>
+                                            </td>
                                         {% else %}
                                             <td>{{ value }}</td>
                                         {% endif %}
