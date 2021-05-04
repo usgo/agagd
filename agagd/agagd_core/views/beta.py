@@ -50,7 +50,7 @@ def index(request):
         "pin_player_2",
         "handicap",
         "komi",
-    ).order_by("-game_date")[0:50]
+    ).order_by("-game_date")[:25]
 
     latest_tournaments_table_headers = {
         "tournament_date": "Date",
@@ -63,7 +63,7 @@ def index(request):
 
     latest_tournaments = agagd_models.Tournament.objects.values(
         "tournament_date", "elab_date", "tournament_code", "city", "state", "rounds"
-    ).order_by("-elab_date")[0:25]
+    ).order_by("-elab_date")[:25]
 
     top_10_kyu_dan_table_headers = {
         "pin_player": "Player",
