@@ -1,0 +1,25 @@
+{% extends "beta.basic_table_dark.html" %}
+{% block thead %}
+    <tr>
+        {% for key, value in table_headers.items() %}
+            <th scope="col">
+                {{ value }}
+            </th>
+        {% endfor %}
+    </tr>
+{% endblock %}
+{% block tbody %}
+    {% for row in table_body_rows %}
+        <tr>
+            {% for key, value in row.items() %}
+                {% if key == "pin_player" %}
+                    <td>
+                        <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
+                    </td>
+                {% else %}
+                    <td>{{ value }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+{% endblock %}

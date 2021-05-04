@@ -7,32 +7,9 @@
                 <h5 class="table-headers top-players-headers">Top Dan</h5>
 
                 <div class="table-headers top-dan-table">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                {% for key, value in top_10_kyu_dan_table_headers.items() %}
-                                    <th scope="col">
-                                        {{ value }}
-                                    </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in top_10_dan %}
-                                <tr>
-                                    {% for key, value in row.items() %}
-                                        {% if key == "pin_player" %}
-                                            <td>
-                                                <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
-                                            </td>
-                                        {% else %}
-                                            <td>{{ value }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% with table_headers=top_10_kyu_dan_table_headers, table_body_rows=top_10_dan %}
+                        {% include "beta.top_10_dan_kyu.html" %}
+                    {% endwith %}
                 </div>
             </section>
 
@@ -40,32 +17,10 @@
                 <h5 class="table-headers top-players-headers">Top Kyu</h5>
 
                 <div class="top-kyu-table">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                {% for key, value in top_10_kyu_dan_table_headers.items() %}
-                                    <th scope="col">
-                                        {{ value }}
-                                    </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in top_10_kyu %}
-                                <tr>
-                                    {% for key, value in row.items() %}
-                                        {% if key == "pin_player" %}
-                                            <td>
-                                                <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
-                                            </td>
-                                        {% else %}
-                                            <td>{{ value }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% with table_headers=top_10_kyu_dan_table_headers, table_body_rows=top_10_kyu %}
+                        {% include "beta.top_10_dan_kyu.html" %}
+                    {% endwith %}
+
                 </div>
             </section>
         </section>
