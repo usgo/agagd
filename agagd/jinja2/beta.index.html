@@ -1,15 +1,36 @@
 {% extends "beta.base.html" %}
-{% load render_table from django_tables2 %}
 
 {% block content %}
-    {{ block.super }}
     <section class="container">
         <section class="row top-players-tables">
             <section class="col-sm-12 col-md-12 col-lg-6 top-dan">
                 <h5 class="table-headers top-players-headers">Top Dan</h5>
 
                 <div class="table-headers top-dan-table">
-                {% render_table top_dan_table %}
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in top_10_kyu_dan_table_headers.items() %}
+                                    <th scope="col">
+                                        {{ value }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in top_10_dan %}
+                                <tr>
+                                    {% for key, value in row.items() %}
+                                        {% if key == "pin_player" %}
+                                            <td>{{ value|get_members_name_and_id }}</td>
+                                        {% else %}
+                                            <td>{{ value }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
@@ -17,7 +38,30 @@
                 <h5 class="table-headers top-players-headers">Top Kyu</h5>
 
                 <div class="top-kyu-table">
-                {% render_table top_kyu_table %}
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in top_10_kyu_dan_table_headers.items() %}
+                                    <th scope="col">
+                                        {{ value }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in top_10_dan %}
+                                <tr>
+                                    {% for key, value in row.items() %}
+                                        {% if key == "pin_player" %}
+                                            <td>{{ value|get_members_name_and_id }}</td>
+                                        {% else %}
+                                            <td>{{ value }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </section>
@@ -27,7 +71,7 @@
                 <h5 class="table-headers top-players-headers">Tournaments</h5>
 
                 <div class="tournaments-table">
-                {% render_table tournaments %}
+                {# render_table tournaments #}
                 </div>
             </section>
 
@@ -35,7 +79,7 @@
                 <h5 class="table-headers top-players-headers">Games</h5>
 
                 <div class="games-table">
-                {% render_table table %}
+                {# render_table table #}
                 </div>
             </section>
         </section>

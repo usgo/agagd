@@ -34,37 +34,36 @@ def agagd_paginator_helper(
 
 
 def index(request):
-    game_list = agagd_models.Game.objects.filter(
-        game_date__gte=datetime.now() - timedelta(days=180)
-    ).order_by("-game_date")
-    table = agagd_tables.GameTable(game_list, prefix="games")
-    topDanList = agagd_models.TopDan.objects.values()
-    topDanTable = agagd_tables.TopDanTable(topDanList)
-    topKyuList = agagd_models.TopKyu.objects.values()
-    topKyuTable = agagd_tables.TopKyuTable(topKyuList)
-    mostRatedGamesPastYearList = agagd_models.MostRatedGamesPastYear.objects.values()
-    mostRatedGamesTable = agagd_tables.MostRatedGamesPastYearTable(
-        mostRatedGamesPastYearList
+    # latest_games = agagd_models.Game.objects.order_by()[0:25]
+    # latest_tournaments = agagd_models.Tournament.objects.order_by()[0:25]
+
+    top_10_kyu_dan_table_headers = {
+        "pin_player": "Player",
+        "rating": "Rating",
+        "sigma": "Sigma",
+    }
+
+    top_10_dan = (
+        agagd_models.Players.objects.filter(rating__gt=0)
+        .values("pin_player", "rating", "sigma")
+        .order_by("-rating")[0:10]
     )
-    mostTournamentsPastYearList = agagd_models.MostTournamentsPastYear.objects.values()
-    mostTournamentsPastYearTable = agagd_tables.MostTournamentsPastYearTable(
-        mostTournamentsPastYearList
+
+    top_10_kyu = (
+        agagd_models.Players.objects.filter(rating__lt=0)
+        .values("pin_player", "rating", "sigma")
+        .order_by("-rating")[0:10]
     )
-    RequestConfig(request).configure(table)
-    tourneys = agagd_models.Tournament.objects.all().order_by("-tournament_date")
-    t_table = agagd_tables.TournamentTable(tourneys, prefix="tourneys")
-    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
 
     return render(
         request,
         "beta.index.html",
         {
-            "table": table,
-            "top_dan_table": topDanTable,
-            "top_kyu_table": topKyuTable,
-            "most_rated_games_table": mostRatedGamesTable,
-            "most_tournaments_table": mostTournamentsPastYearTable,
-            "tournaments": t_table,
+            # "lastet_games": latest_games,
+            # "latest_tournaments": latest_tournaments,
+            "top_10_dan": top_10_dan,
+            "top_10_kyu": top_10_kyu,
+            "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
         },
     )
 

@@ -51,11 +51,11 @@
 
                     <nav aria-label="Table Page Navigation">
 
-                    {% if list_all_players_data.has_other_pages %}
+                    {% if list_all_players_data.has_other_pages() %}
                         <ul class="pagination justify-content-center">
-                          {% if list_all_players_data.has_previous %}
+                          {% if list_all_players_data.has_previous() %}
                           <li class="previous page-item">
-                                <a href="?pg={{ list_all_players_data.previous_page_number }}" class="page-link">«</a>
+                                <a href="?pg={{ list_all_players_data.previous_page_number() }}" class="page-link">«</a>
                           </li>
                           {% endif %}
 
@@ -67,9 +67,9 @@
                                 {% endif %}
                           {% endfor %}
 
-                          {% if list_all_players_data.has_next %}
+                          {% if list_all_players_data.has_next() %}
                           <li class="next page-item">
-                                <a href="?pg={{ list_all_players_data.next_page_number }}" class="page-link">»</a>
+                                <a href="?pg={{ list_all_players_data.next_page_number() }}" class="page-link">»</a>
                           </li>
                           {% endif %}
                         </ul>
