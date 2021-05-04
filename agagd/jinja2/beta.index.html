@@ -79,11 +79,36 @@
                 </div>
             </section>
 
-            <section class="col games">
+            <section class="col col-md-12 col-lg-12 col-xl-12 games">
                 <h5 class="table-headers top-players-headers">Games</h5>
 
                 <div class="games-table">
-                {# render_table table #}
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in latest_games_table_headers.items() %}
+                                    <th scope="col">
+                                        {{ value }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in latest_games %}
+                                <tr>
+                                    {% for key, value in row.items() %}
+                                        {% if key == "pin_player" %}
+                                            <td>
+                                                <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
+                                            </td>
+                                        {% else %}
+                                            <td>{{ value }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </section>

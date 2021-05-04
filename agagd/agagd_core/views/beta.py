@@ -34,7 +34,23 @@ def agagd_paginator_helper(
 
 
 def index(request):
-    # latest_games = agagd_models.Game.objects.order_by()[0:25]
+    latest_games_table_headers = {
+        "game_date": "Date",
+        "tournament_code_id": "Tournament Code",
+        "pin_player_1": "White",
+        "pin_player_2": "Black",
+        "handicap": "Handicap",
+        "komi": "Komi",
+    }
+
+    latest_games = agagd_models.Game.objects.values(
+        "game_date",
+        "tournament_code_id",
+        "pin_player_1",
+        "pin_player_2",
+        "handicap",
+        "komi",
+    ).order_by("-game_date")[0:50]
     # latest_tournaments = agagd_models.Tournament.objects.order_by()[0:25]
 
     top_10_kyu_dan_table_headers = {
@@ -59,10 +75,11 @@ def index(request):
         request,
         "beta.index.html",
         {
-            # "lastet_games": latest_games,
+            "latest_games": latest_games,
             # "latest_tournaments": latest_tournaments,
             "top_10_dan": top_10_dan,
             "top_10_kyu": top_10_kyu,
+            "latest_games_table_headers": latest_games_table_headers,
             "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
         },
     )
