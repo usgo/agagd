@@ -12,11 +12,13 @@ def get_members_name_and_id(value):
         "[member's full name] (member_id)".
     """
     try:
-        member = agagd_models.Member.objects.get(pk=value)
+        member = agagd_models.Member.objects.values("full_name", "member_id").get(
+            pk=value
+        )
     except ObjectDoesNotExist:
         raise ("Member {value} does not exist.")
 
-    return f"{member.full_name} ({member.pk})"
+    return f"{member['full_name']} ({member['member_id']})"
 
 
 def environment(**options):

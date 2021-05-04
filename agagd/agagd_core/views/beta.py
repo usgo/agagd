@@ -68,17 +68,13 @@ def index(request):
         "sigma": "Sigma",
     }
 
-    top_10_dan = (
-        agagd_models.Players.objects.filter(rating__gt=0)
-        .values("pin_player", "rating", "sigma")
-        .order_by("-rating")[:10]
+    top_10_dan_kyu = agagd_models.Players.objects.values(
+        "pin_player", "rating", "sigma"
     )
 
-    top_10_kyu = (
-        agagd_models.Players.objects.filter(rating__lt=0)
-        .values("pin_player", "rating", "sigma")
-        .order_by("-rating")[:10]
-    )
+    top_10_dan = top_10_dan_kyu.filter(rating__gt=0).order_by("-rating")[:10]
+
+    top_10_kyu = top_10_dan_kyu.filter(rating__lt=0).order_by("-rating")[:10]
 
     return render(
         request,
