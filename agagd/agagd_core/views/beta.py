@@ -31,6 +31,8 @@ def agagd_paginator_helper(
 
 
 def index(request):
+    default_mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+
     latest_games_table_headers = {
         "game_date": "Date",
         "tournament_code_id": "Tournament Code",
@@ -38,6 +40,11 @@ def index(request):
         "pin_player_2": "Black",
         "handicap": "Handicap",
         "komi": "Komi",
+    }
+
+    latest_games_mobile_columns = {
+        "handicap": default_mobile_column_attrs,
+        "komi": default_mobile_column_attrs,
     }
 
     latest_games = agagd_models.Game.objects.values(
@@ -56,6 +63,12 @@ def index(request):
         "city": "City",
         "state": "State",
         "rounds": "Rounds",
+    }
+
+    latest_tournaments_mobile_columns = {
+        "city": default_mobile_column_attrs,
+        "state": default_mobile_column_attrs,
+        "rounts": default_mobile_column_attrs,
     }
 
     latest_tournaments = agagd_models.Tournament.objects.values(
@@ -87,6 +100,8 @@ def index(request):
             "latest_games_table_headers": latest_games_table_headers,
             "latest_tournaments_table_headers": latest_tournaments_table_headers,
             "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
+            "latest_games_mobile_columns": latest_games_mobile_columns,
+            "latest_tournaments_mobile_columns": latest_tournaments_mobile_columns,
         },
     )
 

@@ -34,7 +34,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 {% for key, value in latest_tournaments_table_headers.items() %}
-                                    <th scope="col">
+                                    <th scope="col" {% if latest_tournaments_mobile_columns[key] %} class="{{ latest_tournaments_mobile_columns[key] }}" {% endif %}>
                                         {{ value }}
                                     </th>
                                 {% endfor %}
@@ -44,15 +44,16 @@
                             {% for row in latest_tournaments %}
                                 <tr>
                                     {% for key, value in row.items() %}
-                                        {% if key == "tournament_code" %}
-                                            <td>
+                                        <td {% if latest_tournaments_mobile_columns[key] %} class="{{ latest_tournaments_mobile_columns[key] }}" {% endif %}>
+
+                                            {% if key == "tournament_code" %}
                                                 <a href="{{ url("beta:tournament_detail", args=[value]) }}">
                                                     {{ value }}
                                                 </a>
-                                            </td>
-                                        {% else %}
-                                            <td>{{ value }}</td>
-                                        {% endif %}
+                                            {% else %}
+                                                {{ value }}
+                                            {% endif %}
+                                        </td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
@@ -69,8 +70,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 {% for key, value in latest_games_table_headers.items() %}
-                                    <th scope="col">
-                                        {{ value }}
+                                    <th scope="col" {% if latest_games_mobile_columns[key] %} class="{{ latest_games_mobile_columns[key] }}" {% endif %}>
+                                         {{ value }}
                                     </th>
                                 {% endfor %}
                             </tr>
@@ -79,19 +80,17 @@
                             {% for row in latest_games %}
                                 <tr>
                                     {% for key, value in row.items() %}
+                                        <td scope="col" {% if latest_games_mobile_columns[key] %} class="{{ latest_games_mobile_columns[key] }}" {% endif %}>
                                         {% if key == "pin_player_1" or key == "pin_player_2" %}
-                                            <td>
-                                                <a href="{{ url("member_detail", args=[value]) }}">{{ value|get_members_name_and_id }}</a>
-                                            </td>
+                                            <a href="{{ url("member_detail", args=[value]) }}">{{ value|get_members_name_and_id }}</a>
                                         {% elif key == "tournament_code_id" %}
-                                            <td>
-                                                <a href="{{ url("beta:tournament_detail", args=[value]) }}">
-                                                    {{ value }}
-                                                </a>
-                                            </td>
+                                            <a href="{{ url("beta:tournament_detail", args=[value]) }}">
+                                                {{ value }}
+                                            </a>
                                         {% else %}
-                                            <td>{{ value }}</td>
+                                            {{ value }}
                                         {% endif %}
+                                        </td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
