@@ -59,30 +59,9 @@
                     </table>
 
                     <nav aria-label="Table Page Navigation">
-
-                    {% if tournament_games.has_other_pages() %}
-                        <ul class="pagination justify-content-center">
-                          {% if tournament_games.has_previous() %}
-                          <li class="previous page-item">
-                                <a href="?pg={{ tournament_games.previous_page_number() }}" class="page-link">«</a>
-                          </li>
-                          {% endif %}
-
-                          {% for page_number in tournament_games.paginator.page_range %}
-                                {% if page_number > (tournament_games.number - 5) and page_number < (tournament_games.number + 5) %}
-                                <li class="page-item {% if tournament_games.number == page_number %} active {% endif %}">
-                                    <a href="?pg={{ loop.index }}" class="page-link">{{ loop.index }}</a>
-                                </li>
-                                {% endif %}
-                          {% endfor %}
-
-                          {% if tournament_games.has_next() %}
-                          <li class="next page-item">
-                                <a href="?pg={{ tournament_games.next_page_number() }}" class="page-link">»</a>
-                          </li>
-                          {% endif %}
-                        </ul>
-                    {% endif %}
+                        {% with table=list_all_tournaments %}
+                            {% include "beta.table_pagination.html" %}
+                        {% endwith %}
                     </nav>
                 </div>
             </section>
