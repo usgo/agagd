@@ -51,7 +51,19 @@ def index(request):
         "handicap",
         "komi",
     ).order_by("-game_date")[0:50]
-    # latest_tournaments = agagd_models.Tournament.objects.order_by()[0:25]
+
+    latest_tournaments_table_headers = {
+        "tournament_date": "Date",
+        "elab_date": "Rated",
+        "tournament_code": "Tournament Code",
+        "city": "City",
+        "state": "State",
+        "rounds": "Rounds",
+    }
+
+    latest_tournaments = agagd_models.Tournament.objects.values(
+        "tournament_date", "elab_date", "tournament_code", "city", "state", "rounds"
+    ).order_by("-elab_date")[0:25]
 
     top_10_kyu_dan_table_headers = {
         "pin_player": "Player",
@@ -76,10 +88,11 @@ def index(request):
         "beta.index.html",
         {
             "latest_games": latest_games,
-            # "latest_tournaments": latest_tournaments,
+            "latest_tournaments": latest_tournaments,
             "top_10_dan": top_10_dan,
             "top_10_kyu": top_10_kyu,
             "latest_games_table_headers": latest_games_table_headers,
+            "latest_tournaments_table_headers": latest_tournaments_table_headers,
             "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
         },
     )

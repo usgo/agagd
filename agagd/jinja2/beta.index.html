@@ -71,12 +71,39 @@
         </section>
 
         <section class="row recent-activity-tables">
-            <section class="col tournaments">
+            <section class="col col-md-12 col-lg-12 col-xl-12 tournaments">
                 <h5 class="table-headers top-players-headers">Tournaments</h5>
 
                 <div class="tournaments-table">
-                {# render_table tournaments #}
-                </div>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in latest_tournaments_table_headers.items() %}
+                                    <th scope="col">
+                                        {{ value }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in latest_tournaments %}
+                                <tr>
+                                    {% for key, value in row.items() %}
+                                        {% if key == "tournament_code" %}
+                                            <td>
+                                                <a href="{{ url("beta:tournament_detail", args=[value]) }}">
+                                                    {{ value }}
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td>{{ value }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                 </div>
             </section>
 
             <section class="col col-md-12 col-lg-12 col-xl-12 games">
