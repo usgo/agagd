@@ -14,7 +14,7 @@
             {% for key, value in row.items() %}
                 {% if key == "pin_player" %}
                     <td>
-                        <a href="{{ value }}">{{ value|get_members_name_and_id }}</a>
+                        <a href="{{ url("member_detail", args=[value]) }}">{{ value|get_members_name_and_id }}</a>
                     </td>
                 {% else %}
                     <td>{{ value }}</td>
