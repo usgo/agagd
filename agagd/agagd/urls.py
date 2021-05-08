@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
-urlpatterns = (
+urlpatterns = [
     url(r"^$", agagd_views.index, name="index"),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(r"^search/$", agagd_views.search, name="search"),
@@ -61,4 +61,10 @@ urlpatterns = (
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
     path("beta/", include(beta_urls.beta_patterns)),
-)
+]
+
+# DebugToolbar URL Configuration
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

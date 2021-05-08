@@ -30,6 +30,7 @@ services:
       - ./agagd/agagd_core:/srv/agagd_core
       - ./agagd/media:/srv/media
       - ./agagd/static:/srv/static
+      - ./agagd/jinja2:/srv/jinja2
       - ./agagd/templates:/srv/templates
 
   db:

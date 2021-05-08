@@ -31,6 +31,7 @@ COPY --from=build --chown=django:django /root/.local /home/django/.local
 
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
+    mime-support \
     libmariadb3
 
 USER django
@@ -41,6 +42,5 @@ ENV PROJECT_ROOT=/srv
 ENV TEMPLATE_DIR=/srv/templates
 
 COPY --chown=django:django scripts/ agagd/ /srv/
-RUN SECRET_KEY=stub-for-build python manage.py collectstatic --noinput
 
 CMD ["/srv/entrypoint.sh"]

@@ -4,8 +4,30 @@ from .base import *
 
 if os.getenv("DEBUG") == "true":
     DEBUG = True
+
+    # DebugToolbar Middleware
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+    # DebugToobar
+    INSTALLED_APPS += ["debug_toolbar"]
+
+    # Add our Docker host IP to the INTERNAL_IPS
+    import os
+    import socket
+
+    HOSTNAME = os.getenv("HOSTNAME")
+    INTERNAL_IPS = ["127.0.0.1", socket.gethostbyname(HOSTNAME)]
+
+    # DebugToolbar Configurations
+    DEBUG_TOOLBAR_CONFIG = {
+        "INTERCEPT_REDIRECTS": False,
+        "SHOW_COLLAPSED": True,
+        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+    }
+
 else:
     DEBUG = False
+
 
 GOOGLE_ANALYTICS_TRACKING_ID = os.getenv("GOOGLE_ANALYTICS_TRACKING_ID", "")
 
@@ -21,7 +43,6 @@ _password = os.getenv("MYSQL_PASSWORD", "")
 _dbname = os.getenv("APP_DB_NAME", "")
 _dbhost = os.getenv("DB_HOST", "")
 _dbport = os.getenv("DB_PORT", "")
-_templates = os.getenv("TEMPLATE_DIR", os.path.join(PROJECT_ROOT, "templates"))
 
 SECRET_KEY = _key
 
@@ -35,5 +56,3 @@ DATABASES = {
         "PORT": _dbport,  # Set to empty string for default. Not used with sqlite3.
     }
 }
-
-TEMPLATES[0]["DIRS"] = [_templates]

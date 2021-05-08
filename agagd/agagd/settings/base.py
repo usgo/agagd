@@ -79,10 +79,10 @@ STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    "django.contrib.staticfiles.finders.DefaultStorageFinder",
 )
 
-MIDDLEWARE = (
+MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -90,7 +90,7 @@ MIDDLEWARE = (
     "django.contrib.messages.middleware.MessageMiddleware",
     # Uncomment the next line for simple clickjacking protection:
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-)
+]
 
 ROOT_URLCONF = "agagd.urls"
 
@@ -123,11 +123,31 @@ TEMPLATES = [
                 # 'django.template.loaders.eggs.Loader',
             ],
         },
-    }
+    },
+    {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [os.path.join(PROJECT_ROOT, "jinja2")],
+        "OPTIONS": {
+            "environment": "agagd_core.jinga2.environment",
+            "context_processors": [
+                # Standard context_processors
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+                # Custom context_processors
+                "django.template.context_processors.request",
+                "agagd_core.context_processors.google_analytics_tracking_id",
+            ],
+        },
+    },
 ]
 
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     "agagd_core",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -136,7 +156,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_tables2",
-)
+]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

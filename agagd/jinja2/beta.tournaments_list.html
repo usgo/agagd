@@ -1,0 +1,47 @@
+{% extends "beta.base.html" %}
+
+{% block content %}
+    <section id="list-all-tournaments-block" class="container">
+        <section class="row">
+            <section class="col-sm-12 col-md-12 col-lg-12">
+                <h5 class="table-headers list-all-tournaments-table-headers">{{ page_title }}</h5>
+
+                <div class="list-all-tournaments-table">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for key, value in table_headers.items() %}
+                                        <th scope="col" {% if mobile_columns[key] %} class="{{ mobile_columns[key] }}" {% endif %}>
+                                            {{ value }}
+                                        </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for tournament_row in list_all_tournaments %}
+                                <tr>
+                                {% for key, value in tournament_row.items() %}
+                                    <td {% if mobile_columns[key] %} class="{{ mobile_columns[key] }}" {% endif %}>
+                                        {% if key == "tournament_code" %}
+                                            <a href="{{ url("beta:tournament_detail", args=[value]) }}">{{ value }}</a>
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <nav aria-label="Table Page Navigation">
+                        {% with table=list_all_tournaments %}
+                            {% include "beta.table_pagination.html" %}
+                        {% endwith %}
+                    </nav>
+                </div>
+            </section>
+        </section>
+    </section>
+{% endblock %}

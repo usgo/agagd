@@ -24,9 +24,14 @@ function wait_for_db() {
 wait_for_db
 
 if $LOAD_FIXTURES == "true"; then
-    python make_fake_fixtures.py 100 1000 1000 > /tmp/fake_agagd_data.json
+    python make_fake_fixtures.py 1000 1000 1000 > /tmp/fake_agagd_data.json
     python manage.py loaddata /tmp/fake_agagd_data.json
 fi
+
+# Run Collect Static in the Entrypoint because Dockerfile does not always
+# get all static images. For example, debug toolbar will not have css, images or
+# other assets shown.
+python manage.py collectstatic --noinput
 
 # touch-reload is added for development convenience, though it's not hooked up
 # to any automated watcher at the moment.
