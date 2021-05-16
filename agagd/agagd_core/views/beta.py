@@ -106,6 +106,20 @@ def index(request):
     )
 
 
+def player_profile(request, player_id):
+    player = agagd_models.Member.objects.get(member_id=player_id)
+
+    player_games = agagd_models.Games.objects.filter(
+        Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
+    ).order_by("-game_date")
+
+    player_rating = agagd_models.Player.objects.filter(
+        Q(pin_player__exact=player_id)
+    ).values("pin_player", "rating", "sigma")
+
+    return render(request, "beta.player_profile.html", {"player": player})
+
+
 def tournament_detail(request, code):
     try:
         tournament = agagd_models.Tournament.objects.get(pk=code)
