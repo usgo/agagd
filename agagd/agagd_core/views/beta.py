@@ -3,14 +3,21 @@ from datetime import date, datetime, timedelta
 
 # AGAGD Models Import
 import agagd_core.models as agagd_models
-
-# Django Imports
+from agagd_core.tables.beta import (
+    GamesTable,
+    Top10DanTable,
+    Top10KyuTable,
+    TournamentsTable,
+)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+# Django Imports
+from django.views.generic import ListView
+
 # Django Table Imports
-from django_tables2 import RequestConfig
+from django_tables2 import LazyPaginator, RequestConfig
 
 
 def agagd_paginator_helper(
@@ -84,80 +91,35 @@ def tournament_list_helper(player_id, game_list=None):
 
 def opponent_list_helper(player_id, game_list=None):
     """ Creates a list with the opponent data from the player's games. """
+    pass
 
 
 def index(request):
-    default_mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+    latest_games = agagd_models.Game.objects.all().order_by("-game_date")[:25]
 
-    latest_games_table_headers = {
-        "game_date": "Date",
-        "tournament_code_id": "Tournament Code",
-        "pin_player_1": "White",
-        "pin_player_2": "Black",
-        "handicap": "Handicap",
-        "komi": "Komi",
-    }
+    latest_tournaments = agagd_models.Tournament.objects.all().order_by("-elab_date")[
+        :25
+    ]
 
-    latest_games_mobile_columns = {
-        "handicap": default_mobile_column_attrs,
-        "komi": default_mobile_column_attrs,
-    }
-
-    latest_games = agagd_models.Game.objects.values(
-        "game_date",
-        "tournament_code_id",
-        "pin_player_1",
-        "pin_player_2",
-        "handicap",
-        "komi",
-    ).order_by("-game_date")[:25]
-
-    latest_tournaments_table_headers = {
-        "tournament_date": "Date",
-        "elab_date": "Rated",
-        "tournament_code": "Tournament Code",
-        "city": "City",
-        "state": "State",
-        "rounds": "Rounds",
-    }
-
-    latest_tournaments_mobile_columns = {
-        "city": default_mobile_column_attrs,
-        "state": default_mobile_column_attrs,
-        "rounts": default_mobile_column_attrs,
-    }
-
-    latest_tournaments = agagd_models.Tournament.objects.values(
-        "tournament_date", "elab_date", "tournament_code", "city", "state", "rounds"
-    ).order_by("-elab_date")[:25]
-
-    top_10_kyu_dan_table_headers = {
-        "pin_player": "Player",
-        "rating": "Rating",
-        "sigma": "Sigma",
-    }
-
-    top_10_dan_kyu = agagd_models.Players.objects.values(
-        "pin_player", "rating", "sigma"
-    )
+    top_10_dan_kyu = agagd_models.Players.objects.all()
 
     top_10_dan = top_10_dan_kyu.filter(rating__gt=0).order_by("-rating")[:10]
-
     top_10_kyu = top_10_dan_kyu.filter(rating__lt=0).order_by("-rating")[:10]
+
+    # Index Tables
+    latest_games_table = GamesTable(latest_games)
+    latest_tournaments_table = TournamentsTable(latest_tournaments)
+    top_10_dan_table = Top10DanTable(top_10_dan)
+    top_10_kyu_table = Top10KyuTable(top_10_kyu)
 
     return render(
         request,
         "beta.index.html",
         {
-            "latest_games": latest_games,
-            "latest_tournaments": latest_tournaments,
-            "top_10_dan": top_10_dan,
-            "top_10_kyu": top_10_kyu,
-            "latest_games_table_headers": latest_games_table_headers,
-            "latest_tournaments_table_headers": latest_tournaments_table_headers,
-            "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
-            "latest_games_mobile_columns": latest_games_mobile_columns,
-            "latest_tournaments_mobile_columns": latest_tournaments_mobile_columns,
+            "latest_games_table": latest_games_table,
+            "latest_tournaments_table": latest_tournaments_table,
+            "top_10_dan_table": top_10_dan_table,
+            "top_10_kyu_table": top_10_kyu_table,
         },
     )
 
