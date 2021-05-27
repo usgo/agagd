@@ -7,19 +7,18 @@
         </section>
 
         <section class="row player_details">
-
         </section>
 
         <section class="row player_opponents">
-
+            {{ player_opponents_table.as_html(request) }}
         </section>
 
         <section class="row player_tournaments">
-
+            {{ player_tournaments_table.as_html(request) }}
         </section>
 
         <section class="row player_games">
-
+            {{ player_games_table.as_html(request) }}
         </section>
     </section>
 {% endblock %}
