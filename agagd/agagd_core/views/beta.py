@@ -89,9 +89,26 @@ def tournament_list_helper(player_id, game_list=None):
     return tournament_data
 
 
-def opponent_list_helper(player_id, game_list=None):
+def opponents_list_helper(player_id, games_list=None):
     """ Creates a list with the opponent data from the player's games. """
-    pass
+    opponent_data = {}
+
+    for game in games_list:
+        game_date = get_game_date_from_game_helper(game)
+
+        opponent_id = get_opponent_from_game_helper(player_id, game)
+        temp_opponent_data = opponent_data.get(opponent_data, {})
+        temp_opponent_data["opponent"] = opponent_id
+        temp_opponent_data["total"] = opponent_data.get("total", 0)
+        temp_opponent_data["won"] = opponent_data.get("won", 0)
+        temp_opponent_data["lost"] = opponent_data.get("lost", 0)
+
+        if winner_of_game_helper(game) == player_id:
+            temp_opponent_data["won"] += 1
+        elif loser_of_game_helper(game) == player_id:
+            temp_opponent_data["lost"] += 1
+
+        opponent_data[opponent_id] = temp_opponent_data
 
 
 def index(request):
@@ -138,8 +155,10 @@ def player_profile(request, player_id):
     ).values("pin_player", "rating", "sigma")
 
     tournament_data = tournament_list_helper(player_id, player_games)
-
     tournaments_table = TournamentsTable(tournaments_data.values(), player)
+
+    opponents_data = opponents_list_hepler(player_id, player_games)
+    opponents_table = OpponentsTable(opponents_data.values(), player)
 
     return render(
         request,
