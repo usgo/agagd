@@ -137,7 +137,15 @@ def player_profile(request, player_id):
         Q(pin_player__exact=player_id)
     ).values("pin_player", "rating", "sigma")
 
-    return render(request, "beta.player_profile.html", {"player": player})
+    tournament_data = tournament_list_helper(player_id, player_games)
+
+    tournaments_table = TournamentsTable(tournaments_data.values(), player)
+
+    return render(
+        request,
+        "beta.player_profile.html",
+        {"player": player, "tournaments_table": tournaments_table},
+    )
 
 
 def tournament_detail(request, code):
