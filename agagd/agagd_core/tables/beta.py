@@ -31,7 +31,7 @@ class WinnerColumn(tables.Column):
         kwargs=None,
         current_app=None,
         attrs=None,
-        **extra
+        **extra,
     ):
         super().__init__(
             attrs=attrs,
@@ -42,7 +42,7 @@ class WinnerColumn(tables.Column):
                 kwargs=kwargs,
                 current_app=current_app,
             ),
-            **extra
+            **extra,
         )
         self.color = color
 
@@ -91,6 +91,29 @@ class GamesTable(tables.Table):
             "tournament_code",
         )
         sequence = fields
+        attrs = default_bootstrap_header_column_attrs
+        template_name = "django_tables2/bootstrap4.html"
+
+
+class OpponentsTable(tables.Table):
+    def __init__(self, qs, p1, *args, **kwargs):
+        self.this_player = p1
+        super().__init__(self, qs)
+
+    opponent = tables.Column()
+    total = tables.Column(verbose_name="Games")
+    won = tables.Column(verbose_name="Games")
+    lost = tables.Column(verbose_name="Games")
+    ratio = tables.Column(
+        verbose_name="Rate", default=0, empty_values=(-1,), orderable=False
+    )
+
+    def render_ratio(self, record):
+        ratio = record["won"] / record["total"]
+
+        return f"{ratio:.2f}"
+
+    class Meta:
         attrs = default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
 
