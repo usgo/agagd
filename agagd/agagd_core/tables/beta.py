@@ -95,7 +95,7 @@ class GamesTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 
-class OpponentsTable(tables.Table):
+class PlayersOpponentTable(tables.Table):
     def __init__(self, qs, p1, *args, **kwargs):
         self.this_player = p1
         super().__init__(self, qs)
@@ -140,6 +140,15 @@ class TournamentsTable(tables.Table):
         fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
         sequence = fields
         attrs = default_bootstrap_header_column_attrs
+        template_name = "django_tables2/bootstrap4.html"
+
+
+class PlayersOpponentTable(TournamentTable):
+    class Meta:
+        model = agagd_models.Tournament
+        fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
+        sequence = fields
+        attrs = default_boostrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
 
 

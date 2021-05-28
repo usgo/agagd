@@ -155,10 +155,10 @@ def player_profile(request, player_id):
     ).values("pin_player", "rating", "sigma")
 
     tournament_data = tournament_list_helper(player_id, player_games)
-    tournaments_table = TournamentsTable(tournaments_data.values(), player)
+    tournaments_table = PlayersTournamentTable(tournaments_data.values(), player)
 
     opponents_data = opponents_list_hepler(player_id, player_games)
-    opponents_table = OpponentsTable(opponents_data.values(), player)
+    opponents_table = PlayersOpponentTable(opponents_data.values(), player)
 
     return render(
         request,
