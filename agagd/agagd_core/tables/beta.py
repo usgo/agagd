@@ -143,7 +143,7 @@ class TournamentsTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 
-class PlayersOpponentTable(TournamentTable):
+class PlayersOpponentTable(TournamentsTable):
     class Meta:
         model = agagd_models.Tournament
         fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
