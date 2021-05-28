@@ -163,7 +163,11 @@ def player_profile(request, player_id):
     return render(
         request,
         "beta.player_profile.html",
-        {"player": player, "tournaments_table": tournaments_table},
+        {
+            "player": player,
+            "tournaments_table": tournaments_table,
+            "opponents_table": opponents_table,
+        },
     )
 
 
