@@ -21,7 +21,7 @@ default_bootstrap_header_column_attrs = {
 }
 
 # Column for the Winner of the Game
-class WinnerColumn(tables.Column):
+class LinkFullMembersNameColumn(tables.Column):
     def __init__(
         self,
         color="W",
@@ -49,8 +49,15 @@ class WinnerColumn(tables.Column):
     def render(self, value, record):
         if record["result"] == self.color:
             self.attrs["td"] = {"class": "winner"}
-        else:
+        elif record["result"] != self.color:
             self.attrs["td"] = {"class": "runner-up"}
+
+        try:
+            member_name_and_id = agagd_models.Member.objects.get(member_id=value)
+            value = f"{member_name_and_id.full_name} ({value})"
+        except ObjectDoesNotExist:
+            value = None
+
         return value
 
 
@@ -60,14 +67,14 @@ class GamesTable(tables.Table):
         verbose_name="Date", attrs=default_bootstrap_column_attrs, orderable=False
     )
     handicap = tables.Column(attrs=default_bootstrap_column_attrs, orderable=False)
-    pin_player_1 = WinnerColumn(
+    pin_player_1 = LinkFullMembersNameColumn(
         color="W",
         viewname="member_detail",
         verbose_name="White",
         kwargs={"member_id": tables.A("pin_player_1")},
         orderable=False,
     )
-    pin_player_2 = WinnerColumn(
+    pin_player_2 = LinkFullMembersNameColumn(
         color="B",
         viewname="member_detail",
         verbose_name="Black",
