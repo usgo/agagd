@@ -47,7 +47,7 @@ class WinnerColumn(tables.Column):
         self.color = color
 
     def render(self, value, record):
-        if record.result == self.color:
+        if record["result"] == self.color:
             self.attrs["td"] = {"class": "winner"}
         else:
             self.attrs["td"] = {"class": "runner-up"}
@@ -64,20 +64,20 @@ class GamesTable(tables.Table):
         color="W",
         viewname="member_detail",
         verbose_name="White",
-        kwargs={"member_id": tables.A("pin_player_1.member_id")},
+        kwargs={"member_id": tables.A("pin_player_1")},
         orderable=False,
     )
     pin_player_2 = WinnerColumn(
         color="B",
         viewname="member_detail",
         verbose_name="Black",
-        kwargs={"member_id": tables.A("pin_player_2.member_id")},
+        kwargs={"member_id": tables.A("pin_player_2")},
         orderable=False,
     )
     tournament_code = tables.LinkColumn(
         verbose_name="Tournament",
         viewname="tournament_detail",
-        kwargs={"tourn_code": tables.A("tournament_code.tournament_code")},
+        kwargs={"tourn_code": tables.A("tournament_code")},
         orderable=False,
     )
 
@@ -148,7 +148,7 @@ class PlayersOpponentTable(TournamentsTable):
         model = agagd_models.Tournament
         fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
         sequence = fields
-        attrs = default_boostrap_header_column_attrs
+        attrs = default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
 
 

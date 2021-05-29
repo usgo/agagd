@@ -113,7 +113,12 @@ def opponents_list_helper(player_id, games_list=None):
 
 def index(request):
     latest_games = agagd_models.Game.objects.values(
-        "game_date", "handicap", "pin_player_1", "pin_player_2", "tournament_code"
+        "game_date",
+        "handicap",
+        "pin_player_1",
+        "pin_player_2",
+        "tournament_code",
+        "result",
     ).order_by("-game_date")[:25]
 
     latest_tournaments = agagd_models.Tournament.objects.all().order_by("-elab_date")[
