@@ -3,22 +3,22 @@
 {% block content %}
     <section class="container">
         <section class="row player_graph">
-            {% include beta.player_graph.html %}
+            {# include beta.player_graph.html #}
         </section>
 
         <section class="row player_details">
         </section>
 
         <section class="row player_opponents">
-            {{ player_opponents_table.as_html(request) }}
+            {# player_opponents_table.as_html(request) #}
         </section>
 
         <section class="row player_tournaments">
-            {{ player_tournaments_table.as_html(request) }}
+            {# player_tournaments_table.as_html(request) #}
         </section>
 
         <section class="row player_games">
-            {{ player_games_table.as_html(request) }}
+            {# player_games_table.as_html(request) #}
         </section>
     </section>
 {% endblock %}

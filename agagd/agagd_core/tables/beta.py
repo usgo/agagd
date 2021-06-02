@@ -159,6 +159,15 @@ class PlayersOpponentTable(TournamentsTable):
         template_name = "django_tables2/bootstrap4.html"
 
 
+class PlayersTournamentTable(TournamentsTable):
+    class Meta:
+        model = agagd_models.Tournament
+        fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
+        sequence = fields
+        attrs = default_bootstrap_header_column_attrs
+        template_name = "django_tables2/bootstrap4.html"
+
+
 class Top10DanTable(tables.Table):
     pin_player = tables.Column(
         orderable=False,
