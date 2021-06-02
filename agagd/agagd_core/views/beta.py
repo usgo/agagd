@@ -151,7 +151,7 @@ def index(request):
 def player_profile(request, player_id):
     player = agagd_models.Member.objects.get(member_id=player_id)
 
-    player_games = agagd_models.Games.objects.filter(
+    player_games = agagd_models.Game.objects.filter(
         Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
     ).order_by("-game_date")
 
