@@ -160,9 +160,26 @@ class PlayersOpponentTable(TournamentsTable):
 
 
 class Top10DanTable(tables.Table):
-    pin_player = tables.Column(orderable=False)
+    pin_player = tables.Column(
+        orderable=False,
+        linkify={
+            "viewname": "member_detail",
+            "args": [tables.A("pin_player.member_id")],
+        },
+    )
     sigma = tables.Column(orderable=False)
     rating = tables.Column(orderable=False)
+
+    def render_pin_player(self, value):
+        try:
+            member_name_and_id = agagd_models.Member.objects.values(
+                "full_name", "member_id"
+            ).get(member_id=value.member_id)
+            value = f"{value}"
+        except ObjectDoesNotExist:
+            value = None
+
+        return value
 
     class Meta:
         model = agagd_models.Players
@@ -173,9 +190,26 @@ class Top10DanTable(tables.Table):
 
 
 class Top10KyuTable(tables.Table):
-    pin_player = tables.Column(orderable=False)
+    pin_player = tables.Column(
+        orderable=False,
+        linkify={
+            "viewname": "member_detail",
+            "args": [tables.A("pin_player.member_id")],
+        },
+    )
     sigma = tables.Column(orderable=False)
     rating = tables.Column(orderable=False)
+
+    def render_pin_player(self, value):
+        try:
+            member_name_and_id = agagd_models.Member.objects.values(
+                "full_name", "member_id"
+            ).get(member_id=value.member_id)
+            value = f"{value}"
+        except ObjectDoesNotExist:
+            value = None
+
+        return value
 
     class Meta:
         model = agagd_models.Players
