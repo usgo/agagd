@@ -112,34 +112,6 @@ def opponents_list_hepler(player_id, games_list):
         opponent_data[opponent_id] = temp_opponent_data
 
 
-def player_profile(request, player_id):
-    player = agagd_models.Member.objects.get(member_id=player_id)
-
-    player_games = agagd_models.Game.objects.filter(
-        Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
-    ).order_by("-game_date")
-
-    player_rating = agagd_models.Players.objects.filter(
-        Q(pin_player__exact=player_id)
-    ).values("pin_player", "rating", "sigma")
-
-    # tournaments_data = tournament_list_helper(player_id, player_games)
-    # tournaments_table = PlayersTournamentTable(tournaments_data.values(), player)
-
-    # opponents_data = opponents_list_hepler(player_id, player_games)
-    # opponents_table = PlayersOpponentTable(opponents_data.values(), player)
-
-    return render(
-        request,
-        "beta.player_profile.html",
-        {
-            "player": player,
-            # "tournaments_table": tournaments_table,
-            # "opponents_table": opponents_table,
-        },
-    )
-
-
 def tournament_detail(request, code):
     try:
         tournament = agagd_models.Tournament.objects.get(pk=code)
