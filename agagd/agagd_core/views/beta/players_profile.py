@@ -71,6 +71,7 @@ def players_profile(request, player_id):
         request,
         "beta.player_profile.html",
         {
+            "page_title": "Player Profile | {}".format(player.full_name),
             "player": player,
             "player_rating": player_rating[0],
             "player_opponents_table": opp_table,
