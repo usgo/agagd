@@ -14,7 +14,7 @@ from agagd_core.tables.beta import (
 from django.shortcuts import render
 
 
-def index(request):
+def frontpage(request):
     latest_games = agagd_models.Game.objects.values(
         "game_date",
         "handicap",
