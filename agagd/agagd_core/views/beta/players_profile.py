@@ -70,5 +70,9 @@ def players_profile(request, player_id):
     return render(
         request,
         "beta.player_profile.html",
-        {"player": player, "player_opponents_table": opp_table},
+        {
+            "player": player,
+            "player_rating": player_rating[0],
+            "player_opponents_table": opp_table,
+        },
     )

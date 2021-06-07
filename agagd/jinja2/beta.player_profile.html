@@ -2,6 +2,12 @@
 
 {% block content %}
     <section class="container">
+        <section class="row player_header">
+            <div class="col player_header">
+                <h3>{{ player.full_name }} [{{ player_rating['rating']  }}]</h3>
+
+            </div>
+        </section>
         <section class="row player_graph">
             {% include "beta.player_graph.html" %}
         </section>
