@@ -15,7 +15,7 @@ from django.urls import path
 beta_patterns = ([
         path('', frontpage, name='index'),
         path('players/', list_all_players, name='players_list'),
-        path('players/<int:player_id>/', players_profile, name='player_profile'),
+        path('players/<int:player_id>/', players_profile, name='players_profile'),
         path('tournaments/', list_all_tournaments, name='tournaments_list'),
         path('tournaments/<slug:code>/', tournament_detail, name='tournament_detail')
     ], 'beta')
