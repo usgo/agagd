@@ -12,6 +12,7 @@ from agagd_core.tables.beta import (
 )
 
 # Django Imports
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import render
 
@@ -64,7 +65,7 @@ def players_profile(request, player_id):
                 t_dat["lost"] += 1
             opponent_data[op] = opp_dat
             tourney_data[game.tournament_code.pk] = t_dat
-        except exceptions.ObjectDoesNotExist:
+        except ObjectDoesNotExist:
             print("failing game_id: %s" % game.pk)
 
     opp_table = PlayersOpponentTable(opponent_data.values())
@@ -81,7 +82,16 @@ def players_profile(request, player_id):
     )
     RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
 
-    player_games_table = GamesTable(player_games.values())
+    player_games_table = GamesTable(
+        player_games.values(
+            "game_date",
+            "handicap",
+            "pin_player_1",
+            "pin_player_2",
+            "tournament_code",
+            "result",
+        )
+    )
 
     return render(
         request,
