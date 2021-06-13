@@ -1,3 +1,6 @@
+# Date Imports
+from datetime import date
+
 # AGAGD Models Imports
 import agagd_core.models as agagd_models
 
@@ -67,6 +70,17 @@ def players_profile(request, player_id):
     opp_table = PlayersOpponentTable(opponent_data.values())
     RequestConfig(request, paginate={"per_page": 10}).configure(opp_table)
 
+    t_table = PlayersTournamentTable(
+        tourney_data.values(),
+        sorted(
+            tourney_data.values(),
+            key=lambda d: d.get("date", date.today()) or date.today(),
+            reverse=True,
+        ),
+        prefix="ts_played",
+    )
+    RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
+
     return render(
         request,
         "beta.player_profile.html",
@@ -75,6 +89,7 @@ def players_profile(request, player_id):
             "player": player,
             "player_rating": player_rating[0],
             "player_opponents_table": opp_table,
-            "player_opponent_data": opponent_data.values(),
+            "player_tournaments_table": t_table,
+            "player_tournaments_data": tourney_data.values(),
         },
     )

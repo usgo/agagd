@@ -152,10 +152,18 @@ class TournamentsTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 
-class PlayersTournamentTable(TournamentsTable):
+class PlayersTournamentTable(tables.Table):
+    tournament = tables.LinkColumn(
+        "tournament_detail",
+        kwargs={"tourn_code": tables.A("tournament.pk")},
+        orderable=False,
+    )
+    date = tables.Column(orderable=False, default="Unknown")
+    won = tables.Column(orderable=False, verbose_name="Won", default=0)
+    lost = tables.Column(orderable=False, verbose_name="Lost", default=0)
+
     class Meta:
-        model = agagd_models.Tournament
-        fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
+        fields = ("date", "tournament", "won", "lost")
         sequence = fields
         attrs = default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
