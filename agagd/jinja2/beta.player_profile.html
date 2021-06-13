@@ -30,7 +30,10 @@
         </section>
 
         <section class="row player_games">
-            {# player_games_table.as_html(request) #}
+                <div class="col player_games_table">
+                    <h5 class="table-headers">Games</h5>
+                    {{ player_games_table.as_html(request) }}
+                </div>
         </section>
     </section>
 {% endblock %}

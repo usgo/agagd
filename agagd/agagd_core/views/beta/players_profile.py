@@ -81,6 +81,8 @@ def players_profile(request, player_id):
     )
     RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
 
+    player_games_table = GamesTable(player_games.values())
+
     return render(
         request,
         "beta.player_profile.html",
@@ -88,8 +90,8 @@ def players_profile(request, player_id):
             "page_title": "Player Profile | {}".format(player.full_name),
             "player": player,
             "player_rating": player_rating[0],
+            "player_games_table": player_games_table,
             "player_opponents_table": opp_table,
             "player_tournaments_table": t_table,
-            "player_tournaments_data": tourney_data.values(),
         },
     )
