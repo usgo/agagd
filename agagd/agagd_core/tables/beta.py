@@ -103,14 +103,16 @@ class GamesTable(tables.Table):
 
 
 class PlayersOpponentTable(tables.Table):
-    def __init__(self, qs, p1, *args, **kwargs):
-        self.this_player = p1
-        super().__init__(self, qs)
-
-    opponent = tables.Column()
-    total = tables.Column(verbose_name="Games")
-    won = tables.Column(verbose_name="Games")
-    lost = tables.Column(verbose_name="Games")
+    opponent = tables.Column(
+        orderable=False,
+        linkify={
+            "viewname": "beta:players_profile",
+            "args": [tables.A("opponent.member_id")],
+        },
+    )
+    total = tables.Column(orderable=False, verbose_name="Games")
+    won = tables.Column(orderable=False, verbose_name="Won", default=0)
+    lost = tables.Column(orderable=False, verbose_name="Lost")
     ratio = tables.Column(
         verbose_name="Rate", default=0, empty_values=(-1,), orderable=False
     )
@@ -142,15 +144,6 @@ class TournamentsTable(tables.Table):
         verbose_name="Rated", attrs=default_bootstrap_column_attrs, orderable=False
     )
 
-    class Meta:
-        model = agagd_models.Tournament
-        fields = ("tournament_date", "tournament_code", "total_players", "elab_date")
-        sequence = fields
-        attrs = default_bootstrap_header_column_attrs
-        template_name = "django_tables2/bootstrap4.html"
-
-
-class PlayersOpponentTable(TournamentsTable):
     class Meta:
         model = agagd_models.Tournament
         fields = ("tournament_date", "tournament_code", "total_players", "elab_date")

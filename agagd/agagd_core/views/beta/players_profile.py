@@ -75,5 +75,6 @@ def players_profile(request, player_id):
             "player": player,
             "player_rating": player_rating[0],
             "player_opponents_table": opp_table,
+            "player_opponent_data": opponent_data.values(),
         },
     )
