@@ -3,43 +3,43 @@
 {% block content %}
     <section class="container">
         <section class="row">
-            <div class="col player_header">
+            <div class="col">
                 <h3>{{ player.full_name }} [{{ player_rating['rating'] }}]</h3>
 
             </div>
         </section>
 
         <section class="row">
-            <div class="col player_graph">
+            <div class="col">
                 {% include "beta.player_graph.html" %}
             </div>
         </section>
 
         <section class="row">
-            <div class="col player_details">
-                <h5 class="table-headers">Details</h5>
+            <div class="col">
+                <h5>Details</h5>
 
                 {{ players_information_table.as_html(request) }}
             </div>
 
-            <div class="col player_opponents_table">
-                <h5 class="table-headers">Opponents</h5>
+            <div class="col">
+                <h5>Opponents</h5>
 
                 {{ player_opponents_table.as_html(request) }}
             </div>
         </section>
 
         <section class="row">
-            <div class="col player_opponents_table">
-                <h5 class="table-headers">Tournaments</h5>
+            <div class="col">
+                <h5>Tournaments</h5>
 
                 {{ player_tournaments_table.as_html(request) }}
             </div>
         </section>
 
         <section class="row">
-            <div class="col player_games_table">
-                <h5 class="table-headers">Games</h5>
+            <div class="col">
+                <h5>Games</h5>
 
                 {{ player_games_table.as_html(request) }}
             </div>
