@@ -105,7 +105,6 @@ def players_profile(request, player_id):
         {
             "page_title": "Player Profile | {}".format(player.full_name),
             "player": player,
-            "player_rating": player_rating[0],
             "player_games_table": player_games_table,
             "players_information_table": players_information_table,
             "player_opponents_table": opp_table,
