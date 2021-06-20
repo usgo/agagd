@@ -102,6 +102,17 @@ class GamesTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
 
 
+class PlayersInformationTable(tables.Table):
+    full_name = tables.Column()
+    member_id = tables.Column()
+    status = tables.Column()
+    rating = tables.Column()
+    renewal_due = tables.Column()
+
+    class Meta:
+        template_name = "django_tables2/bootstrap4.html"
+
+
 class PlayersOpponentTable(tables.Table):
     opponent = tables.Column(
         orderable=False,

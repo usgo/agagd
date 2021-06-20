@@ -7,6 +7,7 @@ import agagd_core.models as agagd_models
 # AGAGD Django Tables Imports
 from agagd_core.tables.beta import (
     GamesTable,
+    PlayersInformationTable,
     PlayersOpponentTable,
     PlayersTournamentTable,
 )
@@ -93,6 +94,11 @@ def players_profile(request, player_id):
         )
     )
 
+    player_information_dict = player.__dict__
+    player_information_dict["rating"] = player_rating[0]["rating"]
+
+    players_information_table = PlayersInformationTable([player_information_dict])
+
     return render(
         request,
         "beta.player_profile.html",
@@ -101,6 +107,7 @@ def players_profile(request, player_id):
             "player": player,
             "player_rating": player_rating[0],
             "player_games_table": player_games_table,
+            "players_information_table": players_information_table,
             "player_opponents_table": opp_table,
             "player_tournaments_table": t_table,
         },
