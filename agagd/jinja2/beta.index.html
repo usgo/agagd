@@ -5,11 +5,8 @@
         <section class="row top-players-tables">
             <section class="col-sm-12 col-md-12 col-lg-6 top-dan">
                 <h5 class="table-headers top-players-headers">Top Dan</h5>
-
-                <div class="table-headers top-dan-table">
-                    {% with table_headers=top_10_kyu_dan_table_headers, table_body_rows=top_10_dan %}
-                        {% include "beta.top_10_dan_kyu.html" %}
-                    {% endwith %}
+                <div class="top-dan-table">
+                    {{ top_10_dan_table.as_html(request) }}
                 </div>
             </section>
 
@@ -17,85 +14,25 @@
                 <h5 class="table-headers top-players-headers">Top Kyu</h5>
 
                 <div class="top-kyu-table">
-                    {% with table_headers=top_10_kyu_dan_table_headers, table_body_rows=top_10_kyu %}
-                        {% include "beta.top_10_dan_kyu.html" %}
-                    {% endwith %}
-
+                    {{ top_10_kyu_table.as_html(request) }}
                 </div>
             </section>
         </section>
 
         <section class="row recent-activity-tables">
             <section class="col col-md-12 col-lg-12 col-xl-12 tournaments">
-                <h5 class="table-headers top-players-headers">Tournaments</h5>
+                <h5 class="table-headers tournament-headers">Tournaments</h5>
 
                 <div class="tournaments-table">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                {% for key, value in latest_tournaments_table_headers.items() %}
-                                    <th scope="col" {% if latest_tournaments_mobile_columns[key] %} class="{{ latest_tournaments_mobile_columns[key] }}" {% endif %}>
-                                        {{ value }}
-                                    </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in latest_tournaments %}
-                                <tr>
-                                    {% for key, value in row.items() %}
-                                        <td {% if latest_tournaments_mobile_columns[key] %} class="{{ latest_tournaments_mobile_columns[key] }}" {% endif %}>
-
-                                            {% if key == "tournament_code" %}
-                                                <a href="{{ url("beta:tournament_detail", args=[value]) }}">
-                                                    {{ value }}
-                                                </a>
-                                            {% else %}
-                                                {{ value }}
-                                            {% endif %}
-                                        </td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                 </div>
+                    {{ latest_tournaments_table.as_html(request) }}
+                </div>
             </section>
 
             <section class="col col-md-12 col-lg-12 col-xl-12 games">
                 <h5 class="table-headers top-players-headers">Games</h5>
 
                 <div class="games-table">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                {% for key, value in latest_games_table_headers.items() %}
-                                    <th scope="col" {% if latest_games_mobile_columns[key] %} class="{{ latest_games_mobile_columns[key] }}" {% endif %}>
-                                         {{ value }}
-                                    </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in latest_games %}
-                                <tr>
-                                    {% for key, value in row.items() %}
-                                        <td scope="col" {% if latest_games_mobile_columns[key] %} class="{{ latest_games_mobile_columns[key] }}" {% endif %}>
-                                        {% if key == "pin_player_1" or key == "pin_player_2" %}
-                                            <a href="{{ url("member_detail", args=[value]) }}">{{ value|get_members_name_and_id }}</a>
-                                        {% elif key == "tournament_code_id" %}
-                                            <a href="{{ url("beta:tournament_detail", args=[value]) }}">
-                                                {{ value }}
-                                            </a>
-                                        {% else %}
-                                            {{ value }}
-                                        {% endif %}
-                                        </td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {{ latest_games_table.as_html(request) }}
                 </div>
             </section>
         </section>

@@ -3,14 +3,22 @@ from datetime import date, datetime, timedelta
 
 # AGAGD Models Import
 import agagd_core.models as agagd_models
-
-# Django Imports
+from agagd_core.tables.beta import (
+    GamesTable,
+    PlayersTournamentTable,
+    Top10DanTable,
+    Top10KyuTable,
+    TournamentsTable,
+)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+# Django Imports
+from django.views.generic import ListView
+
 # Django Table Imports
-from django_tables2 import RequestConfig
+from django_tables2 import LazyPaginator, RequestConfig
 
 
 def agagd_paginator_helper(
@@ -30,80 +38,78 @@ def agagd_paginator_helper(
     return query_list_object_with_page_information
 
 
-def index(request):
-    default_mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+def get_opponent_from_game_helper(player_id, game=None):
+    if game.pin_player_1 == player_id:
+        return game.pin_player_1
+    return game.pin_player_2
 
-    latest_games_table_headers = {
-        "game_date": "Date",
-        "tournament_code_id": "Tournament Code",
-        "pin_player_1": "White",
-        "pin_player_2": "Black",
-        "handicap": "Handicap",
-        "komi": "Komi",
-    }
 
-    latest_games_mobile_columns = {
-        "handicap": default_mobile_column_attrs,
-        "komi": default_mobile_column_attrs,
-    }
+def get_game_date_from_game_helper(game):
+    if game.game_date == "0000-00-00":
+        return None
+    return game.game_date
 
-    latest_games = agagd_models.Game.objects.values(
-        "game_date",
-        "tournament_code_id",
-        "pin_player_1",
-        "pin_player_2",
-        "handicap",
-        "komi",
-    ).order_by("-game_date")[:25]
 
-    latest_tournaments_table_headers = {
-        "tournament_date": "Date",
-        "elab_date": "Rated",
-        "tournament_code": "Tournament Code",
-        "city": "City",
-        "state": "State",
-        "rounds": "Rounds",
-    }
+def winner_of_game_helper(game):
+    if game.result == game.color_1:
+        return game.pin_player_1
+    elif game.result == game.color_2:
+        return game.pin_player_2
+    return None
 
-    latest_tournaments_mobile_columns = {
-        "city": default_mobile_column_attrs,
-        "state": default_mobile_column_attrs,
-        "rounts": default_mobile_column_attrs,
-    }
 
-    latest_tournaments = agagd_models.Tournament.objects.values(
-        "tournament_date", "elab_date", "tournament_code", "city", "state", "rounds"
-    ).order_by("-elab_date")[:25]
+def loser_of_game_helper(game):
+    if game.result == game.color_1:
+        return game.pin_player_2
+    elif game.result == game.color_2:
+        return game.pin_player_1
+    return None
 
-    top_10_kyu_dan_table_headers = {
-        "pin_player": "Player",
-        "rating": "Rating",
-        "sigma": "Sigma",
-    }
 
-    top_10_dan_kyu = agagd_models.Players.objects.values(
-        "pin_player", "rating", "sigma"
-    )
+def tournament_list_helper(player_id, game_list):
+    """ Creates a list with the tournament data from the player's games. """
+    tournaments_data = {}
 
-    top_10_dan = top_10_dan_kyu.filter(rating__gt=0).order_by("-rating")[:10]
+    for game in game_list:
+        temp_tournament_data = tournaments_data.get(game.tournament_code.pk, {})
+        temp_tournament_data["tournament"] = game.tournament_code
+        temp_tournament_data["won"] = temp_tournament_data.get("won", 0)
+        temp_tournament_data["lost"] = temp_tournament_data.get("lost", 0)
 
-    top_10_kyu = top_10_dan_kyu.filter(rating__lt=0).order_by("-rating")[:10]
+        game_date = get_game_date_from_game_helper(game)
 
-    return render(
-        request,
-        "beta.index.html",
-        {
-            "latest_games": latest_games,
-            "latest_tournaments": latest_tournaments,
-            "top_10_dan": top_10_dan,
-            "top_10_kyu": top_10_kyu,
-            "latest_games_table_headers": latest_games_table_headers,
-            "latest_tournaments_table_headers": latest_tournaments_table_headers,
-            "top_10_kyu_dan_table_headers": top_10_kyu_dan_table_headers,
-            "latest_games_mobile_columns": latest_games_mobile_columns,
-            "latest_tournaments_mobile_columns": latest_tournaments_mobile_columns,
-        },
-    )
+        temp_tournament_data["date"] = temp_tournament_data.get("date", game_date)
+
+        if winner_of_game_helper(game) == player_id:
+            temp_tournament_data["won"] += 1
+        elif loser_of_game_helper(game) == player_id:
+            temp_tournament_data["lost"] += 1
+
+        tournaments_data[game.tournament_code.pk] = temp_tournament_data
+
+    return tournaments_data
+
+
+def opponents_list_hepler(player_id, games_list):
+    """ Creates a list with the opponent data from the player's games. """
+    opponent_data = {}
+
+    for game in games_list:
+        game_date = get_game_date_from_game_helper(game)
+
+        opponent_id = get_opponent_from_game_helper(player_id, game)
+        temp_opponent_data = opponent_data.get(opponent_data, {})
+        temp_opponent_data["opponent"] = opponent_id
+        temp_opponent_data["total"] = opponent_data.get("total", 0)
+        temp_opponent_data["won"] = opponent_data.get("won", 0)
+        temp_opponent_data["lost"] = opponent_data.get("lost", 0)
+
+        if winner_of_game_helper(game) == player_id:
+            temp_opponent_data["won"] += 1
+        elif loser_of_game_helper(game) == player_id:
+            temp_opponent_data["lost"] += 1
+
+        opponent_data[opponent_id] = temp_opponent_data
 
 
 def tournament_detail(request, code):
