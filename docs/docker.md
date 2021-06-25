@@ -4,20 +4,20 @@
 
 Docker packages software into virtual containers so it can run on any Linux, Windows, or macOS computer. It can automate much of the configuration for you.
 
-## Using docker
+## Using Docker
 
 ### Prerequisites
 
 - Recent versions of `docker` and `docker-compose`.
 - A database dump of the full AGAGD schema, stored at `schema.sql`. (in the root directory of the repository)
 
-#### [Installation](https://docs.docker.com/engine/install)
+### [Installation](https://docs.docker.com/engine/install)
 
-##### Mac & Windows
+#### Mac & Windows
 
 Installing the [Docker Desktop](https://www.docker.com/products/docker-desktop) application is highly recommended.
 
-##### Linux
+#### Linux
 
 The Docker Engine is available on a variety of Linux platforms:
 
@@ -26,7 +26,7 @@ The Docker Engine is available on a variety of Linux platforms:
 - [Fedora](https://docs.docker.com/engine/install/fedora/)
 - [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) (and Ubuntu derivatives)
 
-##### Static Binary Installation
+#### Static Binary Installation
 
 If you're not on a supported platform, you can install from [static binaries](https://docs.docker.com/engine/install/binaries/).
 
