@@ -28,7 +28,9 @@ def frontpage(request):
         :25
     ]
 
-    top_10_dan_kyu = agagd_models.Players.objects.all()
+    top_10_dan_kyu = agagd_models.Players.objects.values(
+        "pin_player", "sigma", "rating"
+    )
 
     top_10_dan = top_10_dan_kyu.filter(rating__gt=0).order_by("-rating")[:10]
     top_10_kyu = top_10_dan_kyu.filter(rating__lt=0).order_by("-rating")[:10]
