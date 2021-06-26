@@ -17,3 +17,6 @@ exclude_rule 'MD013'
 
 ## Bare URL
 exclude_rule 'MD034'
+
+## Turning the Output Required Off for now.
+exclude_rule 'MD014'

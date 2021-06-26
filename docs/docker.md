@@ -4,7 +4,6 @@
 
 Docker can automate much of the configuration for you.
 
-
 ## Using docker
 
 ### Prerequisites
@@ -20,7 +19,7 @@ These values will be used by both the database and the app. Now, run either:
 
 #### For Python 2.7
 
-~~~
+~~~shell
 $ docker-compose up --build
 ~~~
 
@@ -28,14 +27,13 @@ $ docker-compose up --build
 
 ##### Note: Python 3.7+ is not fully supported by the AGAGD Application. More information can be found in issue #112.
 
-~~~
+~~~shell
 $ docker-compose -f docker-compose-python3.yml up --build
 ~~~
 
 Wait for the database to initialize and the app to start up. (there will be something like `spawned uWSGI worker` in the logs)
 
 You should now be serving the app at http://localhost:8000.
-
 
 ### Caveats
 
