@@ -1,3 +1,6 @@
+# Python Imports
+import datetime
+
 # AGAGD Imports
 import agagd_core.models as agagd_models
 
@@ -30,8 +33,16 @@ def frontpage(request):
 
     top_10_dan_kyu = agagd_models.Players.objects.all()
 
-    top_10_dan = top_10_dan_kyu.filter(rating__gt=0).order_by("-rating")[:10]
-    top_10_kyu = top_10_dan_kyu.filter(rating__lt=0).order_by("-rating")[:10]
+    top_10_dan = (
+        top_10_dan_kyu.filter(rating__gt=0)
+        .filter(elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260))
+        .order_by("-elab_date", "-rating")[:10]
+    )
+    top_10_kyu = (
+        top_10_dan_kyu.filter(rating__lt=0)
+        .filter(elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260))
+        .order_by("-elab_date", "-rating")[:10]
+    )
 
     # Index Tables
     latest_games_table = GamesTable(latest_games)
