@@ -15,6 +15,7 @@ from agagd_core.tables.beta import (
 # Django Imports
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import render
 
 # Django Tables 2 Imports
@@ -22,7 +23,12 @@ from django_tables2 import RequestConfig
 
 
 def players_profile(request, player_id):
-    player = agagd_models.Member.objects.get(member_id=player_id)
+    try:
+        player = agagd_models.Member.objects.exclude(type="chapter").get(
+            member_id=player_id
+        )
+    except ObjectDoesNotExist:
+        raise Http404("Player Profile Not Found.")
 
     player_games = agagd_models.Game.objects.filter(
         Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
