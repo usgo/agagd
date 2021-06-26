@@ -4,15 +4,16 @@
     <section class="container">
         <section class="row top-players-tables">
             <section class="col-sm-12 col-md-12 col-lg-6 top-dan">
-                <h5 class="table-headers top-players-headers">Top Dan</h5>
+                <h5 class="table-headers top-players-headers mb-0">Top Dan</h5>
+                <p class="m-0 pb-1 small">Last five years</p>
                 <div class="top-dan-table">
                     {{ top_10_dan_table.as_html(request) }}
                 </div>
             </section>
 
             <section class="col-sm-12 col-md-12 col-lg-6 top-kyu">
-                <h5 class="table-headers top-players-headers">Top Kyu</h5>
-
+                <h5 class="table-headers top-players-headers mb-0">Top Kyu</h5>
+                <p class="m-0 pb-1 small">Last five years</p>
                 <div class="top-kyu-table">
                     {{ top_10_kyu_table.as_html(request) }}
                 </div>
