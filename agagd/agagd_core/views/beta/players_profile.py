@@ -24,8 +24,10 @@ from django_tables2 import RequestConfig
 
 def players_profile(request, player_id):
     try:
-        player = agagd_models.Member.objects.exclude(type="chapter").get(
-            member_id=player_id
+        player = (
+            agagd_models.Member.objects.exclude(status="pending")
+            .exclude(type="chapter")
+            .get(member_id=player_id)
         )
     except ObjectDoesNotExist:
         raise Http404("Player Profile Not Found.")
