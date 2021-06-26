@@ -36,12 +36,12 @@ def frontpage(request):
     top_10_dan = (
         top_10_dan_kyu.filter(rating__gt=0)
         .filter(elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260))
-        .order_by("-elab_date", "-rating")[:10]
+        .order_by("-rating")[:10]
     )
     top_10_kyu = (
         top_10_dan_kyu.filter(rating__lt=0)
         .filter(elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260))
-        .order_by("-elab_date", "-rating")[:10]
+        .order_by("-rating")[:10]
     )
 
     # Index Tables
