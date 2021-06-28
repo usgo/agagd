@@ -23,6 +23,28 @@ function wait_for_db() {
 
 wait_for_db
 
+# Start the server by default without py-autoload.
+# If the r argument is supplied as in development,
+# autoreload the server on py file changes.
+function start_server() {
+    r_flag=1
+
+    while getopts 'r' flag; do
+        case "${flag}" in
+          r) r_flag=0 ;;
+        esac
+    done
+
+    if [ $r_flag ]; then
+        uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \
+            --static-map /static=/tmp/static/ --static-map /media=/srv/media \
+            --enable-threads --python-autoreload 1
+    else
+        uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \
+            --static-map /static=/tmp/static/ --static-map /media=/srv/media
+    fi
+}
+
 if $LOAD_FIXTURES == "true"; then
     python make_fake_fixtures.py 1000 1000 1000 > /tmp/fake_agagd_data.json
     python manage.py loaddata /tmp/fake_agagd_data.json
@@ -33,8 +55,4 @@ fi
 # other assets shown.
 python manage.py collectstatic --noinput
 
-# touch-reload is added for development convenience, though it's not hooked up
-# to any automated watcher at the moment.
-uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \
-    --static-map /static=/tmp/static/ --static-map /media=/srv/media \
-    --touch-reload /srv/agagd/uwsgi-reload
+start_server

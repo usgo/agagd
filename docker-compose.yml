@@ -32,7 +32,7 @@ services:
       - ./agagd/static:/srv/static
       - ./agagd/jinja2:/srv/jinja2
       - ./agagd/templates:/srv/templates
-
+    command: "-r"
   db:
     build:
       context: ./

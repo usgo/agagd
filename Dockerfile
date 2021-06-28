@@ -43,4 +43,4 @@ ENV TEMPLATE_DIR=/srv/templates
 
 COPY --chown=django:django scripts/ agagd/ /srv/
 
-CMD ["/srv/entrypoint.sh"]
+ENTRYPOINT ["/srv/entrypoint.sh"]
