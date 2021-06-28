@@ -32,7 +32,7 @@ services:
       - ./agagd/static:/srv/static
       - ./agagd/jinja2:/srv/jinja2
       - ./agagd/templates:/srv/templates
-
+    command: "-r" # Initializes python-autoreload for uwsgi via the scripts/entrypoint.sh.
   db:
     build:
       context: ./
@@ -41,7 +41,7 @@ services:
     volumes:
       - database:/var/lib/mysql
     environment:
-      # this is safer than it looks, since without a 'ports' section, docker-compose
+      # This is safer than it looks, since without a 'ports' section, docker-compose
       # isolates this app to a network local to this compose file.
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
