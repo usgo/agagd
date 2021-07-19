@@ -1,0 +1,86 @@
+{% extends "beta.base.html" %}
+
+{% block content %}
+
+<div class="clearboth"></div>
+  <p>
+	The AGA accepts game results for rating from recognized clubs and tournament organizers.
+	If you have not previously submitted data for rating, then you may need to introduce yourself and explain the context of the games.
+</p>
+<p>
+	Game results should be sent by e-mail to <a href="mailto:ratings@usgo.org">ratings@usgo.org</a> which automatically reflects your e-mail to everyone who needs to work with the data.
+</p>
+<p>
+	Players deserve timely rating updates, and normally results should be submitted within a few days following a tournament. Data older than 30 days may be rejected, so do not delay and be disappointed. For example, if you run a monthly rating tournament, make sure that you submit results in time to update ratings before the next tournament.
+</p>
+<p>
+	The required format is so simple that, for a small number of games, you could just type the data as part of your e-mail message; larger tournaments typically use a computer program that does pairings and writes a results file which you can attach to your e-mail. Applications will normally export this as a ".txt" file. The following is a minimal example, reporting two even games played at a club.
+</p>
+<blockquote class="code">
+	Tourney Princeton Go Club Rated Games, Princeton, NJ<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start=6/15/2004<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finish=6/30/2004<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location='Princeton, NJ'<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rules=AGA<br>
+	PLAYERS<br>
+	&nbsp;489 Matthews, Paul 4k<br>
+	3199 Mott, Rick&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4k<br>
+	GAMES<br>
+	489 3199 b 0 7<br>
+	3199 489 w 0 7<br>
+	</blockquote>
+<p>
+	The tournament or other event must be clearly identified,
+	including the event name, location, start and finish dates, and rules of play (e.g., AGA, Ing, Japanese). Headers similar to those above will best follow this format and have all information accurately recorded in the AGAGD.
+</p>
+<p>
+	Each player must be identified by an AGA ID number, full name, and rank used for the event. You may NOT use a temporary member number when submitting. This will cause the tournament to be delayed until membership statuses and IDs are current.  We often have players with the same names, so include a postal address, email address or other information sufficient to identify the new member.
+	The <a href="https://agagd.usgo.org">AGAGD</a> can be used to look up individual players. All players MUST be AGA members in good standing at the time of the event.
+	Players can <a href="https://www.usgo.org/members">join/renew and update membership data online</a>, and <i>should be encouraged to do so before the event.</i>
+	In case a player needs to join at the tournament site, the tournament registration form should include essential data needed for AGA membership;
+	this also applies to so called "non members" who must provide the same data as members so that they can be clearly identified. <b>Members can sign up using the web form and generate an AGA ID instantly.</b> The updated TDList file will be generated ~10 minutes after signup.
+	Membership data can be sent together with other tournament data to <a href="mailto:ratings@usgo.org">ratings@usgo.org</a>.
+</p>
+<p>
+	Each game record comprises White's ID, followed by Black's ID, who won (B for Black, W for White), the number of handicap stones, and the komi
+	(recorded as integer equal to the number of prisoners Black would give White). These are seperated by spaces.
+</p>
+<p>
+	Not all games qualify for AGA rating. The following are basic guidelines.
+</p>
+	<ul>
+		<li>Players must know that a game will be rated before play begins.</li>
+		<li>Games must be played without assistance from other players, books, computers, notes, etc.
+			There should be no talking or other interference while a game is in progress.</li>
+		<li>
+			Games must be played with reasonable time controls
+			that allow adequate thinking time, or with no time controls.
+			The following are examples of time controls that are minimally acceptable.
+		</li>
+		<ul>
+			<li>30 minutes per player plus Canadian style overtime of 20 stones in 5 minutes</li>
+			<li>30 minutes plus byo-yomi of 20 seconds per play</li>
+			<li>3 minutes plus 15 seconds added to the clock for every play completed</li>
+			<li>45 minutes with no overtime (sudden death).</li>
+		</ul>
+		<li>
+			Games should be played in a place that enables an observer to verify the identities of the players
+			and that the game was actually played seriously in a competitive spirit.
+		</li>
+	</ul>
+<p>
+	Generally, private matches and Internet games are not AGA rated because they usually do not meet these conditions.
+</p>
+<p>
+	<b>Ratings Submission Process:</b> <br>
+	[Tournament Results emailed to ratings@usgo.org] -> [Tournament is checked for expired memberships] -> [If expired members, wait till memberships are current. Otherwise go to next step.] -> [Tournament is checked for unusual games] -> [If any TD is contacted for results check, otherwise go to next step.] -> [Tournament is rated]<br>
+	Tournaments are most often held up at the Membership Status step. The best way to reduce this is to make sure all players renew memberships online during the tournament.
+</p>
+<p>
+	Updated 11/1/2020
+</p>
+
+
+
+
+{% endblock %}

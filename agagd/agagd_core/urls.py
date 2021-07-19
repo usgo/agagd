@@ -7,6 +7,7 @@ from agagd_core.views.beta.core import (
 from agagd_core.views.beta.index import frontpage
 from agagd_core.views.beta.information import InformationView
 from agagd_core.views.beta.players_profile import players_profile
+from agagd_core.views.beta.qualifications import QualificationsView
 
 # Django Imports
 from django.urls import path
@@ -19,5 +20,6 @@ beta_patterns = ([
         path('players/<int:player_id>/', players_profile, name='players_profile'),
         path('information/', InformationView.as_view(), name='ratings_overview'),
         path('tournaments/', list_all_tournaments, name='tournaments_list'),
-        path('tournaments/<slug:code>/', tournament_detail, name='tournament_detail')
+        path('tournaments/<slug:code>/', tournament_detail, name='tournament_detail'),
+        path('qualifications/', QualificationsView.as_view(), name='qualifications_overview')
     ], 'beta')
