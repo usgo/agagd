@@ -49,18 +49,20 @@
                     </h6>
                 </div>
 
-                <div class="col-12 col-md-6">
-                    <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{{ url("search") }}" method="get">
-                        <input class="form-control mr-sm-2" type="search" name="q" placeholder="Player Name or AGA ID" aria-label="Search">
-                    </form>
-                </div>
+                {% if not url("search") in request.path %}
+                  <div class="col-12 col-md-6">
+                      <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{{ url("beta:search") }}" method="get">
+                          <input class="form-control mr-sm-2" type="search" name="q" placeholder="Player Name or AGA ID" aria-label="Search">
+                      </form>
+                  </div>
+                {% endif %}
             </header>
 
             <main class="main-content">
                {% block content %}{% endblock content %}
             </main>
 
-            <footer class="footer mx-3">
+            <footer class="footer">
                 <nav class="footer-nav">
                     {% block footer_nav %}
                         <section class="container footer-nav-sections">
