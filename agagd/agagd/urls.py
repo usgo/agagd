@@ -1,5 +1,6 @@
 from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
+from agagd_core.views.beta.api import ApiStatusView
 from agagd_core.views.core import InformationPageView, QualificationsPageView
 from django.conf import settings
 from django.conf.urls import include, url
@@ -8,6 +9,7 @@ from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
     url(r"^$", agagd_views.index, name="index"),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(r"^search/$", agagd_views.search, name="search"),
