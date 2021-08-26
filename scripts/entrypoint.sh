@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Get the r_flag from the options.
+while getopts ':r' flag; do
+    case ${flag} in
+      r)
+        get_options_r_flag=0
+        ;;
+    esac
+done
+
+# Set the MySQL Command
 MYSQL_COMMAND="mysql --host=$DB_HOST --port=$DB_PORT --user=$AGAGD_USER --password=$MYSQL_PASSWORD"
 
 # Wait on DB server to be up *and* app DB to be created and available.
@@ -27,19 +37,15 @@ wait_for_db
 # If the r argument is supplied as in development,
 # autoreload the server on py file changes.
 function start_server() {
-    r_flag=1
+    r_flag=${get_options_r_flag:-1}
 
-    while getopts 'r' flag; do
-        case "${flag}" in
-          r) r_flag=0 ;;
-        esac
-    done
-
-    if [ $r_flag ]; then
+    if [ $r_flag == 0 ];
+    then
         uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \
             --static-map /static=/tmp/static/ --static-map /media=/srv/media \
             --enable-threads --python-autoreload 1
-    else
+    elif [ $r_flag == 1 ];
+    then
         uwsgi --http-socket 0.0.0.0:3031 --module agagd.wsgi \
             --static-map /static=/tmp/static/ --static-map /media=/srv/media
     fi
