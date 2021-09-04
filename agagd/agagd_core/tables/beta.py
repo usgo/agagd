@@ -3,6 +3,9 @@ import agagd_core.models as agagd_models
 
 # DJango Imports
 import django_tables2 as tables
+
+# AGAGD Column Imports
+from agagd_core.tables.core import ChapterColumn
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -176,6 +179,35 @@ class PlayersTournamentTable(tables.Table):
     class Meta:
         fields = ("date", "tournament", "won", "lost")
         sequence = fields
+        attrs = default_bootstrap_header_column_attrs
+        template_name = "django_tables2/bootstrap4.html"
+
+
+class SearchResultsTable(tables.Table):
+    member_id = tables.LinkColumn(
+        "member_detail", kwargs={"member_id": tables.A("member_id")}
+    )
+    chapter_id = ChapterColumn(verbose_name="Chapter")
+    players__rating = tables.Column(verbose_name="Rating")
+    country = tables.LinkColumn(
+        "country_detail", kwargs={"country_name": tables.A("country")}
+    )
+    full_name = tables.LinkColumn(
+        "member_detail", kwargs={"member_id": tables.A("member_id")}
+    )
+
+    class Meta:
+        model = agagd_models.Member
+        fields = ("full_name", "state", "players__rating", "renewal_due", "country")
+        sequence = (
+            "full_name",
+            "players__rating",
+            "chapter_id",
+            "country",
+            "state",
+            "renewal_due",
+            "member_id",
+        )
         attrs = default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
 
