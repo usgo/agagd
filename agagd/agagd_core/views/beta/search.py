@@ -1,26 +1,52 @@
+from agagd_core.models import Member
+from agagd_core.tables.beta import SearchResultsTable
+from django.db.models import F, Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.views.generic import TemplateView
+from django.views.generic import DetailView
+from django_tables2 import RequestConfig
 
 
-class SearchView(TemplateView):
+class SearchView(DetailView):
     template_name = "beta.search_page.html"
+    search_results_template_name = "beta.search_results.html"
 
     def get(self, request):
         query = request.GET.get("q", "")
 
         if not query:
-            return render(request, self.template_name)
+            return TemplateResponse(request, self.template_name)
 
         if query.isdigit():
             member_id = [int(query)]
             return HttpResponseRedirect(reverse("member_detail", args=member_id))
 
-        return HttpResponseRedirect(f"/search/?q={query}")
+        member_table_data = (
+            Member.objects.filter(Q(member_id=F("players__pin_player")))
+            .filter(full_name__icontains=query)
+            .values(
+                "member_id",
+                "chapter_id",
+                "renewal_due",
+                "state",
+                "players__rating",
+                "country",
+                "full_name",
+                "family_name",
+            )
+            .order_by("family_name")
+        )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Search -- Players | Games | Tournaments"
+        self.template_name = self.search_results_template_name
 
-        return context
+        member_results_table = SearchResultsTable(member_table_data)
+        RequestConfig(request, paginate={"per_page": 25}).configure(
+            member_results_table
+        )
+
+        context = locals()
+        context["search_query"] = query
+        context["member_results_table"] = member_results_table
+
+        return TemplateResponse(request, self.template_name, context)
