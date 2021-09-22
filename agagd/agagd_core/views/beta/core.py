@@ -165,55 +165,6 @@ def tournament_detail(request, code):
     )
 
 
-def list_all_players(request):
-    list_all_players_query = (
-        agagd_models.Member.objects.select_related("chapter_id")
-        .filter(status="accepted")
-        .filter(players__rating__isnull=False)
-        .exclude(type__iexact="e-journal")
-        .exclude(type__iexact="chapter")
-        .exclude(type__iexact="library")
-        .exclude(type__iexact="institution")
-        .values(
-            "chapter_id",
-            "member_id",
-            "chapter_id__name",
-            "full_name",
-            "type",
-            "players__rating",
-            "state",
-            "players__sigma",
-        )
-        .order_by("-players__rating")
-    )
-
-    mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
-
-    list_all_players_columns = (
-        {"name": "Name", "attrs": None},
-        {"name": "Chapter", "attrs": None},
-        {"name": "State", "attrs": mobile_column_attrs},
-        {"name": "Type", "attrs": mobile_column_attrs},
-        {"name": "Rating", "attrs": None},
-        {"name": "Sigma", "attrs": mobile_column_attrs},
-    )
-
-    list_all_players_with_pagination = agagd_paginator_helper(
-        request, list_all_players_query
-    )
-
-    return render(
-        request,
-        "beta.players_list.html",
-        {
-            "mobile_column_attrs": mobile_column_attrs,
-            "list_all_players_columns": list_all_players_columns,
-            "list_all_players_data": list_all_players_with_pagination,
-            "page_title": "Members Ratings",
-        },
-    )
-
-
 def list_all_tournaments(request):
     mobile_column_default_attrs = "d-none d-lg-table-cell d-xl-table-cell"
 
