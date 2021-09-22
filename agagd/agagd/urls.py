@@ -1,8 +1,9 @@
 from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
 from agagd_core.views.api import ApiStatusView
-from agagd_core.views.core import InformationPageView, QualificationsPageView
+from agagd_core.views.core import QualificationsPageView
 from agagd_core.views.index import FrontPageView
+from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -12,6 +13,11 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path("", FrontPageView.as_view(), name="frontpage_view"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
+    path(
+        "ratings/overview/",
+        RatingsOverviewPageView.as_view(),
+        name="ratings_overview_page_view",
+    ),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(r"^search/$", agagd_views.search, name="search"),
     url(
@@ -59,8 +65,6 @@ urlpatterns = [
         agagd_views.tournament_detail,
         name="tournament_detail",
     ),
-    # Pages
-    path("information/", InformationPageView.as_view()),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
     path("beta/", include(beta_urls.beta_patterns)),
