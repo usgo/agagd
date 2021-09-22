@@ -1,7 +1,6 @@
 # AGAGD Beta Imports
 from agagd_core.views.beta.core import list_all_tournaments, tournament_detail
 from agagd_core.views.beta.qualifications import QualificationsView
-from agagd_core.views.beta.search import SearchView
 
 # Django Imports
 from django.urls import path

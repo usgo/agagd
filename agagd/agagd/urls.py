@@ -6,6 +6,7 @@ from agagd_core.views.core import QualificationsPageView
 from agagd_core.views.index import FrontPageView
 from agagd_core.views.players_profile import PlayersProfilePageView
 from agagd_core.views.ratings_overview import RatingsOverviewPageView
+from agagd_core.views.search import SearchView
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
