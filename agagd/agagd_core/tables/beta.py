@@ -72,14 +72,14 @@ class GamesTable(tables.Table):
     handicap = tables.Column(attrs=default_bootstrap_column_attrs, orderable=False)
     pin_player_1 = LinkFullMembersNameColumn(
         color="W",
-        viewname="beta:players_profile",
+        viewname="players_profile",
         verbose_name="White",
         kwargs={"player_id": tables.A("pin_player_1")},
         orderable=False,
     )
     pin_player_2 = LinkFullMembersNameColumn(
         color="B",
-        viewname="beta:players_profile",
+        viewname="players_profile",
         verbose_name="Black",
         kwargs={"player_id": tables.A("pin_player_2")},
         orderable=False,
@@ -120,7 +120,7 @@ class PlayersOpponentTable(tables.Table):
     opponent = tables.Column(
         orderable=False,
         linkify={
-            "viewname": "beta:players_profile",
+            "viewname": "players_profile",
             "args": [tables.A("opponent.member_id")],
         },
     )
@@ -216,7 +216,7 @@ class Top10DanTable(tables.Table):
     pin_player = tables.Column(
         orderable=False,
         linkify={
-            "viewname": "beta:players_profile",
+            "viewname": "players_profile",
             "args": [tables.A("pin_player.member_id")],
         },
     )
@@ -246,7 +246,7 @@ class Top10KyuTable(tables.Table):
     pin_player = tables.Column(
         orderable=False,
         linkify={
-            "viewname": "beta:players_profile",
+            "viewname": "players_profile",
             "args": [tables.A("pin_player.member_id")],
         },
     )
