@@ -1,6 +1,6 @@
 from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
-from agagd_core.views.beta.api import ApiStatusView
+from agagd_core.views.api import ApiStatusView
 from agagd_core.views.core import InformationPageView, QualificationsPageView
 from django.conf import settings
 from django.conf.urls import include, url
