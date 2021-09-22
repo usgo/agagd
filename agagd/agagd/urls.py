@@ -1,8 +1,10 @@
 from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
+from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.api import ApiStatusView
 from agagd_core.views.core import QualificationsPageView
 from agagd_core.views.index import FrontPageView
+from agagd_core.views.players_profile import PlayersProfilePageView
 from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from django.conf import settings
 from django.conf.urls import include, url
@@ -13,6 +15,12 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path("", FrontPageView.as_view(), name="frontpage_view"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
+    path("players/", AllPlayersPageView.as_view(), name="players_list"),
+    path(
+        "players/<int:player_id>/",
+        PlayersProfilePageView.as_view(),
+        name="players_profile",
+    ),
     path(
         "ratings/overview/",
         RatingsOverviewPageView.as_view(),
