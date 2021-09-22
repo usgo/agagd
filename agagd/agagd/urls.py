@@ -26,8 +26,9 @@ urlpatterns = [
         RatingsOverviewPageView.as_view(),
         name="ratings_overview_page_view",
     ),
+    path("search/", SearchView.as_view(), name="search"),
+    path("search/q<str:query>/", SearchView.as_view(), name="search"),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
-    url(r"^search/$", agagd_views.search, name="search"),
     url(
         r"^player/(?P<member_id>\d+)/$", agagd_views.member_detail, name="member_detail"
     ),

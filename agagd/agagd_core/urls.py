@@ -9,8 +9,6 @@ from django.urls import path
 # Note: Based of request for single qoutes.
 # fmt: off
 beta_patterns = ([
-        path('search/', SearchView.as_view(), name='search'),
-        path('search/q<str:query>/', SearchView.as_view(), name='search'),
         path('tournaments/', list_all_tournaments, name='tournaments_list'),
         path('tournaments/<slug:code>/', tournament_detail, name='tournament_detail'),
         path('qualifications/', QualificationsView.as_view(), name='qualifications_overview')
