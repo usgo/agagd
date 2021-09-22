@@ -1,5 +1,4 @@
 # AGAGD Beta Imports
-from agagd_core.views.beta.api import ApiStatusView
 from agagd_core.views.beta.core import (
     list_all_players,
     list_all_tournaments,
@@ -18,7 +17,6 @@ from django.urls import path
 # fmt: off
 beta_patterns = ([
         path('', frontpage, name='index'),
-        path('api/status/', ApiStatusView.as_view(), name='beta_api_status'),
         path('players/', list_all_players, name='players_list'),
         path('players/<int:player_id>/', players_profile, name='players_profile'),
         path('information/', InformationView.as_view(), name='ratings_overview'),
