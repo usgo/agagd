@@ -86,8 +86,8 @@ class GamesTable(tables.Table):
     )
     tournament_code = tables.LinkColumn(
         verbose_name="Tournament",
-        viewname="tournament_detail",
-        kwargs={"tourn_code": tables.A("tournament_code")},
+        viewname="beta:tournament_detail",
+        kwargs={"code": tables.A("tournament_code")},
         orderable=False,
     )
 
@@ -146,9 +146,9 @@ class TournamentsTable(tables.Table):
         verbose_name="Date", attrs=default_bootstrap_column_attrs, orderable=False
     )
     description = tables.LinkColumn(
-        "tournament_detail",
+        "beta:tournament_detail",
         verbose_name="Name",
-        kwargs={"tourn_code": tables.A("tournament_code")},
+        kwargs={"code": tables.A("tournament_code")},
         orderable=False,
     )
     total_players = tables.Column(
@@ -168,8 +168,8 @@ class TournamentsTable(tables.Table):
 
 class PlayersTournamentTable(tables.Table):
     tournament = tables.LinkColumn(
-        "tournament_detail",
-        kwargs={"tourn_code": tables.A("tournament.pk")},
+        "beta:tournament_detail",
+        kwargs={"code": tables.A("tournament.pk")},
         orderable=False,
     )
     date = tables.Column(orderable=False, default="Unknown")
