@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 
 
-class QualificationsView(TemplateView):
+class QualificationsPageView(TemplateView):
     template_name = "beta.qualifications.html"
 
     def get_context_data(self, **kwargs):

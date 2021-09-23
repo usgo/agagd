@@ -3,9 +3,9 @@ from agagd_core.views import core as agagd_views
 from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
 from agagd_core.views.api import ApiStatusView
-from agagd_core.views.core import QualificationsPageView
 from agagd_core.views.index import FrontPageView
 from agagd_core.views.players_profile import PlayersProfilePageView
+from agagd_core.views.qualifications import QualificationsPageView
 from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from agagd_core.views.search import SearchView
 from django.conf import settings
@@ -27,6 +27,11 @@ urlpatterns = [
         "ratings/overview/",
         RatingsOverviewPageView.as_view(),
         name="ratings_overview_page_view",
+    ),
+    path(
+        "ratings/qualifications/",
+        QualificationsPageView.as_view(),
+        name="qualifications_page_view",
     ),
     path("search/", SearchView.as_view(), name="search"),
     path("search/q<str:query>/", SearchView.as_view(), name="search"),
@@ -75,7 +80,6 @@ urlpatterns = [
         name="member_ratings",
     ),
     url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
-    path("qualifications/", QualificationsPageView.as_view()),
     # Beta
     path("beta/", include(beta_urls.beta_patterns)),
 ]
