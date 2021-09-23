@@ -1,6 +1,7 @@
 from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
 from agagd_core.views.all_players import AllPlayersPageView
+from agagd_core.views.all_tournaments import AllTournamentsPageView
 from agagd_core.views.api import ApiStatusView
 from agagd_core.views.core import QualificationsPageView
 from agagd_core.views.index import FrontPageView
@@ -29,6 +30,11 @@ urlpatterns = [
     ),
     path("search/", SearchView.as_view(), name="search"),
     path("search/q<str:query>/", SearchView.as_view(), name="search"),
+    path(
+        "tournaments/",
+        AllTournamentsPageView.as_view(),
+        name="all_tournaments_page_view",
+    ),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(
         r"^player/(?P<member_id>\d+)/$", agagd_views.member_detail, name="member_detail"
@@ -69,12 +75,6 @@ urlpatterns = [
         name="member_ratings",
     ),
     url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
-    url(r"^tournaments/$", agagd_views.tournament_list, name="tourney_list"),
-    url(
-        r"^tournaments/(?P<tourn_code>\w{1,20})/$",
-        agagd_views.tournament_detail,
-        name="tournament_detail",
-    ),
     path("qualifications/", QualificationsPageView.as_view()),
     # Beta
     path("beta/", include(beta_urls.beta_patterns)),
