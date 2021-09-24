@@ -1,4 +1,3 @@
-from agagd_core import urls as beta_urls
 from agagd_core.views import core as agagd_views
 from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
@@ -8,6 +7,7 @@ from agagd_core.views.players_profile import PlayersProfilePageView
 from agagd_core.views.qualifications import QualificationsPageView
 from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from agagd_core.views.search import SearchView
+from agagd_core.views.tournament_detail import TournamentDetailPageView
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -39,6 +39,11 @@ urlpatterns = [
         "tournaments/",
         AllTournamentsPageView.as_view(),
         name="all_tournaments_page_view",
+    ),
+    path(
+        "tournaments/<slug:code>/",
+        TournamentDetailPageView.as_view(),
+        name="tournament_detail",
     ),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(
@@ -80,8 +85,6 @@ urlpatterns = [
         name="member_ratings",
     ),
     url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
-    # Beta
-    path("beta/", include(beta_urls.beta_patterns)),
 ]
 
 # DebugToolbar URL Configuration
