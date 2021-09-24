@@ -30,25 +30,25 @@ class FrontPageView(DetailView):
             "pin_player_2",
             "tournament_code",
             "result",
-        ).order_by("-game_date")[:25]
+        ).order_by("-game_date")[:20]
 
         latest_tournaments = agagd_models.Tournament.objects.all().order_by(
             "-elab_date"
-        )[:25]
+        )[:20]
 
         top_10_dan_kyu = agagd_models.Players.objects.all()
 
         top_10_dan = (
             top_10_dan_kyu.filter(rating__gt=0)
             .filter(
-                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260)
+                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
             )
             .order_by("-rating")[:10]
         )
         top_10_kyu = (
             top_10_dan_kyu.filter(rating__lt=0)
             .filter(
-                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=260)
+                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
             )
             .order_by("-rating")[:10]
         )
