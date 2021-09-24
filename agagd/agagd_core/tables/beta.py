@@ -94,11 +94,11 @@ class GamesTable(tables.Table):
     class Meta:
         model = agagd_models.Game
         fields = (
-            "game_date",
-            "handicap",
             "pin_player_1",
             "pin_player_2",
             "tournament_code",
+            "handicap",
+            "game_date",
         )
         sequence = fields
         attrs = default_bootstrap_header_column_attrs
@@ -142,9 +142,7 @@ class PlayersOpponentTable(tables.Table):
 
 
 class TournamentsTable(tables.Table):
-    tournament_date = tables.Column(
-        verbose_name="Date", attrs=default_bootstrap_column_attrs, orderable=False
-    )
+    tournament_date = tables.Column(verbose_name="Date", orderable=False)
     description = tables.LinkColumn(
         "tournament_detail",
         verbose_name="Name",
@@ -154,13 +152,11 @@ class TournamentsTable(tables.Table):
     total_players = tables.Column(
         verbose_name="# Players", attrs=default_bootstrap_column_attrs, orderable=False
     )
-    elab_date = tables.Column(
-        verbose_name="Rated", attrs=default_bootstrap_column_attrs, orderable=False
-    )
+    elab_date = tables.Column(verbose_name="Rated", orderable=False)
 
     class Meta:
         model = agagd_models.Tournament
-        fields = ("tournament_date", "description", "total_players", "elab_date")
+        fields = ("description", "total_players", "tournament_date", "elab_date")
         sequence = fields
         attrs = default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
