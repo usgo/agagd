@@ -1,4 +1,5 @@
 from agagd_core.views import core as agagd_views
+from agagd_core.views.all_chapters import AllChaptersPageView
 from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
 from agagd_core.views.api import ApiStatusView
@@ -23,6 +24,7 @@ urlpatterns = [
         agagd_views.member_ratings,
         name="member_ratings",
     ),
+    path("chapters/", AllChaptersPageView.as_view(), name="all_chapters_page_view"),
     path(
         "chapters/<int:chapter_id>/", agagd_views.chapter_detail, name="chapter_detail"
     ),
