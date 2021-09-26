@@ -16,6 +16,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", FrontPageView.as_view(), name="frontpage_view"),
+    path("api/games/count/daily/", agagd_views.game_stats, name="game_stats"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
     path(
         "api/ratings/<int:member_id>/",
@@ -76,7 +77,6 @@ urlpatterns = [
         agagd_views.member_vs,
         name="member_vs",
     ),
-    url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
 ]
 
 # DebugToolbar URL Configuration
