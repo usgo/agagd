@@ -76,11 +76,6 @@ urlpatterns = [
         agagd_views.member_vs,
         name="member_vs",
     ),
-    url(
-        r"^all_player_ratings/$",
-        agagd_views.all_player_ratings,
-        name="all_player_ratings",
-    ),
     url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
 ]
 
