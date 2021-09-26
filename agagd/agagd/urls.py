@@ -23,6 +23,14 @@ urlpatterns = [
         agagd_views.member_ratings,
         name="member_ratings",
     ),
+    path(
+        "chapters/<int:chapter_id>/", agagd_views.chapter_detail, name="chapter_detail"
+    ),
+    path(
+        "chapters/<str:chapter_code>/",
+        agagd_views.chapter_code_redirect,
+        name="chapter_code_redirect",
+    ),
     path("players/", AllPlayersPageView.as_view(), name="players_list"),
     path(
         "players/<int:player_id>/",
@@ -52,31 +60,6 @@ urlpatterns = [
         name="tournament_detail",
     ),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
-    url(
-        r"^chapter/(?P<chapter_id>\d+)/$",
-        agagd_views.chapter_detail,
-        name="chapter_detail",
-    ),
-    url(
-        r"^chapter/(?P<chapter_code>\w+)/$",
-        agagd_views.chapter_code_redirect,
-        name="chapter_code_redirect",
-    ),
-    url(
-        r"^country/(?P<country_name>[\w ]+)/$",
-        agagd_views.country_detail,
-        name="country_detail",
-    ),
-    url(
-        r"^player/(?P<member_id>\d+)/vs/$",
-        agagd_views.find_member_vs,
-        name="find_member_vs",
-    ),
-    url(
-        r"^player/(?P<member_id>\d+)/vs/(?P<other_id>\d+)$",
-        agagd_views.member_vs,
-        name="member_vs",
-    ),
 ]
 
 # DebugToolbar URL Configuration
