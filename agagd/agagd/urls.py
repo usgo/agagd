@@ -17,6 +17,11 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path("", FrontPageView.as_view(), name="frontpage_view"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
+    path(
+        "api/ratings/<int:member_id>/",
+        agagd_views.member_ratings,
+        name="member_ratings",
+    ),
     path("players/", AllPlayersPageView.as_view(), name="players_list"),
     path(
         "players/<int:player_id>/",
@@ -75,11 +80,6 @@ urlpatterns = [
         r"^all_player_ratings/$",
         agagd_views.all_player_ratings,
         name="all_player_ratings",
-    ),
-    url(
-        r"^ratings/(?P<member_id>\d+)/$",
-        agagd_views.member_ratings,
-        name="member_ratings",
     ),
     url(r"^gamestats/$", agagd_views.game_stats, name="game_stats"),
 ]
