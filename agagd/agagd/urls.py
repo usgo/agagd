@@ -47,9 +47,6 @@ urlpatterns = [
     ),
     url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
     url(
-        r"^player/(?P<member_id>\d+)/$", agagd_views.member_detail, name="member_detail"
-    ),
-    url(
         r"^chapter/(?P<chapter_id>\d+)/$",
         agagd_views.chapter_detail,
         name="chapter_detail",
