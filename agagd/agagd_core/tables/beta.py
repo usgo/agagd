@@ -56,8 +56,10 @@ class LinkFullMembersNameColumn(tables.Column):
             self.attrs["td"] = {"class": "runner-up"}
 
         try:
-            member_name_and_id = agagd_models.Member.objects.get(member_id=value)
-            value = f"{member_name_and_id.full_name} ({value})"
+            member_name_and_id = agagd_models.Member.objects.values("full_name").get(
+                member_id=value
+            )
+            value = f"{member_name_and_id['full_name']} ({value})"
         except ObjectDoesNotExist:
             value = None
 
