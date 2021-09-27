@@ -24,7 +24,7 @@ from django_tables2 import RequestConfig
 
 
 class PlayersProfilePageView(DetailView):
-    template_name = "beta.player_profile.html"
+    template_name = "player_profile_page.html"
 
     def get(self, request, *args, **kwargs):
         player_id = self.kwargs.get("player_id")
