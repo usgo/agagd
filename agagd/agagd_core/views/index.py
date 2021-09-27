@@ -22,7 +22,7 @@ from django.views.generic.detail import DetailView
 class FrontPageView(DetailView):
     template_name = "beta.index.html"
 
-    def get(self, request):
+    def _get_latest_games(self):
         latest_games = agagd_models.Game.objects.values(
             "game_date",
             "handicap",
@@ -32,6 +32,9 @@ class FrontPageView(DetailView):
             "result",
         ).order_by("-game_date")[:20]
 
+        return latest_games
+
+    def get(self, request):
         latest_tournaments = agagd_models.Tournament.objects.all().order_by(
             "-elab_date"
         )[:20]
@@ -54,7 +57,7 @@ class FrontPageView(DetailView):
         )
 
         # Index Tables
-        latest_games_table = GamesTable(latest_games)
+        latest_games_table = GamesTable(self._get_latest_games())
         latest_tournaments_table = TournamentsTable(latest_tournaments)
         top_10_dan_table = Top10DanTable(top_10_dan)
         top_10_kyu_table = Top10KyuTable(top_10_kyu)
