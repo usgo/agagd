@@ -148,7 +148,7 @@ class TournamentsTable(tables.Table):
         linkify=("tournament_detail", [tables.A("tournament_code")]),
     )
     tournament_code = tables.Column(
-        verbose_name="Name",
+        verbose_name="Code",
         linkify=("tournament_detail", [tables.A("tournament_code")]),
     )
     total_players = tables.Column(
