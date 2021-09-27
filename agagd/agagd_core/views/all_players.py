@@ -22,7 +22,7 @@ def agagd_paginator_helper(
 
 
 class AllPlayersPageView(DetailView):
-    template_name = "beta.players_list.html"
+    template_name = "all_players_page.html"
 
     def get(self, request):
         list_all_players_query = (
