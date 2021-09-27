@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 
 
 class AllTournamentsPageView(DetailView):
-    template_name = "beta.tournaments_list.html"
+    template_name = "all_tournaments_page.html"
 
     def get(self, request):
         mobile_column_default_attrs = "d-none d-lg-table-cell d-xl-table-cell"
@@ -48,4 +48,4 @@ class AllTournamentsPageView(DetailView):
         context["list_all_tournaments"] = list_all_tournaments_with_pagination
         context["page_title"] = "Tournaments"
 
-        return TemplateResponse(request, "beta.tournaments_list.html", context)
+        return TemplateResponse(request, self.template_name, context)
