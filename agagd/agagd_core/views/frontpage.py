@@ -16,7 +16,7 @@ from django.views.generic.detail import DetailView
 
 
 class FrontPageView(DetailView):
-    template_name = "beta.index.html"
+    template_name = "frontpage.html"
 
     def __get_latest_games(self):
         latest_games = agagd_models.Game.objects.values(
