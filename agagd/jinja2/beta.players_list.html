@@ -23,13 +23,13 @@
                                     {{ loop.index0 + list_all_players_data.start_index() }}
                                 </th>
                                 <td>
-                                    <a href="/player/{{ player_data.member_id }}">
+                                    <a href="/players/{{ player_data.member_id }}">
                                         {{ player_data.full_name }} ({{ player_data.member_id }})
                                     </a>
                                 </td>
                                 <td>
                                     {% if player_data.chapter_id__name %}
-                                        <a href="/chapter/{{ player_data.chapter_id }}">{{ player_data.chapter_id__name }}</a>
+                                        <a href="/chapters/{{ player_data.chapter_id }}">{{ player_data.chapter_id__name }}</a>
                                     {% else %}
                                         &#8212;
                                     {% endif %}
