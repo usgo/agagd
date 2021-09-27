@@ -47,7 +47,7 @@
 
                                     {% if key == "pin_player_1" or key == "pin_player_2" %}
                                         <td>
-                                            <a href="/player/{{ value }}">{{ value|get_members_name_and_id }}</a>
+                                            <a href="/players/{{ value }}">{{ value|get_members_name_and_id }}</a>
                                         </td>
                                     {% else %}
                                         <td>{{ value }}</td>
