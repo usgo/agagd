@@ -5,8 +5,9 @@ import datetime
 import agagd_core.models as agagd_models
 
 # Django Tables Imports
-from agagd_core.tables.beta import GamesTable, PlayersTournamentTable, TournamentsTable
+from agagd_core.tables.beta import GamesTable, PlayersTournamentTable
 from agagd_core.tables.top_players import TopDanTable, TopKyuTable
+from agagd_core.tables.tournaments import TournamentsTable
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 
