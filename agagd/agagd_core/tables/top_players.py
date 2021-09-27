@@ -19,17 +19,6 @@ class TopDanTable(tables.Table):
     sigma = tables.Column(orderable=False)
     rating = tables.Column(orderable=False)
 
-    def render_pin_player(self, value):
-        try:
-            member_name_and_id = agagd_models.Member.objects.values(
-                "full_name", "member_id"
-            ).get(member_id=value.member_id)
-            value = f"{value}"
-        except ObjectDoesNotExist:
-            value = None
-
-        return value
-
     class Meta:
         model = agagd_models.Players
         fields = ("pin_player", "sigma", "rating")
@@ -48,17 +37,6 @@ class TopKyuTable(tables.Table):
     )
     sigma = tables.Column(orderable=False)
     rating = tables.Column(orderable=False)
-
-    def render_pin_player(self, value):
-        try:
-            member_name_and_id = agagd_models.Member.objects.values(
-                "full_name", "member_id"
-            ).get(member_id=value.member_id)
-            value = f"{value}"
-        except ObjectDoesNotExist:
-            value = None
-
-        return value
 
     class Meta:
         model = agagd_models.Players
