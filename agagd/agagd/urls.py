@@ -4,7 +4,7 @@ from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
 from agagd_core.views.api import ApiGameCountView, ApiStatusView
 from agagd_core.views.chapter_profile import ChaptersProfilePageView
-from agagd_core.views.index import FrontPageView
+from agagd_core.views.frontpage import FrontPageView
 from agagd_core.views.players_profile import PlayersProfilePageView
 from agagd_core.views.qualifications import QualificationsPageView
 from agagd_core.views.ratings_overview import RatingsOverviewPageView
