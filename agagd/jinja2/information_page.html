@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="container">
+    <section class="row">
+      <div class="col">
+        <p>The AGA Rating System, unlike some other systems, does not merely tally results and award or remove fixed numbers of points from the player's total. Based on advanced statistical procedures, it looks at results of many events simultaneously, using the results to figure out how likely each player was to defeat the other. Players are ranked and ordered according to these calculations.
+        </p>
+        <p>The AGA rates serious games, mainly from face-to-face tournament and club play. The basic qualifications for rated games are probably easier to meet than you might think,and the AGA encourages you to submit your game results. <a href="/qualifications/">Learn how to submit game results to the rating system.</a>
+
+        <h2>Additional Information</h2>
+        <ul>
+          <li>A <a href="https://www.usgo.org/files/pdf/AGARatings-Simple.pdf">brief description</a> of how the system works (July 1990)</li>
+          <li>Answers to the <a href="https://www.usgo.org/files/pdf/ratingquestions.pdf">most commonly asked questions about the rating system</a> (May 1992)</li>
+          <li>A more detailed <a href="https://www.usgo.org/files/pdf/AGARatings-Math.pdf">mathematical description</a> of the ratings system (April 2010)</li>
+          <li><a href="https://www.usgo.org/files/pdf/bayrate.zip">Source code</a> for the AGA rating algorithm</li>
+          <li>Tournament Directors:</li>
+          <li style="list-style: none">
+            <table class="tournament-directors-info-table">
+              <thead>
+                <tr>
+                  <th>TD List Name</th>
+                  <th>Delimiter</th>
+                  <th>Columns displayed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="https://usgo.org/mm/tdlista.txt">TDListA</a></td>
+                  <td>Tab</td>
+                  <td>MememberName AGAID MememberType Rating RenewalDue ChapterCode State Sigma RatingUpdated</td>
+                </tr>
+                <tr>
+                  <td><a href="https://usgo.org/mm/tdlistb.txt">TDListB</a></td>
+                  <td>Tab</td>
+                  <td>MememberName AGAID MememberType Rating RenewalDue ChapterName State Sigma RatingUpdated</td>
+                </tr>
+                <tr>
+                  <td><a href="https://usgo.org/mm/tdlistn.txt">TDListN</a></td>
+                  <td>Tab</td>
+                  <td>MememberName AGAID MememberType Rating RenewalDue ChapterCode State || Fixed Width</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </section>
+{% endblock %}
