@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 
 
 class TournamentDetailPageView(DetailView):
-    template_name = "beta.tournament_detail.html"
+    template_name = "tournament_detail.html"
 
     def get(self, request, *args, **kwargs):
         code = self.kwargs.get("code")
