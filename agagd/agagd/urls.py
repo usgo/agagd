@@ -2,7 +2,8 @@ from agagd_core.views import core as agagd_views
 from agagd_core.views.all_chapters import AllChaptersPageView
 from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
-from agagd_core.views.api import ApiStatusView
+from agagd_core.views.api import ApiGameCountView, ApiStatusView
+from agagd_core.views.chapter_profile import ChaptersProfilePageView
 from agagd_core.views.index import FrontPageView
 from agagd_core.views.players_profile import PlayersProfilePageView
 from agagd_core.views.qualifications import QualificationsPageView
@@ -17,7 +18,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", FrontPageView.as_view(), name="frontpage_view"),
-    path("api/games/count/daily/", agagd_views.game_stats, name="game_stats"),
+    path("api/games/count/daily/", ApiGameCountView.as_view(), name="game_stats"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
     path(
         "api/ratings/<int:member_id>/",
@@ -26,7 +27,9 @@ urlpatterns = [
     ),
     path("chapters/", AllChaptersPageView.as_view(), name="all_chapters_page_view"),
     path(
-        "chapters/<int:chapter_id>/", agagd_views.chapter_detail, name="chapter_detail"
+        "chapters/<int:chapter_id>/",
+        ChaptersProfilePageView.as_view(),
+        name="chapter_detail",
     ),
     path(
         "chapters/<str:chapter_code>/",
