@@ -30,9 +30,13 @@ class FrontPageView(DetailView):
         return latest_games
 
     def __get_latest_tournaments(self):
-        latest_tournaments = agagd_models.Tournament.objects.all().order_by(
-            "-elab_date"
-        )[:20]
+        latest_tournaments = agagd_models.Tournament.objects.values(
+            "description",
+            "tournament_code",
+            "total_players",
+            "tournament_date",
+            "elab_date",
+        ).order_by("-elab_date")[:20]
 
         return latest_tournaments
 
@@ -46,7 +50,7 @@ class FrontPageView(DetailView):
             .filter(
                 elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
             )
-            .order_by("-rating")[:10]
+            .order_by("-rating")[:5]
         )
 
         return top_dan
@@ -58,7 +62,7 @@ class FrontPageView(DetailView):
             .filter(
                 elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
             )
-            .order_by("-rating")[:10]
+            .order_by("-rating")[:5]
         )
 
         return top_kyu

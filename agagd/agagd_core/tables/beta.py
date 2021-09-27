@@ -143,22 +143,31 @@ class PlayersOpponentTable(tables.Table):
 
 class TournamentsTable(tables.Table):
     tournament_date = tables.Column(verbose_name="Date", orderable=False)
-    description = tables.LinkColumn(
-        "tournament_detail",
+    description = tables.Column(
         verbose_name="Name",
-        kwargs={"code": tables.A("tournament_code")},
-        orderable=False,
+        linkify=("tournament_detail", [tables.A("tournament_code")]),
+    )
+    tournament_code = tables.Column(
+        verbose_name="Name",
+        linkify=("tournament_detail", [tables.A("tournament_code")]),
     )
     total_players = tables.Column(
-        verbose_name="# Players", attrs=default_bootstrap_column_attrs, orderable=False
+        verbose_name="# Players", attrs=default_bootstrap_column_attrs
     )
-    elab_date = tables.Column(verbose_name="Rated", orderable=False)
+    elab_date = tables.Column(verbose_name="Rated")
 
     class Meta:
-        model = agagd_models.Tournament
-        fields = ("description", "total_players", "tournament_date", "elab_date")
-        sequence = fields
         attrs = default_bootstrap_header_column_attrs
+        fields = (
+            "description",
+            "tournament_code",
+            "total_players",
+            "tournament_date",
+            "elab_date",
+        )
+        model = agagd_models.Tournament
+        orderable = False
+        sequence = fields
         template_name = "django_tables2/bootstrap4.html"
 
 
