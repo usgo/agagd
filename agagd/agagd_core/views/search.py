@@ -9,8 +9,8 @@ from django_tables2 import RequestConfig
 
 
 class SearchView(DetailView):
-    template_name = "beta.search_page.html"
-    search_results_template_name = "beta.search_results.html"
+    template_name = "search_page.html"
+    search_results_template_name = "search_results.html"
 
     def get(self, request):
         query = request.GET.get("q", "")
