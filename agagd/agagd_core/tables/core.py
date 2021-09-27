@@ -74,13 +74,13 @@ class ChapterColumn(tables.Column):
 class GameTable(tables.Table):
     pin_player_1 = WinnerColumn(
         color="W",
-        viewname="member_detail",
+        viewname="players_profile",
         verbose_name="white player",
         kwargs={"member_id": tables.A("pin_player_1.member_id")},
     )
     pin_player_2 = WinnerColumn(
         color="B",
-        viewname="member_detail",
+        viewname="players_profile",
         verbose_name="black player",
         kwargs={"member_id": tables.A("pin_player_2.member_id")},
     )
@@ -135,7 +135,7 @@ class OpponentTable(tables.Table):
 
     empty_text = "Opponent information couldn't be calculated"
     opponent = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("opponent.member_id")}
+        "players_profile", kwargs={"member_id": tables.A("opponent.member_id")}
     )
     total = tables.Column(verbose_name="Games")
     won = tables.Column(verbose_name="Won", default=0)
@@ -153,17 +153,11 @@ class OpponentTable(tables.Table):
 
 
 class MemberTable(tables.Table):
-    member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
-    )
+    member_id = tables.Column(linkify=("players_profile", [tables.A("member_id")]))
     chapter_id = ChapterColumn(verbose_name="Chapter")
     players__rating = tables.Column(verbose_name="Rating")
-    country = tables.LinkColumn(
-        "country_detail", kwargs={"country_name": tables.A("country")}
-    )
-    full_name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
-    )
+    country = tables.Column()
+    full_name = tables.Column(linkify=("players_profile", [tables.A("member_id")]))
 
     class Meta:
         model = Member
@@ -180,27 +174,12 @@ class MemberTable(tables.Table):
         )
 
 
-class ChapterMemberTable(MemberTable):
-    class Meta:
-        model = Member
-        attrs = {"class": "paleblue"}
-        fields = ("full_name", "state", "players__rating", "renewal_due", "country")
-        sequence = (
-            "full_name",
-            "players__rating",
-            "country",
-            "state",
-            "renewal_due",
-            "member_id",
-        )
-
-
 class TopDanTable(tables.Table):
     member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     full_name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
 
     class Meta:
@@ -212,10 +191,10 @@ class TopDanTable(tables.Table):
 
 class TopKyuTable(tables.Table):
     member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     full_name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
 
     class Meta:
@@ -227,10 +206,10 @@ class TopKyuTable(tables.Table):
 
 class MostRatedGamesPastYearTable(tables.Table):
     member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
 
     class Meta:
@@ -242,10 +221,10 @@ class MostRatedGamesPastYearTable(tables.Table):
 
 class MostTournamentsPastYearTable(tables.Table):
     member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
 
     class Meta:
@@ -257,10 +236,10 @@ class MostTournamentsPastYearTable(tables.Table):
 
 class AllPlayerRatingsTable(tables.Table):
     full_name = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     member_id = tables.LinkColumn(
-        "member_detail", kwargs={"member_id": tables.A("member_id")}
+        "players_profile", kwargs={"member_id": tables.A("member_id")}
     )
     type = tables.Column()
     players__rating = tables.Column()
