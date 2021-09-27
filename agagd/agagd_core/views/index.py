@@ -22,7 +22,7 @@ from django.views.generic.detail import DetailView
 class FrontPageView(DetailView):
     template_name = "beta.index.html"
 
-    def _get_latest_games(self):
+    def __get_latest_games(self):
         latest_games = agagd_models.Game.objects.values(
             "game_date",
             "handicap",
@@ -34,33 +34,46 @@ class FrontPageView(DetailView):
 
         return latest_games
 
-    def get(self, request):
+    def __get_latest_tournaments(self):
         latest_tournaments = agagd_models.Tournament.objects.all().order_by(
             "-elab_date"
         )[:20]
 
-        top_10_dan_kyu = agagd_models.Players.objects.all()
+        return latest_tournaments
 
-        top_10_dan = (
-            top_10_dan_kyu.filter(rating__gt=0)
-            .filter(
-                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
-            )
-            .order_by("-rating")[:10]
-        )
-        top_10_kyu = (
-            top_10_dan_kyu.filter(rating__lt=0)
+    def __get_top_dan_kyu(self):
+        return agagd_models.Players.objects.all()
+
+    def __get_top_dan(self):
+        top_dan = (
+            self.__get_top_dan_kyu()
+            .filter(rating__gt=0)
             .filter(
                 elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
             )
             .order_by("-rating")[:10]
         )
 
+        return top_dan
+
+    def __get_top_kyu(self):
+        top_kyu = (
+            self.__get_top_dan_kyu()
+            .filter(rating__lt=0)
+            .filter(
+                elab_date__gte=datetime.datetime.now() - datetime.timedelta(weeks=52)
+            )
+            .order_by("-rating")[:10]
+        )
+
+        return top_kyu
+
+    def get(self, request):
         # Index Tables
-        latest_games_table = GamesTable(self._get_latest_games())
-        latest_tournaments_table = TournamentsTable(latest_tournaments)
-        top_10_dan_table = Top10DanTable(top_10_dan)
-        top_10_kyu_table = Top10KyuTable(top_10_kyu)
+        latest_games_table = GamesTable(self.__get_latest_games())
+        latest_tournaments_table = TournamentsTable(self.__get_latest_tournaments())
+        top_10_dan_table = Top10DanTable(self.__get_top_dan())
+        top_10_kyu_table = Top10KyuTable(self.__get_top_kyu())
 
         context = locals()
         context["latest_games_table"] = latest_games_table
