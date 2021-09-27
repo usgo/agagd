@@ -15,7 +15,6 @@ from agagd_core.models import (
 )
 from agagd_core.tables.core import (
     AllPlayerRatingsTable,
-    ChapterMemberTable,
     GameTable,
     MemberTable,
     MostRatedGamesPastYearTable,
@@ -265,29 +264,6 @@ def tournament_detail(request, tourn_code):
     )
 
 
-def chapter_detail(request, chapter_id):
-    chapter = get_object_or_404(Chapters, member_id=chapter_id)
-    chapter_member_table = ChapterMemberTable(
-        Member.objects.filter(chapter_id=chapter_id)
-        .values(
-            "member_id",
-            "chapter_id",
-            "renewal_due",
-            "state",
-            "players__rating",
-            "country",
-            "full_name",
-            "family_name",
-        )
-        .order_by("family_name")
-    )
-    return render(
-        request,
-        "agagd_core/chapter.html",
-        {"member_table": chapter_member_table, "chapter": chapter},
-    )
-
-
 def chapter_code_redirect(request, chapter_code):
     # Try the lookup with the 4-letter chapter code. These are deprecated,
     # but we continue to support them in case users have chapter pages bookmarked.
@@ -393,25 +369,6 @@ def tournament_list(request):
             "tournament_table": tournament_table,
         },
     )
-
-
-def game_stats(request):
-    games_by_date = []
-
-    for game_obj in Game.objects.values("game_date").annotate(Count("game_date")):
-        try:
-            game_date = datetime.strptime(str(game_obj["game_date"]), "%Y-%m-%d")
-            games_by_date.append(
-                {
-                    "date": game_date.strftime("%Y-%m-%d"),
-                    "count": game_obj["game_date__count"],
-                }
-            )
-        except ValueError:
-            pass
-
-    sorted_games_by_date = sorted(games_by_date, key=lambda d: d["date"])
-    return JsonResponse(sorted_games_by_date)
 
 
 # AGAGD Pages
