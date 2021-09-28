@@ -1,5 +1,5 @@
 from agagd_core.models import Member
-from agagd_core.tables.beta import SearchResultsTable
+from agagd_core.tables.search import SearchResultsTable
 from django.db.models import F, Q
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
