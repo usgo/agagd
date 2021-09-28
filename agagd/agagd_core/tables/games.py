@@ -56,20 +56,19 @@ class GamesTable(tables.Table):
     )
     pin_player_1 = LinkFullMembersNameColumn(
         color="W",
-        viewname="players_profile",
         verbose_name="White",
+        viewname="players_profile",
         kwargs={"player_id": tables.A("pin_player_1")},
     )
     pin_player_2 = LinkFullMembersNameColumn(
         color="B",
-        viewname="players_profile",
         verbose_name="Black",
+        viewname="players_profile",
         kwargs={"player_id": tables.A("pin_player_2")},
     )
-    tournament_code = tables.LinkColumn(
+    tournament_code = tables.Column(
         verbose_name="Tournament",
-        viewname="tournament_detail",
-        kwargs={"code": tables.A("tournament_code")},
+        linkify=("tournament_detail", [tables.A("tournament_code")]),
     )
 
     class Meta:
