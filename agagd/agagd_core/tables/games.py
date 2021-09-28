@@ -49,9 +49,7 @@ class LinkFullMembersNameColumn(tables.Column):
 # Basic table which is use as as base for many of the game layouts.
 class GamesTable(tables.Table):
     game_date = tables.Column(
-        verbose_name="Date",
-        attrs=django_tables2_styles.default_bootstrap_column_attrs,
-        orderable=False,
+        verbose_name="Date", attrs=django_tables2_styles.default_bootstrap_column_attrs
     )
     handicap = tables.Column(
         attrs=django_tables2_styles.default_bootstrap_column_attrs, orderable=False
@@ -61,24 +59,21 @@ class GamesTable(tables.Table):
         viewname="players_profile",
         verbose_name="White",
         kwargs={"player_id": tables.A("pin_player_1")},
-        orderable=False,
     )
     pin_player_2 = LinkFullMembersNameColumn(
         color="B",
         viewname="players_profile",
         verbose_name="Black",
         kwargs={"player_id": tables.A("pin_player_2")},
-        orderable=False,
     )
     tournament_code = tables.LinkColumn(
         verbose_name="Tournament",
         viewname="tournament_detail",
         kwargs={"code": tables.A("tournament_code")},
-        orderable=False,
     )
 
     class Meta:
-        model = agagd_models.Game
+        attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         fields = (
             "pin_player_1",
             "pin_player_2",
@@ -86,6 +81,7 @@ class GamesTable(tables.Table):
             "handicap",
             "game_date",
         )
+        model = agagd_models.Game
+        orderable = False
         sequence = fields
-        attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         template_name = "django_tables2/bootstrap4.html"
