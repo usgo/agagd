@@ -6,11 +6,11 @@ import agagd_core.models as agagd_models
 
 # AGAGD Django Tables Imports
 from agagd_core.tables.beta import (
-    GamesTable,
     PlayersInformationTable,
     PlayersOpponentTable,
     PlayersTournamentTable,
 )
+from agagd_core.tables.games import GamesTable
 
 # Django Imports
 from django.core.exceptions import ObjectDoesNotExist
