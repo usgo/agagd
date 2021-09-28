@@ -24,57 +24,6 @@ default_bootstrap_header_column_attrs = {
 }
 
 
-class PlayersInformationTable(tables.Table):
-    full_name = tables.Column()
-    member_id = tables.Column()
-    status = tables.Column()
-    rating = tables.Column()
-    renewal_due = tables.Column()
-
-    class Meta:
-        template_name = "beta.player_profile_information.html"
-
-
-class PlayersOpponentTable(tables.Table):
-    opponent = tables.Column(
-        orderable=False,
-        linkify={
-            "viewname": "players_profile",
-            "args": [tables.A("opponent.member_id")],
-        },
-    )
-    total = tables.Column(orderable=False, verbose_name="Games")
-    won = tables.Column(orderable=False, verbose_name="Won", default=0)
-    lost = tables.Column(orderable=False, verbose_name="Lost")
-    ratio = tables.Column(
-        verbose_name="Rate", default=0, empty_values=(-1,), orderable=False
-    )
-
-    def render_ratio(self, record):
-        ratio = record["won"] / record["total"]
-
-        return f"{ratio:.2f}"
-
-    class Meta:
-        attrs = default_bootstrap_header_column_attrs
-        template_name = "django_tables2/bootstrap4.html"
-
-
-class PlayersTournamentTable(tables.Table):
-    tournament = tables.LinkColumn(
-        "tournament_detail", kwargs={"code": tables.A("tournament.pk")}, orderable=False
-    )
-    date = tables.Column(orderable=False, default="Unknown")
-    won = tables.Column(orderable=False, verbose_name="Won", default=0)
-    lost = tables.Column(orderable=False, verbose_name="Lost", default=0)
-
-    class Meta:
-        fields = ("date", "tournament", "won", "lost")
-        sequence = fields
-        attrs = default_bootstrap_header_column_attrs
-        template_name = "django_tables2/bootstrap4.html"
-
-
 class SearchResultsTable(tables.Table):
     member_id = tables.Column(linkify=("players_profile", [tables.A("member_id")]))
     chapter_id = ChapterColumn(verbose_name="Chapter")

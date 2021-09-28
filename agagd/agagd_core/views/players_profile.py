@@ -3,14 +3,14 @@ from datetime import date
 
 # AGAGD Models Imports
 import agagd_core.models as agagd_models
+from agagd_core.tables.games import GamesTable
 
 # AGAGD Django Tables Imports
-from agagd_core.tables.beta import (
+from agagd_core.tables.players import (
     PlayersInformationTable,
     PlayersOpponentTable,
     PlayersTournamentTable,
 )
-from agagd_core.tables.games import GamesTable
 
 # Django Imports
 from django.core.exceptions import ObjectDoesNotExist
