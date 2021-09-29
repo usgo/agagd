@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  <div class="container my-4">
-    <div class="row">
-      <div class="col mx-0 px-0">
+  <section class="container">
+    <section class="row">
+      <div class="col">
         <h3>Search Results for {{ search_query }}</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col mx-0 mb-2 pb-4 px-0">
         {{ member_results_table.as_html(request) }}
       </div>
-    </div>
-  </div>
+    </section>
+  </section>
 {% endblock %}
