@@ -14,38 +14,90 @@
 
 </style>
 
-<div class="player_chart_container chart-container" >
-    <canvas id="player_chartjs_graph"></canvas>
-</div>
+<section class="container">
+    <div class="row">
+      <div class="col">
+        <canvas id="player_chartjs_graph"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col my-2">
+        <button type="button" class="btn btn-dark" id="1y">1 year</button>
+        <button type="button" class="btn btn-dark" id="5y">5 years</button>
+        <button type="button" class="btn btn-dark" id="10y">10 years</button>
+     </div>
+    </div>
+</section>
 
+<script type="text/javascript">
+    const ctx = document.getElementById('player_chartjs_graph');
+    const one_year = document.getElementById('1y');
+    const five_years = document.getElementById('5y');
+    const ten_years = document.getElementById('10y');
 
-<script>
-    const ratings_data = $.ajax({
-        url: "{{ url('member_ratings', args=[player.member_id]) }}",
+    const ratings_data_ajax_config = {
+        url: "{{ url('member_ratings', args=[player.member_id, 1]) }}",
         async: false,
         dataType: "json",
-        }).responseJSON;
+    };
+    var ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
+    var playerChart;
 
-    const ctx = $('#player_chartjs_graph');
-    const playerChart = new Chart(ctx, {
+    function create_chart() {
+      playerChart = new Chart(ctx, {
         type: 'line',
         data: {
-            datasets: [{
-                    data: ratings_data,
-                    borderColor: 'rgb(75, 192, 192)',
-            }],
+          datasets: [{
+            data: ratings_data,
+            borderColor: 'rgb(75, 192, 192)',
+          }],
         },
         options: {
-                parsing: {
-                    xAxisKey: 'elab_date',
-                    yAxisKey: 'rating',
-                },
-            plugins: {
-                legend: {
-                   display: false
-                },
-            }
+            parsing: {
+              xAxisKey: 'elab_date',
+              yAxisKey: 'rating',
+            },
+          plugins: {
+            legend: {
+               display: false
+            },
+          }
         }
+      });
+    }
+
+    create_chart();
+
+    one_year.addEventListener("click", function() {
+      playerChart.destroy();
+      const ratings_data_ajax_config = {
+        url: "{{ url('member_ratings', args=[player.member_id, 1]) }}",
+        async: false,
+        dataType: "json",
+      };
+      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
+      create_chart();
     });
 
+    five_years.addEventListener("click", function() {
+      playerChart.destroy();
+      const ratings_data_ajax_config = {
+        url: "{{ url('member_ratings', args=[player.member_id, 5]) }}",
+        async: false,
+        dataType: "json",
+      };
+      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
+      create_chart();
+    });
+
+    ten_years.addEventListener("click", function() {
+      playerChart.destroy();
+      const ratings_data_ajax_config = {
+        url: "{{ url('member_ratings', args=[player.member_id, 5]) }}",
+        async: false,
+        dataType: "json",
+      };
+      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
+      create_chart();
+    });
 </script>
