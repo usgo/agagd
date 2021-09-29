@@ -2,7 +2,7 @@ from agagd_core.views import core as agagd_views
 from agagd_core.views.all_chapters import AllChaptersPageView
 from agagd_core.views.all_players import AllPlayersPageView
 from agagd_core.views.all_tournaments import AllTournamentsPageView
-from agagd_core.views.api import ApiGameCountView, ApiStatusView
+from agagd_core.views.api import ApiGameCountView, ApiPlayerRatings, ApiStatusView
 from agagd_core.views.chapter_profile import ChaptersProfilePageView
 from agagd_core.views.frontpage import FrontPageView
 from agagd_core.views.players_profile import PlayersProfilePageView
@@ -21,8 +21,8 @@ urlpatterns = [
     path("api/games/count/daily/", ApiGameCountView.as_view(), name="game_stats"),
     path("api/status/", ApiStatusView.as_view(), name="api_status_view"),
     path(
-        "api/ratings/<int:member_id>/",
-        agagd_views.member_ratings,
+        "api/ratings/<int:player_id>/<int:time_period>/",
+        ApiPlayerRatings.as_view(),
         name="member_ratings",
     ),
     path("chapters/", AllChaptersPageView.as_view(), name="all_chapters_page_view"),
