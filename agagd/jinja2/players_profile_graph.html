@@ -21,19 +21,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col my-2">
-        <button type="button" class="btn btn-dark" id="1y">1 year</button>
-        <button type="button" class="btn btn-dark" id="5y">5 years</button>
-        <button type="button" class="btn btn-dark" id="10y">10 years</button>
+      <div class="col my-2 chart-controls">
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 1]) }}"
+                class="btn btn-dark">1 year</button>
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 5]) }}"
+                class="btn btn-dark">5 years</button>
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 10]) }}"
+                class="btn btn-dark">10 years</button>
      </div>
     </div>
 </section>
 
 <script type="text/javascript">
     const ctx = document.getElementById('player_chartjs_graph');
-    const one_year = document.getElementById('1y');
-    const five_years = document.getElementById('5y');
-    const ten_years = document.getElementById('10y');
 
     const ratings_data_ajax_config = {
         url: "{{ url('member_ratings', args=[player.member_id, 1]) }}",
@@ -64,40 +64,27 @@
           }
         }
       });
+      playerChart.update();
     }
 
     create_chart();
 
-    one_year.addEventListener("click", function() {
-      playerChart.destroy();
-      const ratings_data_ajax_config = {
-        url: "{{ url('member_ratings', args=[player.member_id, 1]) }}",
+    chartControls = document.querySelector('.chart-controls');
+
+    chartControls.addEventListener("click", function() {
+      const target = event.target;
+
+      if (target.tagName = 'BUTTON') {
+        const ratings_data_ajax_config = {
+        url: target.dataset.years,
         async: false,
         dataType: "json",
-      };
-      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
-      create_chart();
+        };
+
+        ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
+        playerChart.destroy();
+        create_chart();
+      }
     });
 
-    five_years.addEventListener("click", function() {
-      playerChart.destroy();
-      const ratings_data_ajax_config = {
-        url: "{{ url('member_ratings', args=[player.member_id, 5]) }}",
-        async: false,
-        dataType: "json",
-      };
-      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
-      create_chart();
-    });
-
-    ten_years.addEventListener("click", function() {
-      playerChart.destroy();
-      const ratings_data_ajax_config = {
-        url: "{{ url('member_ratings', args=[player.member_id, 5]) }}",
-        async: false,
-        dataType: "json",
-      };
-      ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
-      create_chart();
-    });
 </script>
