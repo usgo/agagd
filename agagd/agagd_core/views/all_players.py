@@ -1,31 +1,15 @@
 import agagd_core.models as agagd_models
-from django.core.paginator import Paginator
+from agagd_core.tables.all_players import AllPlayersTable
 from django.template.response import TemplateResponse
 from django.views.generic.detail import DetailView
-
-
-def agagd_paginator_helper(
-    request, query_list_object, max_rows_per_page=50, page_request_get_value="pg"
-):
-    paginator = Paginator(query_list_object, max_rows_per_page)
-
-    page_number = request.GET.get(page_request_get_value, 1)
-
-    try:
-        query_list_object_with_page_information = paginator.page(page_number)
-    except PageNotAnInteger:
-        query_list_object_with_page_information = paginator.page(1)
-    except EmptyPage:
-        query_list_object_with_page_information = paginator.page(paginator.num_pages)
-
-    return query_list_object_with_page_information
+from django_tables2 import RequestConfig
 
 
 class AllPlayersPageView(DetailView):
     template_name = "all_players_page.html"
 
     def get(self, request):
-        list_all_players_query = (
+        all_players = (
             agagd_models.Member.objects.select_related("chapter_id")
             .filter(status="accepted")
             .filter(players__rating__isnull=False)
@@ -46,25 +30,12 @@ class AllPlayersPageView(DetailView):
             .order_by("-players__rating")
         )
 
-        mobile_column_attrs = "d-none d-lg-table-cell d-xl-table-cell"
+        all_players_table = AllPlayersTable(all_players)
 
-        list_all_players_columns = (
-            {"name": "Name", "attrs": None},
-            {"name": "Chapter", "attrs": None},
-            {"name": "State", "attrs": mobile_column_attrs},
-            {"name": "Type", "attrs": mobile_column_attrs},
-            {"name": "Rating", "attrs": None},
-            {"name": "Sigma", "attrs": mobile_column_attrs},
-        )
-
-        list_all_players_with_pagination = agagd_paginator_helper(
-            request, list_all_players_query
-        )
+        RequestConfig(request, paginate={"per_page": 50}).configure(all_players_table)
 
         context = locals()
-        context["mobile_column_attrs"] = mobile_column_attrs
-        context["list_all_players_columns"] = list_all_players_columns
-        context["list_all_players_data"] = list_all_players_with_pagination
-        context["page_title"] = "members ratings"
+        context["all_players_table"] = all_players_table
+        context["page_title"] = "Ratings"
 
         return TemplateResponse(request, self.template_name, context)

@@ -1,61 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section id="list-all-players-block" class="container">
-        <section class="row">
-            <section class="col-sm-12 col-md-12 col-lg-12">
-                <h5 class="table-headers list-all-players-table-headers">Members Ratings</h5>
-                <div class="list-all-players-table">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                {% for player_column in list_all_players_columns %}
-                                <th scope="col" {% if player_column.attrs %} class="{{ player_column.attrs }}" {% endif %}>{{ player_column.name }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
+  <section class="container">
+    <section class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <h5 class="table-headers list-all-players-table-headers">Members Ratings</h5>
 
-                        <tbody>
-                            {% for player_data in list_all_players_data %}
-                            <tr>
-                                <th scope="row">
-                                    {{ loop.index0 + list_all_players_data.start_index() }}
-                                </th>
-                                <td>
-                                    <a href="/players/{{ player_data.member_id }}">
-                                        {{ player_data.full_name }} ({{ player_data.member_id }})
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if player_data.chapter_id__name %}
-                                        <a href="/chapters/{{ player_data.chapter_id }}">{{ player_data.chapter_id__name }}</a>
-                                    {% else %}
-                                        &#8212;
-                                    {% endif %}
-                                </td>
-                                <td class="{{ mobile_column_attrs }}">{{ player_data.state }}</td>
-                                <td class="{{ mobile_column_attrs }}">
-                                    {{ player_data.type }}
-                                </td>
-                                <td>
-                                    {{ player_data.players__rating }}
-                                </td>
-                                <td class="{{ mobile_column_attrs }}">
-                                    {{ player_data.players__sigma }}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-
-                    <nav aria-label="Table Page Navigation">
-                        {% with table=list_all_players_data %}
-                            {% include "beta.table_pagination.html" %}
-                        {% endwith %}
-                   </nav>
-                </div>
-            </section>
-        </section>
+        {{ all_players_table.as_html(request) }}
+      </div>
     </section>
+  </section>
 {% endblock %}
