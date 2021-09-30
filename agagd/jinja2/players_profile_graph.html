@@ -33,57 +33,52 @@
 </section>
 
 <script type="text/javascript">
-    const ctx = document.getElementById('player_chartjs_graph');
-
-    const ratings_data_ajax_config = {
-        url: "{{ url('member_ratings', args=[player.member_id, 1]) }}",
-        async: false,
-        dataType: "json",
-    };
-    var ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
-    var playerChart;
-
-    function create_chart() {
-      playerChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          datasets: [{
-            data: ratings_data,
-            borderColor: 'rgb(75, 192, 192)',
-          }],
-        },
-        options: {
-            parsing: {
-              xAxisKey: 'elab_date',
-              yAxisKey: 'rating',
-            },
-          plugins: {
-            legend: {
-               display: false
-            },
-          }
+    var ctx = document.getElementById('player_chartjs_graph');
+    var borderColor = 'rgb(75, 192, 192';
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [],
+      },
+      options: {
+          parsing: {
+            xAxisKey: 'elab_date',
+            yAxisKey: 'rating',
+          },
+        plugins: {
+          legend: {
+             display: false
+          },
         }
-      });
-      playerChart.update();
+      }
     }
 
-    create_chart();
+    const save_ratings_data = (ratings_url) => {
+      let ratings_data_config = {
+        url: ratings_url,
+        async: false,
+        dataType: "json",
+      };
+      ratings_data = $.ajax(ratings_data_config).responseJSON;
+      config.data.datasets = [{
+        data: ratings_data,
+        borderColor: borderColor
+      }];
+    };
+
+    var default_player_ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}";
+    save_ratings_data(default_player_ratings_url);
+
+    var playerChart = new Chart(ctx, config)
 
     chartControls = document.querySelector('.chart-controls');
 
     chartControls.addEventListener("click", function() {
       const target = event.target;
 
-      if (target.tagName = 'BUTTON') {
-        const ratings_data_ajax_config = {
-        url: target.dataset.years,
-        async: false,
-        dataType: "json",
-        };
-
-        ratings_data = $.ajax(ratings_data_ajax_config).responseJSON;
-        playerChart.destroy();
-        create_chart();
+      if (target.tagName === 'BUTTON') {
+        save_ratings_data(target.dataset.years);
+        playerChart.update();
       }
     });
 
