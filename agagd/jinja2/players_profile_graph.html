@@ -41,39 +41,44 @@
         datasets: [],
       },
       options: {
-          parsing: {
-            xAxisKey: 'elab_date',
-            yAxisKey: 'rating',
-          },
+        parsing: {},
         plugins: {
           legend: {
              display: false
           },
         }
       }
-    }
+    };
 
-    const save_ratings_data = (ratings_url) => {
+    const save_ratings_data = (
+      ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}"
+    ) => {
       let ratings_data_config = {
         url: ratings_url,
         async: false,
         dataType: "json",
       };
+
       ratings_data = $.ajax(ratings_data_config).responseJSON;
+
       config.data.datasets = [{
         data: ratings_data,
         borderColor: borderColor
       }];
+
+      config.options.parsing = {
+        xAxisKey: 'elab_date',
+        yAxisKey: 'rating',
+      };
     };
 
-    var default_player_ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}";
-    save_ratings_data(default_player_ratings_url);
+    save_ratings_data();
 
     var playerChart = new Chart(ctx, config)
 
     chartControls = document.querySelector('.chart-controls');
 
-    chartControls.addEventListener("click", function() {
+    chartControls.addEventListener("click", (event) => {
       const target = event.target;
 
       if (target.tagName === 'BUTTON') {
