@@ -50,21 +50,11 @@
       }
     };
 
-    const save_ratings_data = (
-      ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}"
-    ) => {
+    const build_chart_config = (data) => {
       let labels = [];
       let ratings = [];
 
-      let ratings_data_config = {
-        url: ratings_url,
-        async: false,
-        dataType: "json",
-      };
-
-      ratings_data = $.ajax(ratings_data_config).responseJSON;
-
-      ratings_data.forEach(
+      data.forEach(
         (rating_data) => {
           labels.push(rating_data.elab_date);
           ratings.push(rating_data.rating);
@@ -78,6 +68,20 @@
           borderColor: borderColor
         }]
       };
+    };
+
+    const save_ratings_data = (
+      ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}"
+    ) => {
+      let ratings_data_config = {
+        url: ratings_url,
+        async: false,
+        dataType: "json",
+      };
+
+      ratings_data = $.ajax(ratings_data_config).responseJSON;
+
+      build_chart_config(ratings_data);
     };
 
     save_ratings_data();
