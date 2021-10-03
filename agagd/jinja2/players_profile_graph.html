@@ -53,6 +53,9 @@
     const save_ratings_data = (
       ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}"
     ) => {
+      let labels = [];
+      let ratings = [];
+
       let ratings_data_config = {
         url: ratings_url,
         async: false,
@@ -61,14 +64,19 @@
 
       ratings_data = $.ajax(ratings_data_config).responseJSON;
 
-      config.data.datasets = [{
-        data: ratings_data,
-        borderColor: borderColor
-      }];
+      ratings_data.forEach(
+        (rating_data) => {
+          labels.push(rating_data.elab_date);
+          ratings.push(rating_data.rating);
+        }
+      );
 
-      config.options.parsing = {
-        xAxisKey: 'elab_date',
-        yAxisKey: 'rating',
+      config.data = {
+        labels: labels,
+        datasets: [{
+          data: ratings,
+          borderColor: borderColor
+        }]
       };
     };
 
