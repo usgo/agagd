@@ -46,6 +46,15 @@
           legend: {
              display: false
           },
+          title: {
+            display: false,
+            title: "",
+            font: {
+              size: 20,
+              weight: 'bold',
+              lineHeight: 1.2,
+            }
+          }
         }
       }
     };
@@ -54,12 +63,18 @@
       let labels = [];
       let ratings = [];
 
-      data.forEach(
-        (rating_data) => {
-          labels.push(rating_data.elab_date);
-          ratings.push(rating_data.rating);
-        }
-      );
+      if (data.status === "not enough data") {
+        config.options.plugins.title.text = data.status_message;
+        config.options.plugins.title.display = true;
+      } else {
+        config.options.plugins.title.display = false;
+        data.forEach(
+          (rating_data) => {
+            labels.push(rating_data.elab_date);
+            ratings.push(rating_data.rating);
+          }
+        );
+      }
 
       config.data = {
         labels: labels,
