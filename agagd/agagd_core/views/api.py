@@ -105,12 +105,4 @@ class ApiPlayerRatings(View):
                     "status_message": "Not enough data to produce a rating graph.",
                 }
             )
-        else:
-            return JsonResponse(self.__get_ratings_json(ratings))
-
-        return JsonResponse(
-            {
-                "status": "incorrect ratings page",
-                "status_message": f"There is no data to be found for {member_id}.",
-            }
-        )
+        return JsonResponse(self.__get_ratings_json(ratings))
