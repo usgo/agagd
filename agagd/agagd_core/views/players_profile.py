@@ -110,6 +110,14 @@ class PlayersProfilePageView(DetailView):
         player_information_dict = player.__dict__
         player_information_dict["rating"] = player_rating[0]["rating"]
 
+        try:
+            chapter_name = agagd_models.Chapters.objects.get(
+                member_id=player.chapter_id_id
+            ).name
+            player_information_dict["members_chapter_name"] = chapter_name
+        except:
+            player_information_dict["members_chapter_name"] = None
+
         players_information_table = PlayersInformationTable([player_information_dict])
 
         context = locals()

@@ -1,9 +1,16 @@
 import agagd_core.defaults.styles.django_tables2 as django_tables2_styles
 import django_tables2 as tables
+from agagd_core.models import Chapters
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.html import format_html
 
 
 class PlayersInformationTable(tables.Table):
     full_name = tables.Column()
+    members_chapter_name = tables.Column(
+        verbose_name="Chapter",
+        linkify={"viewname": "chapter_detail", "args": [tables.A("chapter_id_id")]},
+    )
     member_id = tables.Column()
     status = tables.Column()
     rating = tables.Column()
