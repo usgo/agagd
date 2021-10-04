@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-job:
+jobs:
   draft_new_release:
     runs-on: ubuntu-latest
     steps:
