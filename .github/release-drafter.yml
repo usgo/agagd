@@ -1,0 +1,39 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: 'Major'
+    labels:
+      - 'breaking'
+  - title: 'Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: 'Bugs'
+    labels:
+      - 'bug'
+      - 'patch'
+  - title: 'Documentation'
+    labels:
+      - 'documentation'
+  - title: 'Maintenance'
+    labels:
+      - 'maintenance'
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'feature'
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'documentation'
+      - 'patch'
+      - 'maintenance'
+    default: patch
+template: |
+  ## Changes
+
+  $CHANGES
