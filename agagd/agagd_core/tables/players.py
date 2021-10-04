@@ -10,7 +10,7 @@ class PlayersInformationTable(tables.Table):
     renewal_due = tables.Column()
 
     class Meta:
-        template_name = "beta.player_profile_information.html"
+        template_name = "player_profile_information.html"
 
 
 class PlayersOpponentTable(tables.Table):
