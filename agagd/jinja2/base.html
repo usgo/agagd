@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+    {% block title %}
+        {% if page_title %}
+            {{ "AGAGD | " ~ page_title }}
+        {% else %}
+            AGAGD | American Go Game Database
+        {% endif %}
+    {% endblock title %}
+    </title>
+        {% block css %}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        {% endblock %}
+
+        {% block js %}
+        {% endblock %}
+
+        {% block google_analytics %}
+           {% if google_analytics_tracking_id != '' %}
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_tracking_id }}"></script>
+                <script>
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', '{{ google_analytics_tracking_id }}' );
+                </script>
+           {% endif %}
+        {% endblock %}
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+   </head>
+   <body>
+       <!-- Source: http://tholman.com/github-corners/ -->
+
+       <section class="container mx-auto my-4">
+            <header class="header row mx-0">
+                <div class="col-12 col-md-6">
+                    <h4 class="header-subtext mb-0">
+                        {% block header_title %}
+                            <a href="{{ url("frontpage_view") }}">AGAGD</a>
+                        {% endblock header_title %}
+                    </h4>
+
+                    <h6 class="header-subtext">
+                        {% block header_subtext %}American Go Game Database{% endblock header_subtext %}
+                    </h6>
+                </div>
+
+                {% if not url("search") in request.path %}
+                  <div class="col-12 col-md-6">
+                      <form class="form-inline justify-content-md-end my-2 my-lg-0" action="{{ url("search") }}" method="get">
+                          <input class="form-control mr-sm-2" type="search" name="q" placeholder="Player Name or AGA ID" aria-label="Search">
+                      </form>
+                  </div>
+                {% endif %}
+            </header>
+
+            <main class="main-content">
+               {% block content %}{% endblock content %}
+            </main>
+
+            <footer class="footer">
+                <nav class="footer-nav">
+                    {% block footer_nav %}
+                        <section class="container footer-nav-sections">
+                            <section class="row">
+                                <div class="col-12 col-md-3">
+                                    <h5>Ratings</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="{{ url("players_list") }}">Members Ratings</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url("ratings_overview_page_view") }}">Information</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ url("qualifications_page_view") }}">Qualifications</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <h5>Tournaments</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="{{ url("all_tournaments_page_view") }}">All</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <h5>Chapters</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="{{ url("all_chapters_page_view") }}">All</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <h5>Social</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="https://github.com/usgo/agagd">Github</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </section>
+                    {% endblock footer_nav %}
+                </nav>
+
+                <section class="footer-copy">
+                    {% block footer_copy %}
+                        <div class="footer-copyright text-center">&copy; 2020 <a href="https://www.usgo.org">American Go Association</a></div>
+                    {% endblock footer_copy %}
+                </section>
+            </footer>
+       </section>
+   </body>
+</html>

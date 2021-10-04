@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="container">
+        <section class="row">
+            <section class="col-sm-12 col-md-12 col-lg-6 top-dan">
+                <h5 class="table-headers mb-0">Top Dan</h5>
+                <p class="m-0 pb-1 small">Last twelve months</p>
+                {{ top_dan_table.as_html(request) }}
+            </section>
+
+            <section class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="table-headers mb-0">Top Kyu</h5>
+                <p class="m-0 pb-1 small">Last twelve months</p>
+                {{ top_kyu_table.as_html(request) }}
+            </section>
+        </section>
+
+        <section class="row recent-activity-tables">
+            <section class="col col-md-12 col-lg-12 col-xl-12 tournaments">
+                <h5 class="table-headers tournament-headers">Tournaments</h5>
+
+                <div class="tournaments-table">
+                    {{ latest_tournaments_table.as_html(request) }}
+                </div>
+            </section>
+
+            <section class="col col-md-12 col-lg-12 col-xl-12 games">
+                <h5 class="table-headers top-players-headers">Games</h5>
+
+                <div class="games-table">
+                    {{ latest_games_table.as_html(request) }}
+                </div>
+            </section>
+        </section>
+    </section>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.min.js" integrity="sha512-yadYcDSJyQExcKhjKSQOkBKy2BLDoW6WnnGXCAkCoRlpHGpYuVuBqGObf3g/TdB86sSbss1AOP4YlGSb6EKQPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+{% endblock js %}
+
+<section class="container">
+    <div class="row">
+      <div class="col">
+        <canvas id="player_chartjs_graph"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col my-2 chart-controls">
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 1]) }}"
+                class="btn btn-dark">1 year</button>
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 5]) }}"
+                class="btn btn-dark">5 years</button>
+        <button data-years="{{ url('member_ratings', args=[player.member_id, 10]) }}"
+                class="btn btn-dark">10 years</button>
+     </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var ctx = $('#player_chartjs_graph');
+    var borderColor = 'rgb(75, 192, 192';
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [],
+      },
+      options: {
+        parsing: {},
+        plugins: {
+          legend: {
+             display: false
+          },
+          title: {
+            display: false,
+            title: "",
+            font: {
+              size: 20,
+              weight: 'bold',
+              lineHeight: 1.2,
+            }
+          }
+        }
+      }
+    };
+
+    const build_chart_config = (data) => {
+      let labels = [];
+      let ratings = [];
+
+      if (data.status === "not enough data") {
+        config.options.plugins.title.text = data.status_message;
+        config.options.plugins.title.display = true;
+      } else {
+        config.options.plugins.title.display = false;
+        data.forEach(
+          (rating_data) => {
+            labels.push(rating_data.elab_date);
+            ratings.push(rating_data.rating);
+          }
+        );
+      }
+
+      config.data = {
+        labels: labels,
+        datasets: [{
+          data: ratings,
+          borderColor: borderColor
+        }]
+      };
+    };
+
+    const save_ratings_data = (
+      ratings_url = "{{ url('member_ratings', args=[player.member_id, 1]) }}"
+    ) => {
+      let ratings_data_config = {
+        url: ratings_url,
+        async: false,
+        dataType: "json",
+      };
+
+      ratings_data = $.ajax(ratings_data_config).responseJSON;
+
+      build_chart_config(ratings_data);
+    };
+
+    save_ratings_data();
+
+    var playerChart = new Chart(ctx, config)
+
+    chartControls = document.querySelector('.chart-controls');
+
+    chartControls.addEventListener("click", (event) => {
+      const target = event.target;
+
+      if (target.tagName === 'BUTTON') {
+        save_ratings_data(target.dataset.years);
+        playerChart.update();
+      }
+    });
+
+</script>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="container my-4">
+    <div class="row">
+      <div class="col mx-2 px-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+        Search the American Go Association Games Database
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mx-2 mb-2 pb-4 px-4">
+        <form id="search-form" action="{{ url('search') }}" method="get">
+          <div class="d-flex-inline flex-column flex-sm-row">
+            <div class="flex-auto position-relative">
+              <input class="d-inline form-control w-75" aria-label="Search -- Players | Games | Tournaments" type="search" name="q">
+              <button class="d-inline btn btn-primary" type="Submit">Search</button>
+            </div>
+            <div class="small">Enter a Player ID or Name. For example, 2050 or Doe, John</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

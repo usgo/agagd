@@ -1,8 +1,0 @@
-
-{% comment %}
-  Usage: {% include "agagd_core/_search_pl_form.html" %}
-{% endcomment %}
-<form action="{% url "search" %}" method="GET">
-  Search: <input type="text" name="q" value="{{ query }}"/>
-  <button type="submit">search</button>
-</form>

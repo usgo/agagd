@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="container">
+        <section class="row">
+            <div class="col">
+                <h3>{{ player.full_name }} [{{ player_rating['rating'] }}]</h3>
+
+            </div>
+        </section>
+
+        <section class="row">
+            <div class="col">
+                {% include "players_profile_graph.html" %}
+            </div>
+        </section>
+
+        <section class="row">
+            <div class="col">
+                <h5>Details</h5>
+
+                {{ players_information_table.as_html(request) }}
+            </div>
+
+            <div class="col">
+                <h5>Opponents</h5>
+
+                {{ player_opponents_table.as_html(request) }}
+            </div>
+        </section>
+
+        <section class="row">
+            <div class="col">
+                <h5>Tournaments</h5>
+
+                {{ player_tournaments_table.as_html(request) }}
+            </div>
+        </section>
+
+        <section class="row">
+            <div class="col">
+                <h5>Games</h5>
+
+                {{ player_games_table.as_html(request) }}
+            </div>
+        </section>
+    </section>
+{% endblock %}

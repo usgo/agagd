@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="list-all-tournaments-block" class="container">
+    <section class="row">
+      <div class="col">
+        <h5>{{ page_title }}</h5>
+        {{ all_tournaments_table.as_html(request) }}
+      </div>
+    </section>
+  </section>
+{% endblock %}
