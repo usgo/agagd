@@ -1,7 +1,6 @@
 import agagd_core.defaults.styles.django_tables2 as django_tables2_styles
 import django_tables2 as tables
 from agagd_core.models import Chapters
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils.html import format_html
 
 
