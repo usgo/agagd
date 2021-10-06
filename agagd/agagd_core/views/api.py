@@ -71,7 +71,7 @@ class ApiPlayerRatings(View):
         player = Member.objects.get(pk=member_id)
 
         ratings = None
-        min_ratings = 5
+        min_ratings = 3
 
         if time_period == 1:
             ratings = (
@@ -91,7 +91,7 @@ class ApiPlayerRatings(View):
         elif time_period == 10:
             ratings = (
                 player.ratings_set.all()
-                .filter(elab_date__year__gte=self.__get_less_current_date(260).year)
+                .filter(elab_date__year__gte=self.__get_less_current_date(520).year)
                 .annotate(month_date=TruncMonth("elab_date"))
                 .values("month_date")
                 .annotate(Avg("rating"), Avg("sigma"))
