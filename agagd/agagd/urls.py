@@ -27,18 +27,18 @@ urlpatterns = [
     ),
     path("chapters/", AllChaptersPageView.as_view(), name="all_chapters_page_view"),
     path(
-        "chapters/<int:chapter_id>/",
+        "chapter/<int:chapter_id>/",
         ChaptersProfilePageView.as_view(),
         name="chapter_detail",
     ),
     path(
-        "chapters/<str:chapter_code>/",
+        "chapter/<str:chapter_code>/",
         agagd_views.chapter_code_redirect,
         name="chapter_code_redirect",
     ),
     path("players/", AllPlayersPageView.as_view(), name="players_list"),
     path(
-        "players/<int:player_id>/",
+        "player/<int:player_id>/",
         PlayersProfilePageView.as_view(),
         name="players_profile",
     ),
@@ -60,7 +60,7 @@ urlpatterns = [
         name="all_tournaments_page_view",
     ),
     path(
-        "tournaments/<slug:code>/",
+        "tournament/<slug:code>/",
         TournamentDetailPageView.as_view(),
         name="tournament_detail",
     ),
