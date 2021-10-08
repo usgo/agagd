@@ -1,6 +1,7 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+version-template: 'v$MAJOR.$MINOR.$PATCH'
+ssssss-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 categories:
   - title: 'Major'
     labels:
