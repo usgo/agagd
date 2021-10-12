@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir -U pip
 
 COPY requirements.txt /build/
-RUN pip install --user --no-cache-dir -r requirements.txt && pip install --user --no-cache-dir uwsgi
+RUN pip install --user --no-cache-dir -r requirements.txt
 
 ### Final image
 FROM python:3.9-slim-buster
