@@ -36,12 +36,8 @@ agagd_environ_keys = [
 ]
 
 
-def bootstrap_env(environ, start_response):
-    for key in agagd_environ_keys:
-        if key in environ:
-            os.environ[key] = environ[key]
+def application(env, start_response):
+    if all(key in env for key in agagd_environ_keys):
+        os.environ[key] = env[key]
     _application = get_wsgi_application()
-    return _application(environ, start_response)
-
-
-application = bootstrap_env
+    return _application(env, start_response)
