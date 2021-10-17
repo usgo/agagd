@@ -41,13 +41,7 @@ function start_server() {
 
     if [ $r_flag == 0 ];
     then
-        uwsgi --http-socket 0.0.0.0:3031 \
-            --module agagd.wsgi \
-            --static-map /static=/tmp/static/ \
-            --static-map /media=/srv/media \
-            --enable-threads \
-            --python-autoreload 1 \
-            --processes 2
+      python manage.py runserver 0.0.0.0:8000
     elif [ $r_flag == 1 ];
     then
         uwsgi --http-socket 0.0.0.0:3031 \
