@@ -15,7 +15,7 @@ services:
     build: ./
     restart: always
     ports:
-      - "8000:3031"
+      - "8000:8000"
     environment:
       DB_HOST: db
       DB_PORT: 3306
