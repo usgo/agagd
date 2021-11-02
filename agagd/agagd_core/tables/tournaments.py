@@ -66,9 +66,23 @@ class TournamentsGamesTable(tables.Table):
         kwargs={"player_id": tables.A("pin_player_2")},
     )
 
+    def render_result(self, value):
+        if value == "W":
+            return "White Wins"
+        if value == "B":
+            return "Black Wins"
+        return "Draw"
+
     class Meta:
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
-        fields = ("game_date", "pin_player_1", "pin_player_2", "handicap", "komi")
+        fields = (
+            "game_date",
+            "pin_player_1",
+            "pin_player_2",
+            "handicap",
+            "komi",
+            "result",
+        )
         model = agagd_models.Tournament
         orderable = False
         sequence = fields
