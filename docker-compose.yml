@@ -32,7 +32,9 @@ services:
       - ./agagd/static:/srv/static
       - ./agagd/jinja2:/srv/jinja2
       - ./agagd/templates:/srv/templates
-    command: "-r" # Initializes python-autoreload for uwsgi via the scripts/entrypoint.sh.
+    command: "python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - "db"
   db:
     build:
       context: ./
