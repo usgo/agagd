@@ -1,13 +1,8 @@
 #!/bin/bash
 
-# Get the r_flag from the options.
-while getopts ':r' flag; do
-    case ${flag} in
-      r)
-        get_options_r_flag=0
-        ;;
-    esac
-done
+# Cause the script to fail loudly when it fails.
+# see: (http://redsymbol.net/articles/unofficial-bash-strict-mode/)
+set -euo pipefail
 
 # Set the MySQL Command
 MYSQL_COMMAND="mysql --host=$DB_HOST --port=$DB_PORT --user=$AGAGD_USER --password=$MYSQL_PASSWORD"
@@ -33,21 +28,6 @@ function wait_for_db() {
 
 wait_for_db
 
-# Start the server by default without py-autoload.
-# If the r argument is supplied as in development,
-# autoreload the server on py file changes.
-function start_server() {
-    r_flag=${get_options_r_flag:-1}
-
-    if [ $r_flag == 0 ];
-    then
-      python manage.py runserver 0.0.0.0:8000
-    elif [ $r_flag == 1 ];
-    then
-      gunicorn -b 0.0.0.0:8000 agagd.wsgi
-    fi
-}
-
 if $LOAD_FIXTURES == "true"; then
     python make_fake_fixtures.py 1000 1000 1000 > /tmp/fake_agagd_data.json
     python manage.py loaddata /tmp/fake_agagd_data.json
@@ -58,4 +38,5 @@ fi
 # other assets shown.
 python manage.py collectstatic --noinput
 
-start_server
+# Allow the commands to be passed into Entrypoint.
+exec "$@"
