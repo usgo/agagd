@@ -26,7 +26,9 @@ function wait_for_db() {
     exit 1
 }
 
-wait_for_db
+if [ "$3" != "test" ]; then
+  wait_for_db
+fi
 
 if $LOAD_FIXTURES == "true"; then
     python make_fake_fixtures.py 1000 1000 1000 > /tmp/fake_agagd_data.json
