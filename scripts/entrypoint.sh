@@ -26,7 +26,7 @@ function wait_for_db() {
     exit 1
 }
 
-if [ "$3" != "test" ]; then
+if [[ "$3" != "test" ]]; then
   wait_for_db
 fi
 

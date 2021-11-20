@@ -11,11 +11,11 @@
 version: '3.5'
 
 services:
-  app:
+  test_app:
     build: ./
     restart: always
     environment:
-      DB_HOST: db
+      DB_HOST: test_db
       DB_PORT: 3306
       APP_DB_NAME: agagd
       AGAGD_USER: agagd
@@ -30,15 +30,16 @@ services:
       - ./agagd/static:/srv/static
       - ./agagd/jinja2:/srv/jinja2
       - ./agagd/templates:/srv/templates
+    command: "python manage.py test"
     depends_on:
-      - "db"
-  db:
+      - "test_db"
+  test_db:
     build:
       context: ./
       dockerfile: Dockerfile.mysql
     restart: always
     volumes:
-      - database:/var/lib/mysql
+      - test_database:/var/lib/mysql
     environment:
       # This is safer than it looks, since without a 'ports' section, docker-compose
       # isolates this app to a network local to this compose file.
@@ -49,4 +50,4 @@ services:
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
 
 volumes:
-  database:
+  test_database:
