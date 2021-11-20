@@ -44,3 +44,4 @@ ENV TEMPLATE_DIR=/srv/templates
 COPY --chown=django:django scripts/ agagd/ /srv/
 
 ENTRYPOINT ["/srv/entrypoint.sh"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "agagd.wsgi"]
