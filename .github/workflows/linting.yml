@@ -1,4 +1,4 @@
-name: pre-commit
+name: lint
 
 on:
   pull_request_target:
@@ -7,8 +7,6 @@ on:
       - edited
       - synchronize
       - reopened
-  push:
-    branches: [main]
 
 jobs:
   semantics:
