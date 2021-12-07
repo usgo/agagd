@@ -1,7 +1,7 @@
 
 # The American Go Association Games Database (AGAGD)
 
-The `AGAGD` application is what runs [agagd.usgo.org](https://agagd.usgo.org). Originally, ported from the EuroGo Games Database, the `AGAGD` application now provides a means for members and non-members tournament information, chapter informaiton and member insights.
+The `AGAGD` application is what runs [agagd.usgo.org](https://agagd.usgo.org). Originally, ported from the EuroGo Games Database, the `AGAGD` application provides a means for members and non-members tournament information, chapter information and member insights.
 
 ## Contents
 
@@ -14,7 +14,9 @@ The `AGAGD` application is what runs [agagd.usgo.org](https://agagd.usgo.org). O
 
 ## Contributing
 
-We welcome any contributions. You could update documentation or our getting started or add a feature or find another way to improve the `AGAGD` application. Any contributions should be submitted as Pull Requests (PR). If you new to contributing on Github, take a look a the [First Contributions](https://firstcontributions.github.io/) project.
+We welcome any contributions. You could update documentation or our getting started or add a feature or find another way to improve the `AGAGD` application. Any contributions should be submitted as Pull Requests (PR) with [Conventional Commit(s) Messages](https://www.conventionalcommits.org). You can use the [CZ Cli](https://github.com/commitizen/cz-cli) tool if you would like a conventional commit message aid.
+
+If you new to contributing on Github, take a look a the [First Contributions](https://firstcontributions.github.io/) project.
 
 ## Requirements
 
