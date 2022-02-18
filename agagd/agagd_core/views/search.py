@@ -20,7 +20,7 @@ class SearchView(DetailView):
 
         if query.isdigit():
             member_id = [int(query)]
-            return HttpResponseRedirect(reverse("member_detail", args=member_id))
+            return HttpResponseRedirect(reverse("players_profile", args=member_id))
 
         member_table_data = (
             Member.objects.filter(Q(member_id=F("players__pin_player")))
