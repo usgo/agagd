@@ -1,3 +1,6 @@
+import functools
+import operator
+
 from agagd_core.models import Member
 from agagd_core.tables.search import SearchResultsTable
 from django.db.models import F, Q
@@ -13,7 +16,7 @@ class SearchView(DetailView):
     search_results_template_name = "search_results.html"
 
     def get(self, request):
-        query = request.GET.get("q", "")
+        query = request.GET.get("q", "").strip()
 
         if not query:
             return TemplateResponse(request, self.template_name)
@@ -22,9 +25,14 @@ class SearchView(DetailView):
             member_id = [int(query)]
             return HttpResponseRedirect(reverse("players_profile", args=member_id))
 
+        # constructing intersection queryset from query tokens
+        tokens = query.split()
+        querysets = (Q(full_name__icontains=token) for token in tokens)
+        queryset = functools.reduce(operator.and_, querysets)
+
         member_table_data = (
             Member.objects.filter(Q(member_id=F("players__pin_player")))
-            .filter(full_name__icontains=query)
+            .filter(queryset)
             .values(
                 "member_id",
                 "chapter_id",
