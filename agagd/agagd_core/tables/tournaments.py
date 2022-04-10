@@ -1,7 +1,6 @@
 import agagd_core.defaults.styles.django_tables2 as django_tables2_styles
 import agagd_core.models as agagd_models
 import django_tables2 as tables
-from agagd_core.tables.games import LinkFullMembersNameColumn
 
 
 class TournamentsTable(tables.Table):
@@ -51,19 +50,26 @@ class TournamentsInformationTable(tables.Table):
         template_name = "tournament_detail_information.html"
 
 
-class TournamentsGamesTable(tables.Table):
-    pin_player_1 = LinkFullMembersNameColumn(
-        color="W",
-        verbose_name="White",
-        viewname="players_profile",
-        kwargs={"player_id": tables.A("pin_player_1")},
-    )
+def class_player_1(record):
+    """returns td class for player 1 (white)"""
+    return "winner" if record["result"] == "W" else "runner-up"
 
-    pin_player_2 = LinkFullMembersNameColumn(
-        color="B",
+
+def class_player_2(record):
+    """returns td class for player 2 (black)"""
+    return "winner" if record["result"] == "B" else "runner-up"
+
+
+class TournamentsGamesTable(tables.Table):
+    full_name_and_id_1 = tables.Column(
+        verbose_name="White",
+        linkify=("players_profile", [tables.A("pin_player_1")]),
+        attrs={"td": {"class": class_player_1}},
+    )
+    full_name_and_id_2 = tables.Column(
         verbose_name="Black",
-        viewname="players_profile",
-        kwargs={"player_id": tables.A("pin_player_2")},
+        linkify=("players_profile", [tables.A("pin_player_2")]),
+        attrs={"td": {"class": class_player_2}},
     )
 
     def render_result(self, value):
@@ -77,8 +83,8 @@ class TournamentsGamesTable(tables.Table):
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         fields = (
             "game_date",
-            "pin_player_1",
-            "pin_player_2",
+            "full_name_and_id_1",
+            "full_name_and_id_2",
             "handicap",
             "komi",
             "result",
