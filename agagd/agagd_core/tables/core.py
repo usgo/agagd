@@ -65,7 +65,7 @@ class ChapterColumn(tables.Column):
                 "<a href='{}'>{}</a>".format(chapter_url, chapter_name)
             )
         except:
-            chapter_html = u"\u2014"
+            chapter_html = "\u2014"
 
         return chapter_html
 
