@@ -1,6 +1,3 @@
-# Date Imports
-from datetime import date
-
 # AGAGD Models Imports
 import agagd_core.models as agagd_models
 from agagd_core.tables.games import GamesTable
@@ -14,7 +11,7 @@ from agagd_core.tables.players import (
 
 # Django Imports
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Case, CharField, Count, F, IntegerField, Q, When
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.views.generic.detail import DetailView
@@ -45,65 +42,79 @@ class PlayersProfilePageView(DetailView):
             Q(pin_player__exact=player_id)
         ).values("pin_player", "rating", "sigma")
 
-        # compute additional tables for opponents & tournament info. here
-        # TODO: refactor this into something nicer.
-        opponent_data = {}
-        tourney_data = {}
-        for game in player_games:
-            try:
-                t_dat = tourney_data.get(game.tournament_code.pk, {})
-                t_dat["tournament"] = game.tournament_code
-                t_dat["won"] = t_dat.get("won", 0)
-                t_dat["lost"] = t_dat.get("lost", 0)
-
-                # Set default game_date to None
-                game_date = None
-
-                # Check for 0000-00-00 dates
-                if game.game_date != u"0000-00-00":
-                    game_date = game.game_date
-
-                t_dat["date"] = t_dat.get("date", game_date)
-
-                op = game.player_other_than(player)
-                opp_dat = opponent_data.get(op, {})
-                opp_dat["opponent"] = op
-                opp_dat["total"] = opp_dat.get("total", 0) + 1
-                opp_dat["won"] = opp_dat.get("won", 0)
-                opp_dat["lost"] = opp_dat.get("lost", 0)
-                if game.won_by(player):
-                    opp_dat["won"] += 1
-                    t_dat["won"] += 1
-                else:
-                    opp_dat["lost"] += 1
-                    t_dat["lost"] += 1
-                opponent_data[op] = opp_dat
-                tourney_data[game.tournament_code.pk] = t_dat
-            except ObjectDoesNotExist:
-                print("failing game_id: %s" % game.pk)
-
-        opp_table = PlayersOpponentTable(opponent_data.values())
-        RequestConfig(request, paginate={"per_page": 10}).configure(opp_table)
-
-        t_table = PlayersTournamentTable(
-            tourney_data.values(),
-            sorted(
-                tourney_data.values(),
-                key=lambda d: d.get("date", date.today()) or date.today(),
-                reverse=True,
-            ),
-            prefix="ts_played",
+        # Q objects to select games played by the player ...
+        Q_played = Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
+        # ... won by the player ...
+        Q_won = Q(pin_player_1__exact=player_id, result__exact="W") | Q(
+            pin_player_2__exact=player_id, result__exact="B"
         )
-        RequestConfig(request, paginate={"per_page": 10}).configure(t_table)
+        # ... and lost by the player
+        Q_lost = Q(pin_player_1__exact=player_id, result__exact="B") | Q(
+            pin_player_2__exact=player_id, result__exact="W"
+        )
+
+        opponents_queryset = (
+            agagd_models.Game.objects.filter(Q_played)
+            .annotate(
+                opponent_id=Case(
+                    When(
+                        pin_player_1__exact=player_id,
+                        then=F("pin_player_2"),
+                    ),
+                    When(
+                        pin_player_2__exact=player_id,
+                        then=F("pin_player_1"),
+                    ),
+                    output_field=IntegerField(),
+                ),
+                opponent_full_name=Case(
+                    When(
+                        pin_player_1__exact=player_id,
+                        then=F("pin_player_2__full_name"),
+                    ),
+                    When(
+                        pin_player_2__exact=player_id,
+                        then=F("pin_player_1__full_name"),
+                    ),
+                    output_field=CharField(),
+                ),
+            )
+            .values("opponent_id", "opponent_full_name")
+            .annotate(
+                won=Count("game_id", filter=Q_won),
+                lost=Count("game_id", filter=Q_lost),
+                total=F("won") + F("lost"),
+            )
+            .order_by("-total", "-won")
+        )
+        opponents_table = PlayersOpponentTable(opponents_queryset)
+        RequestConfig(request, paginate={"per_page": 10}).configure(opponents_table)
+
+        tournaments_queryset = (
+            agagd_models.Game.objects.filter(Q_played)
+            .values("tournament_code")
+            .annotate(
+                tournament_date=F("tournament_code__tournament_date"),
+                tournament_total_players=F("tournament_code__total_players"),
+                date=F("game_date"),
+                won=Count("game_id", filter=Q_won),
+                lost=Count("game_id", filter=Q_lost),
+            )
+            .order_by("-date")
+        )
+        tournaments_table = PlayersTournamentTable(tournaments_queryset)
+        RequestConfig(request, paginate={"per_page": 10}).configure(tournaments_table)
 
         player_games_table = GamesTable(
             player_games.values(
-                "game_date",
                 "handicap",
-                "pin_player_1",
-                "pin_player_2",
-                "tournament_code",
                 "result",
+                date=F("game_date"),
+                tournament=F("tournament_code"),
+                white=F("pin_player_1"),
+                black=F("pin_player_2"),
+                white_name=F("pin_player_1__full_name"),
+                black_name=F("pin_player_2__full_name"),
             )
         )
 
@@ -126,7 +137,7 @@ class PlayersProfilePageView(DetailView):
         context["player_rating"] = player_rating[0]
         context["player_games_table"] = player_games_table
         context["players_information_table"] = players_information_table
-        context["player_opponents_table"] = opp_table
-        context["player_tournaments_table"] = t_table
+        context["player_opponents_table"] = opponents_table
+        context["player_tournaments_table"] = tournaments_table
 
         return TemplateResponse(request, self.template_name, context)

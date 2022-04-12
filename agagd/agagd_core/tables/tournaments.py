@@ -1,7 +1,6 @@
 import agagd_core.defaults.styles.django_tables2 as django_tables2_styles
 import agagd_core.models as agagd_models
 import django_tables2 as tables
-from agagd_core.tables.games import LinkFullMembersNameColumn
 
 
 class TournamentsTable(tables.Table):
@@ -51,20 +50,36 @@ class TournamentsInformationTable(tables.Table):
         template_name = "tournament_detail_information.html"
 
 
+def class_white(record):
+    """returns td class for player 1 (white)"""
+    return "winner" if record["result"] == "W" else "runner-up"
+
+
+def class_black(record):
+    """returns td class for player 2 (black)"""
+    return "winner" if record["result"] == "B" else "runner-up"
+
+
 class TournamentsGamesTable(tables.Table):
-    pin_player_1 = LinkFullMembersNameColumn(
-        color="W",
-        verbose_name="White",
-        viewname="players_profile",
-        kwargs={"player_id": tables.A("pin_player_1")},
+    white = tables.Column(
+        linkify=("players_profile", [tables.A("white")]),
+        attrs={"td": {"class": class_white}},
+    )
+    black = tables.Column(
+        verbose_name="Black",
+        linkify=("players_profile", [tables.A("black")]),
+        attrs={"td": {"class": class_black}},
     )
 
-    pin_player_2 = LinkFullMembersNameColumn(
-        color="B",
-        verbose_name="Black",
-        viewname="players_profile",
-        kwargs={"player_id": tables.A("pin_player_2")},
-    )
+    def render_white(self, record):
+        name = record["white_name"]
+        pin = record["white"]
+        return f"{name} ({pin})"
+
+    def render_black(self, record):
+        name = record["black_name"]
+        pin = record["black"]
+        return f"{name} ({pin})"
 
     def render_result(self, value):
         if value == "W":
@@ -76,9 +91,9 @@ class TournamentsGamesTable(tables.Table):
     class Meta:
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         fields = (
-            "game_date",
-            "pin_player_1",
-            "pin_player_2",
+            "date",
+            "white",
+            "black",
             "handicap",
             "komi",
             "result",

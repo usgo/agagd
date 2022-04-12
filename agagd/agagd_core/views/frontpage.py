@@ -9,6 +9,7 @@ from agagd_core.tables.games import GamesTable
 from agagd_core.tables.players import PlayersTournamentTable
 from agagd_core.tables.top_players import TopDanTable, TopKyuTable
 from agagd_core.tables.tournaments import TournamentsTable
+from django.db.models import F
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 
@@ -21,12 +22,14 @@ class FrontPageView(DetailView):
 
     def __get_latest_games(self):
         latest_games = agagd_models.Game.objects.values(
-            "game_date",
             "handicap",
-            "pin_player_1",
-            "pin_player_2",
-            "tournament_code",
             "result",
+            date=F("game_date"),
+            tournament=F("tournament_code"),
+            white=F("pin_player_1"),
+            black=F("pin_player_2"),
+            white_name=F("pin_player_1__full_name"),
+            black_name=F("pin_player_2__full_name"),
         ).order_by("-game_date")[:20]
 
         return latest_games
