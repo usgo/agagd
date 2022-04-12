@@ -11,10 +11,7 @@ from agagd_core.tables.players import (
 
 # Django Imports
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Case, CharField, Count, F, IntegerField, Q
-from django.db.models import Value as V
-from django.db.models import When
-from django.db.models.functions import Concat
+from django.db.models import Case, CharField, Count, F, IntegerField, Q, When
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.views.generic.detail import DetailView
@@ -110,26 +107,14 @@ class PlayersProfilePageView(DetailView):
 
         player_games_table = GamesTable(
             player_games.values(
-                "game_date",
                 "handicap",
-                "pin_player_1",
-                "pin_player_2",
-                "tournament_code",
                 "result",
-                full_name_and_id_1=Concat(
-                    "pin_player_1__full_name",
-                    V(" ("),
-                    "pin_player_1",
-                    V(")"),
-                    output_field=CharField(),
-                ),
-                full_name_and_id_2=Concat(
-                    "pin_player_2__full_name",
-                    V(" ("),
-                    "pin_player_2",
-                    V(")"),
-                    output_field=CharField(),
-                ),
+                date=F("game_date"),
+                tournament=F("tournament_code"),
+                white=F("pin_player_1"),
+                black=F("pin_player_2"),
+                white_name=F("pin_player_1__full_name"),
+                black_name=F("pin_player_2__full_name"),
             )
         )
 

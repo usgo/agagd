@@ -3,47 +3,49 @@ import agagd_core.models as agagd_models
 import django_tables2 as tables
 
 
-def class_player_1(record):
-    """returns td class for player 1 (white)"""
+def class_white(record):
+    """returns td class for white"""
     return "winner" if record["result"] == "W" else "runner-up"
 
 
-def class_player_2(record):
-    """returns td class for player 2 (black)"""
+def class_black(record):
+    """returns td class for black"""
     return "winner" if record["result"] == "B" else "runner-up"
 
 
 # Basic table which is use as as base for many of the game layouts.
 class GamesTable(tables.Table):
-    game_date = tables.Column(
-        verbose_name="Date", attrs=django_tables2_styles.default_bootstrap_column_attrs
+    white = tables.Column(
+        linkify=("players_profile", [tables.A("white")]),
+        attrs={"td": {"class": class_white}},
     )
-    handicap = tables.Column(
-        attrs=django_tables2_styles.default_bootstrap_column_attrs, orderable=False
+    black = tables.Column(
+        linkify=("players_profile", [tables.A("black")]),
+        attrs={"td": {"class": class_black}},
     )
-    full_name_and_id_1 = tables.Column(
-        verbose_name="White",
-        linkify=("players_profile", [tables.A("pin_player_1")]),
-        attrs={"td": {"class": class_player_1}},
-    )
-    full_name_and_id_2 = tables.Column(
-        verbose_name="Black",
-        linkify=("players_profile", [tables.A("pin_player_2")]),
-        attrs={"td": {"class": class_player_2}},
-    )
-    tournament_code = tables.Column(
+    tournament = tables.Column(
         verbose_name="Tournament",
-        linkify=("tournament_detail", [tables.A("tournament_code")]),
+        linkify=("tournament_detail", [tables.A("tournament")]),
     )
+
+    def render_white(self, record):
+        name = record["white_name"]
+        pin = record["white"]
+        return f"{name} ({pin})"
+
+    def render_black(self, record):
+        name = record["black_name"]
+        pin = record["black"]
+        return f"{name} ({pin})"
 
     class Meta:
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         fields = (
-            "full_name_and_id_1",
-            "full_name_and_id_2",
-            "tournament_code",
+            "date",
+            "white",
+            "black",
+            "tournament",
             "handicap",
-            "game_date",
         )
         model = agagd_models.Game
         orderable = False

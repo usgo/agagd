@@ -50,27 +50,36 @@ class TournamentsInformationTable(tables.Table):
         template_name = "tournament_detail_information.html"
 
 
-def class_player_1(record):
+def class_white(record):
     """returns td class for player 1 (white)"""
     return "winner" if record["result"] == "W" else "runner-up"
 
 
-def class_player_2(record):
+def class_black(record):
     """returns td class for player 2 (black)"""
     return "winner" if record["result"] == "B" else "runner-up"
 
 
 class TournamentsGamesTable(tables.Table):
-    full_name_and_id_1 = tables.Column(
-        verbose_name="White",
-        linkify=("players_profile", [tables.A("pin_player_1")]),
-        attrs={"td": {"class": class_player_1}},
+    white = tables.Column(
+        linkify=("players_profile", [tables.A("white")]),
+        attrs={"td": {"class": class_white}},
     )
-    full_name_and_id_2 = tables.Column(
+    black = tables.Column(
         verbose_name="Black",
-        linkify=("players_profile", [tables.A("pin_player_2")]),
-        attrs={"td": {"class": class_player_2}},
+        linkify=("players_profile", [tables.A("black")]),
+        attrs={"td": {"class": class_black}},
     )
+
+    def render_white(self, record):
+        name = record["white_name"]
+        pin = record["white"]
+        return f"{name} ({pin})"
+
+    def render_black(self, record):
+        name = record["black_name"]
+        pin = record["black"]
+        return f"{name} ({pin})"
 
     def render_result(self, value):
         if value == "W":
@@ -82,9 +91,9 @@ class TournamentsGamesTable(tables.Table):
     class Meta:
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
         fields = (
-            "game_date",
-            "full_name_and_id_1",
-            "full_name_and_id_2",
+            "date",
+            "white",
+            "black",
             "handicap",
             "komi",
             "result",
