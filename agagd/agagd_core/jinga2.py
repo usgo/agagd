@@ -7,9 +7,9 @@ from jinja2 import Environment
 
 def get_members_name_and_id(value):
     """
-        Provides jinja2 custom filter which returns
-        the members information as
-        "[member's full name] (member_id)".
+    Provides jinja2 custom filter which returns
+    the members information as
+    "[member's full name] (member_id)".
     """
     try:
         member = agagd_models.Member.objects.values("full_name", "member_id").get(

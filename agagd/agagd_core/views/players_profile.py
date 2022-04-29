@@ -60,7 +60,7 @@ class PlayersProfilePageView(DetailView):
                 game_date = None
 
                 # Check for 0000-00-00 dates
-                if game.game_date != u"0000-00-00":
+                if game.game_date != "0000-00-00":
                     game_date = game.game_date
 
                 t_dat["date"] = t_dat.get("date", game_date)
