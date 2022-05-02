@@ -42,19 +42,10 @@ class PlayersProfilePageView(DetailView):
             Q(pin_player__exact=player_id)
         ).values("pin_player", "rating", "sigma")
 
-        # Q objects to select games played by the player ...
-        Q_played = Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
-        # ... won by the player ...
-        Q_won = Q(pin_player_1__exact=player_id, result__exact="W") | Q(
-            pin_player_2__exact=player_id, result__exact="B"
-        )
-        # ... and lost by the player
-        Q_lost = Q(pin_player_1__exact=player_id, result__exact="B") | Q(
-            pin_player_2__exact=player_id, result__exact="W"
-        )
-
         opponents_queryset = (
-            agagd_models.Game.objects.filter(Q_played)
+            agagd_models.Game.objects.filter(
+                Q(pin_player_1__exact=player_id) | Q(pin_player_2__exact=player_id)
+            )
             .annotate(
                 opponent_id=Case(
                     When(
@@ -81,8 +72,16 @@ class PlayersProfilePageView(DetailView):
             )
             .values("opponent_id", "opponent_full_name")
             .annotate(
-                won=Count("game_id", filter=Q_won),
-                lost=Count("game_id", filter=Q_lost),
+                won=Count(
+                    "game_id",
+                    filter=Q(pin_player_1__exact=player_id, result__exact="W")
+                    | Q(pin_player_2__exact=player_id, result__exact="B"),
+                ),
+                lost=Count(
+                    "game_id",
+                    filter=Q(pin_player_1__exact=player_id, result__exact="B")
+                    | Q(pin_player_2__exact=player_id, result__exact="W"),
+                ),
                 total=F("won") + F("lost"),
             )
             .order_by("-total", "-won")
@@ -91,16 +90,33 @@ class PlayersProfilePageView(DetailView):
         RequestConfig(request, paginate={"per_page": 10}).configure(opponents_table)
 
         tournaments_queryset = (
-            agagd_models.Game.objects.filter(Q_played)
-            .values("tournament_code")
+            agagd_models.Tournament.objects.filter()
+            .values("tournament_code", "tournament_date", "total_players")
             .annotate(
-                tournament_date=F("tournament_code__tournament_date"),
-                tournament_total_players=F("tournament_code__total_players"),
-                date=F("game_date"),
-                won=Count("game_id", filter=Q_won),
-                lost=Count("game_id", filter=Q_lost),
+                won=Count(
+                    "games_in_tourney__game_id",
+                    filter=Q(
+                        games_in_tourney__pin_player_1__exact=player_id,
+                        games_in_tourney__result__exact="W",
+                    )
+                    | Q(
+                        games_in_tourney__pin_player_2__exact=player_id,
+                        games_in_tourney__result__exact="B",
+                    ),
+                ),
+                lost=Count(
+                    "games_in_tourney__game_id",
+                    filter=Q(
+                        games_in_tourney__pin_player_1__exact=player_id,
+                        games_in_tourney__result__exact="B",
+                    )
+                    | Q(
+                        games_in_tourney__pin_player_2__exact=player_id,
+                        games_in_tourney__result__exact="W",
+                    ),
+                ),
             )
-            .order_by("-date")
+            .order_by("-tournament_date")
         )
         tournaments_table = PlayersTournamentTable(tournaments_queryset)
         RequestConfig(request, paginate={"per_page": 10}).configure(tournaments_table)

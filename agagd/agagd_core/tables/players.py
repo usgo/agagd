@@ -53,20 +53,20 @@ class PlayersTournamentTable(tables.Table):
         verbose_name="Tournament",
         linkify=("tournament_detail", [tables.A("tournament_code")]),
     )
-    date = tables.Column(default="Unknown")
+    tournament_date = tables.Column(default="Unknown")
     won = tables.Column(verbose_name="Won", default=0)
     lost = tables.Column(verbose_name="Lost", default=0)
 
     def render_tournament_code(self, record):
         tournament_code = record["tournament_code"]
         tournament_date = record["tournament_date"]
-        tournament_total_players = record["tournament_total_players"]
+        total_players = record["total_players"]
 
-        return f"{tournament_code} - on {tournament_date} with {tournament_total_players} players"
+        return f"{tournament_code} - on {tournament_date} with {total_players} players"
 
     class Meta:
         attrs = django_tables2_styles.default_bootstrap_header_column_attrs
-        fields = ("date", "tournament_code", "won", "lost")
+        fields = ("tournament_date", "tournament_code", "won", "lost")
         orderable = False
         template_name = "django_tables2/bootstrap4.html"
         sequence = fields
