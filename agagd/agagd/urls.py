@@ -11,7 +11,7 @@ from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from agagd_core.views.search import SearchView
 from agagd_core.views.tournament_detail import TournamentDetailPageView
 from django.conf import settings
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.conf.urls.static import static
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
@@ -64,7 +64,7 @@ urlpatterns = [
         TournamentDetailPageView.as_view(),
         name="tournament_detail",
     ),
-    url(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
+    re_path(r".php$", RedirectView.as_view(url=reverse_lazy("index"))),
 ]
 
 # DebugToolbar URL Configuration
