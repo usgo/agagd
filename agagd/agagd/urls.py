@@ -11,9 +11,7 @@ from agagd_core.views.ratings_overview import RatingsOverviewPageView
 from agagd_core.views.search import SearchView
 from agagd_core.views.tournament_detail import TournamentDetailPageView
 from django.conf import settings
-from django.urls import include, re_path
-from django.conf.urls.static import static
-from django.urls import path, reverse_lazy
+from django.urls import path, reverse_lazy, include, re_path
 from django.views.generic import RedirectView
 
 urlpatterns = [
