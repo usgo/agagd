@@ -260,6 +260,10 @@ class Players(models.Model):
 
 
 class Rating(models.Model):
+
+    # Sets a primary key.
+    id = models.BigAutoField(primary_key=True)
+
     # ForeignKey for the Members
     pin_player = models.ForeignKey(
         Member,
