@@ -260,10 +260,6 @@ class Players(models.Model):
 
 
 class Rating(models.Model):
-
-    # Sets a primary key.
-    id = models.BigAutoField(primary_key=True)
-
     # ForeignKey for the Members
     pin_player = models.ForeignKey(
         Member,
@@ -278,7 +274,7 @@ class Rating(models.Model):
         related_name="ratings_set",
         on_delete=models.DO_NOTHING,
     )
-
+    id = models.IntegerField(db_column="id", primary_key=True)
     rating = models.FloatField(db_column="Rating")  # x. This field type is a guess.
     sigma = models.FloatField(db_column="Sigma")  # x. This field type is a guess.
     elab_date = models.DateField(db_column="Elab_Date")
