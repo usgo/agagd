@@ -8,7 +8,7 @@
 # * MYSQL_PASSWORD - database password (the docker entrypoint sets MYSQL_PASS to this value for app compatibility)
 
 ### Build stage, to avoid leaving dev dependencies in the final image
-FROM python:3.9-slim-buster AS build
+FROM python:3.10-slim-buster AS build
 
 WORKDIR /build
 
@@ -22,7 +22,7 @@ COPY requirements.txt /build/
 RUN pip install --user --no-cache-dir -r requirements.txt
 
 ### Final image
-FROM python:3.9-slim-buster
+FROM python:3.10-slim-buster
 
 WORKDIR /srv
 RUN useradd django
