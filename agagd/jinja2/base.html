@@ -61,12 +61,13 @@
             <main class="main-content">
                {% block content %}{% endblock content %}
             </main>
+       </section>
 
-            <footer class="footer">
-                <nav class="footer-nav">
-                    {% block footer_nav %}
-                        <section class="container footer-nav-sections">
-                            <section class="row">
+       <footer class="footer bg-light p-3">
+            <nav class="footer-nav">
+                 {% block footer_nav %}
+                      <section class="container footer-nav-sections">
+                           <section class="row">
                                 <div class="col-12 col-md-3">
                                     <h5>Ratings</h5>
                                     <ul class="list-unstyled">
@@ -102,21 +103,20 @@
                                     <h5>Social</h5>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <a href="https://github.com/usgo/agagd">Github</a>
+                                            <a href="https://github.com/usgo/agagd">GitHub</a>
                                         </li>
                                     </ul>
                                 </div>
-                            </section>
-                        </section>
-                    {% endblock footer_nav %}
-                </nav>
+                           </section>
+                      </section>
+                 {% endblock footer_nav %}
+            </nav>
 
-                <section class="footer-copy">
-                    {% block footer_copy %}
-                        <div class="footer-copyright text-center">&copy; 2020 <a href="https://www.usgo.org">American Go Association</a></div>
-                    {% endblock footer_copy %}
-                </section>
-            </footer>
-       </section>
+            <section class="footer-copy">
+                 {% block footer_copy %}
+                      <div class="footer-copyright text-center">&copy; 2023 <a href="https://www.usgo.org">American Go Association</a></div>
+                 {% endblock footer_copy %}
+            </section>
+       </footer>
    </body>
 </html>
